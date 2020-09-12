@@ -5,7 +5,7 @@ WITH THE COMMAND `sbt docs/mdoc`
 ---
 
 
-<p align="center"><img width="400" src="https://raw.githubusercontent.com/mvillafuertem/scalajs-react-world/master/modules/simple-test/src/main/resources/logo.svg"/></p>
+<p align="center"><img width="200" src="https://raw.githubusercontent.com/mvillafuertem/scalajs-react-world/reactjs-icon.svg"/></p>
 <h1 align="center">Scala.js React World</h1>
 <p align="center">
   <a href="https://github.com/mvillafuertem/scalajs-react-world/actions?query=workflow%3A%22scalaci%22">
