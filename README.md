@@ -4,7 +4,23 @@ WITH THE COMMAND `sbt docs/mdoc`
 
 ---
 
-# scalajs-react-world
+
+<p align="center"><img width="400" src="https://raw.githubusercontent.com/mvillafuertem/scalajs-react-world/master/modules/simple-test/src/main/resources/logo.svg"/></p>
+<h1 align="center">Scala.js React World</h1>
+<p align="center">
+  <a href="https://github.com/mvillafuertem/scalajs-react-world/actions?query=workflow%3A%22scalaci%22">
+    <img src="https://github.com/mvillafuertem/scalajs-react-world/workflows/scalaci/badge.svg"/>
+  </a>
+  <a href="https://www.scala-js.org">
+    <img src="https://img.shields.io/badge/scala.js-1.1.1-red.svg?logo=scala&logoColor=red"/>
+  </a>
+  <a href="https://www.oracle.com/technetwork/java/javase/11all-relnotes-5013287.html">
+    <img src="https://img.shields.io/badge/jdk-11.0.8-orange.svg?logo=java&logoColor=white"/>
+  </a>
+  <a href="https://github.com/sbt/sbt/releases">
+    <img src="https://img.shields.io/badge/sbt-1.3.13-blue.svg?logo=sbt"/>
+  </a>
+</p>
 
 https://mvillafuertem.github.io/scalajs-react-world/heroes/
 
