@@ -6,16 +6,21 @@ WITH THE COMMAND `sbt docs/mdoc`
 
 # scalajs-react-world
 
-This Poc use:
-
 https://mvillafuertem.github.io/scalajs-react-world/heroes/
 
 https://mvillafuertem.github.io/scalajs-react-world/gif-finder/
 
+https://mvillafuertem.github.io/scalajs-react-world/journal/
 
-https://scalablytyped.org/docs/readme.html
+https://mvillafuertem.github.io/scalajs-react-world/dashboard/
 
-https://slinky.dev
+This Poc use:
+
+https://github.com/ScalablyTyped/Converter
+
+https://github.com/japgolly/scalajs-react
+
+https://github.com/shadaj/slinky
 
 https://github.com/zio/zio
 
