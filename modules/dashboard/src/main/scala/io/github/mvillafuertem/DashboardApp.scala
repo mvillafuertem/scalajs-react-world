@@ -36,7 +36,7 @@ object DashboardApp extends App {
   type Props = Unit
 
   /* the production build is deployed at github pages under /material-ui , while dev build is server from root of webpack-dev-server */
-  val basename: String = if (scala.scalajs.runtime.linkingInfo.productionMode) "/zio-scala-js-material-ui/ui/" else ""
+  val basename: String = if (scala.scalajs.runtime.linkingInfo.productionMode) "/scalajs-react-world/dashboard/" else ""
 
   val Main: FunctionalComponent[Props] = FunctionalComponent[Props] {
     case () =>
