@@ -65,7 +65,7 @@ lazy val dashboard =
     .enablePlugins(ScalaJSPlugin)
     .configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings)
     .settings(
-      addCommandAlias("ui", "project ui;fastOptJS::startWebpackDevServer;~fastOptJS"),
+      addCommandAlias("dashboard", "project dashboard;fastOptJS::startWebpackDevServer;~fastOptJS"),
       useYarn := true,
       webpackDevServerPort := 8008,
       stFlavour := Flavour.Slinky,
@@ -86,21 +86,12 @@ lazy val `simple-test` =
   (project in file("modules/simple-test"))
     .enablePlugins(ScalablyTypedConverterPlugin)
     .enablePlugins(ScalaJSPlugin)
+    .configure(testConfiguration, reactNpmDeps)
     .settings(
+      addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
+      addCommandAlias("build", "fullOptJS::webpack"),
       scalaVersion := "2.13.3",
       useYarn := true,
-      stIgnore := List(
-        "react-proxy",
-        "jss-plugin-props-sort",
-        "jss-props-sort",
-        "jss",
-        "jss-vendor-prefixer",
-        "jss-default-unit",
-        "jss-camel-case",
-        "jss-nested",
-        "jss-global",
-        "jss-plugin-nested"
-      ),
       Compile / npmDependencies ++= Seq(
         "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
         "@material-ui/styles"     -> "3.0.0-alpha.10", // note: version 4 is not supported yet
@@ -108,21 +99,7 @@ lazy val `simple-test` =
         "@types/classnames"       -> "2.2.10",
         "react-router-dom"        -> "5.1.2",
         "@types/react-router-dom" -> "5.1.2", // note 5.1.4 did weird things to the Link component
-        "react"                   -> "16.13.1",
-        "react-dom"               -> "16.13.1",
         "react-proxy"             -> "1.1.8",
-        "jss-props-sort"          -> "6.0.0",
-        "jss-vendor-prefixer"     -> "8.0.1",
-        "jss-default-unit"        -> "8.0.2",
-        "jss-camel-case"          -> "6.1.0",
-        "jss-nested"              -> "6.0.1",
-        "jss-global"              -> "3.0.0",
-        "jss-plugin-global"       -> "10.4.0",
-        "jss-plugin-nested"       -> "10.4.0",
-        "jss-plugin-props-sort"   -> "10.4.0",
-        "jss"                     -> "10.4.0",
-        "@types/react"            -> "16.9.34",
-        "@types/react-dom"        -> "16.9.6",
         "recharts"                -> "1.8.5",
         "@types/recharts"         -> "1.8.10"
       ),
@@ -135,24 +112,49 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-web" % "0.6.5",
-        "me.shadaj"     %%% "slinky-hot" % "0.6.5",
+        "me.shadaj"     %%% "slinky-hot" % "0.6.6",
         "org.scalatest" %%% "scalatest"  % "3.2.1" % Test
       ),
       stFlavour := Flavour.Slinky,
+      fastOptJS / webpackBundlingMode := BundlingMode.LibraryOnly(),
+      fastOptJS / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-fastopt.config.js"),
+      fastOptJS / webpackDevServerExtraArgs := Seq("--inline", "--hot"),
+      fullOptJS / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-opt.config.js"),
       scalacOptions += "-Ymacro-annotations",
-      version in webpack := "4.43.0",
-      version in startWebpackDevServer := "3.11.0",
-      webpackResources := baseDirectory.value / "webpack" * "*",
-      webpackConfigFile in fastOptJS := Some(baseDirectory.value / "webpack" / "webpack-fastopt.config.js"),
-      webpackConfigFile in fullOptJS := Some(baseDirectory.value / "webpack" / "webpack-opt.config.js"),
-      webpackConfigFile in Test := Some(baseDirectory.value / "webpack" / "webpack-core.config.js"),
-      webpackDevServerExtraArgs in fastOptJS := Seq("--inline", "--hot"),
-      webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
-      requireJsDomEnv in Test := true,
-      addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
-      addCommandAlias("build", "fullOptJS::webpack")
+      startWebpackDevServer / version := "3.11.0",
+      webpack / version := "4.43.0",
+      webpackResources := baseDirectory.value / "webpack" * "*"
     )
+
+lazy val testConfiguration: Project => Project =
+  _.settings(
+    Test / requireJsDomEnv := true,
+    Test / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-core.config.js"),
+    stIgnore := List(
+      "react-proxy",
+      "jss-plugin-props-sort",
+      "jss-props-sort",
+      "jss",
+      "jss-vendor-prefixer",
+      "jss-default-unit",
+      "jss-camel-case",
+      "jss-nested",
+      "jss-global",
+      "jss-plugin-nested"
+    ),
+    Compile / npmDependencies ++= Seq(
+      "jss-props-sort"        -> "6.0.0",
+      "jss-vendor-prefixer"   -> "8.0.1",
+      "jss-default-unit"      -> "8.0.2",
+      "jss-camel-case"        -> "6.1.0",
+      "jss-nested"            -> "6.0.1",
+      "jss-global"            -> "3.0.0",
+      "jss-plugin-global"     -> "10.4.0",
+      "jss-plugin-nested"     -> "10.4.0",
+      "jss-plugin-props-sort" -> "10.4.0",
+      "jss"                   -> "10.4.0"
+    )
+  )
 
 lazy val withCssLoading: Project => Project =
   _.settings(
