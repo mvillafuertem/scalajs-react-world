@@ -1,21 +1,25 @@
 package io.github.mvillafuertem
 
+import io.github.mvillafuertem.auth.LoginScreen
 import io.github.mvillafuertem.store.store
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
+import japgolly.scalajs.react.{Callback, CtorType, ReactEventFromInput, ScalaFnComponent}
 import org.scalajs.dom.document
+import typings.react.mod.useState
 import typings.reactRedux.components.Provider
-import zio.{ App, ExitCode, IO, ZIO }
+import zio.{App, ExitCode, IO, ZIO}
+
+import scala.scalajs.js
 
 object JournalApp extends App {
 
   object Main {
 
     val component: Component[Unit, CtorType.Nullary] = ScalaFnComponent[Unit] { _ =>
-      //Provider(store)(
-        <.h1("JournalApp")
-      //)
+      Provider(store)(
+        LoginScreen.component()
+      ).build
     }
   }
 
