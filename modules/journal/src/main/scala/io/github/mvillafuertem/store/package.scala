@@ -1,20 +1,34 @@
 package io.github.mvillafuertem
 
-import io.github.mvillafuertem.reducers.AuthReducer
-import io.github.mvillafuertem.reducers.AuthReducer.Auth
+import io.github.mvillafuertem.reducers.AuthReducer.Reducer
+import io.github.mvillafuertem.reducers.{AuthAction, AuthReducer, AuthState, UiAction, UiReducer, UiState}
+import typings.redux.anon
 import typings.redux.mod._
+import typings.redux.mod.applyMiddleware
+import typings.reduxThunk.reduxThunkRequire
+import typings.reduxThunk.mod.default
+import typings.reduxThunk.mod.ThunkDispatch
 import typings.reduxDevtoolsExtension.developmentOnlyMod.composeWithDevTools
+import typings.reduxDevtoolsExtension.mod.{EnhancerOptions, devToolsEnhancer}
 
 import scala.scalajs.js
+import scala.scalajs.js.{Dictionary, UndefOr}
 
 package object store {
 
-  private val function: Reducer[String, Action[js.Any]] = AuthReducer.apply _
 
-  val initial: PreloadedState[String] = "".asInstanceOf[PreloadedState[String]]
+  private val value: js.Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]] =
+    js.Dictionary(
+      "auth" -> Reducer,
+      "ui" -> UiReducer.Reducer,
+    )
+  private val reducers: Reducer[CombinedState[StateFromReducersMapObject[Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]]]], ActionFromReducersMapObject[Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]]]] =
+    combineReducers(value)
 
-  private val composeEnhancers: StoreEnhancer[Nothing, js.Object] = composeWithDevTools()
+  val Store =
+    createStore(AuthReducer.Reducer, composeWithDevTools(
+      applyMiddleware(default),
+    ))
 
-  val store: Store[String, Action[js.Any]] = createStore.apply(function, initial, composeEnhancers)
 
 }

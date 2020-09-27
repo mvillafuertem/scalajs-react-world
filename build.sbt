@@ -55,7 +55,11 @@ lazy val journal =
         "react-redux"              -> "7.2.1",
         "@types/react-redux"       -> "7.1.9",
         "redux-devtools-extension" -> "2.13.8",
-        "redux"                    -> "4.0.5"
+        "redux"                    -> "4.0.5",
+        "firebase"                 -> "7.21.1",
+        "redux-thunk"              -> "2.3.0",
+        "validator"              -> "13.1.0",
+        "@types/validator"              -> "13.1.0",
       )
     )
 

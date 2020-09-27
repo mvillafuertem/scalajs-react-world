@@ -1,31 +1,46 @@
 package io.github.mvillafuertem.auth
 
-import io.github.mvillafuertem.hooks.useForm
-import io.github.mvillafuertem.reducers.AuthReducer.Login
+import io.github.mvillafuertem.ReduxFacade.Connected
+import io.github.mvillafuertem.firebase.FirebaseConfiguration
+import io.github.mvillafuertem.hooks.{Person, useForm}
+import io.github.mvillafuertem.reducers.AuthAction.Login
+import io.github.mvillafuertem.reducers.{AuthAction, AuthState, UiAction, UiState}
 import japgolly.scalajs.react.React.Fragment
-import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.SvgTags.text
 import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{Callback, CtorType, ReactEventFromInput, ScalaFnComponent}
-import typings.reactRedux.mod.useDispatch
-import typings.redux.mod.{Action, AnyAction}
+import japgolly.scalajs.react.{Callback, ReactEventFromInput, ScalaFnComponent}
+import typings.firebase.mod.User
+import typings.redux.mod.{ActionFromReducersMapObject, Dispatch}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 
 object LoginScreen {
 
-  val component: Component[Unit, CtorType.Nullary] = ScalaFnComponent[Unit] { _ =>
-    val dispatch: Action[js.Any] = useDispatch[Action[js.Any]]()
+  @js.native
+  trait Props extends js.Object {
+    var state: AuthState = js.native
+    var dispatch: Dispatch[AuthAction]
+  }
 
-    val (state, handleInputChange) = useForm()
+
+  val component = ScalaFnComponent[Connected[AuthState, AuthAction] with Props] { props =>
+
+    val (state, handleInputChange) = useForm(props.state.person)
 
     val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
-      (e: ReactEventFromInput) => {
+      (e: ReactEventFromInput) => Callback {
         e.preventDefault()
-        Callback {
-          println(js.JSON.stringify(state))
-          dispatch.setType(new Login)
-        }
+        FirebaseConfiguration.firebase.auth().signInWithPopup(FirebaseConfiguration.googleAuthProvider)
+          .toFuture
+          .map(userCredential => {
+            props.dispatch(Login(
+              Person(
+                userCredential.user.asInstanceOf[User].uid,
+                userCredential.user.asInstanceOf[User].displayName.asInstanceOf[String]
+              )))
+          })
       }
 
     Fragment(
@@ -55,6 +70,7 @@ object LoginScreen {
         )
       )
     )
+
   }
 
 }

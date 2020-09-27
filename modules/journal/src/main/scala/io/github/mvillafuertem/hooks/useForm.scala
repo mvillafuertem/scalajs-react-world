@@ -15,9 +15,9 @@ object useForm {
       (e: ReactEventFromInput) =>
         Callback {
           e.target.name match {
-            case "email"    => setState(Person(state.name, email = e.target.value, state.password))
-            case "name"     => setState(Person(name = e.target.value, state.email, state.password))
-            case "password" => setState(Person(state.name, state.email, password = e.target.value))
+            case "email"    => setState(Person("", state.name, email = e.target.value, state.password))
+            case "name"     => setState(Person("", name = e.target.value, state.email, state.password))
+            case "password" => setState(Person("", state.name, state.email, password = e.target.value))
           }
         }
 
