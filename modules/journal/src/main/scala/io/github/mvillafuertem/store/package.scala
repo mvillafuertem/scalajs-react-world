@@ -1,27 +1,28 @@
 package io.github.mvillafuertem
 
-import io.github.mvillafuertem.reducers.AuthReducer.Reducer
+import io.github.mvillafuertem.auth.LoginScreen
 import io.github.mvillafuertem.reducers._
-import typings.redux.mod.{ applyMiddleware, _ }
-import typings.reduxDevtoolsExtension.mod.{ devToolsEnhancer, EnhancerOptions }
+import japgolly.scalajs.react.component.Js
+import japgolly.scalajs.react.{Children, CtorType, JsComponent}
+import typings.reactRedux.mod.connect
+import typings.redux.mod.{applyMiddleware, _}
+import typings.reduxDevtoolsExtension.mod.{EnhancerOptions, devToolsEnhancer}
 import typings.reduxThunk.mod.default
-//import typings.reduxDevtoolsExtension.mod.composeWithDevTools
-import typings.reduxDevtoolsExtension.mod.composeWithDevTools
+import typings.std.ReturnType
 
 import scala.scalajs.js
-import scala.scalajs.js.Dictionary
+import scala.scalajs.js.|
 
 package object store {
 
-  private val value: js.Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]]            =
-    js.Dictionary(
-      "auth" -> Reducer,
-      "ui"   -> UiReducer.Reducer
+  lazy val reducers = combineReducers(
+    js.Dynamic.literal(
+      authReducer = AuthReducer.Reducer,
+      uiReducer = UiReducer.Reducer
     )
-  private val reducers: Reducer[CombinedState[
-    StateFromReducersMapObject[Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]]]
-  ], ActionFromReducersMapObject[Dictionary[Reducer[_ >: AuthState with UiState <: js.Object, _ >: AuthAction with UiAction <: Action[String]]]]] =
-    combineReducers(value)
+  )
+
+  applyMiddleware(default)
 
 //  val StoreMiddleware =
 //    createStore(
@@ -31,7 +32,28 @@ package object store {
 //      )
 //    )
 
+  type AppState = ReturnType[reducers.type]
+
+
+  type AppActions = AuthAction | UiAction
+
+  val mapStateToProps: js.Function1[AppState, js.Dynamic] =
+    (state: AppState) => {
+      println("MYSTATE ~ " + js.JSON.stringify(state))
+      js.Dynamic.literal(state = state.asInstanceOf[js.Dynamic].authReducer)
+    }
+
+  val mapDispatchToProps: js.Function1[Dispatch[AppActions], js.Dynamic] =
+    (dispatch: Dispatch[AppActions]) =>
+      js.Dynamic.literal(dispatch = dispatch
+      )
+
+  val connectElem: Js.Component[LoginScreen.Props, Null, CtorType.PropsAndChildren] =
+    JsComponent[LoginScreen.Props, Children.Varargs, Null](
+      connect.asInstanceOf[js.Dynamic](mapStateToProps, mapDispatchToProps)(LoginScreen.component.toJsComponent.raw)
+    )
+
   val Store =
-    createStore(AuthReducer.Reducer, devToolsEnhancer(EnhancerOptions().setName("Journal Store")))
+    createStore(reducers, devToolsEnhancer(EnhancerOptions().setName("Journal Store")))
 
 }

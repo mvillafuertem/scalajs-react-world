@@ -18,7 +18,7 @@ object UiAction {
   }
 
   object SetError extends Extractor[SetError] {
-    protected val _type = "[Auth] Login"
+    protected val _type = "[Ui] SetError"
 
     @scala.inline
     def apply(msgError: String): SetError = {
@@ -35,7 +35,7 @@ object UiAction {
   }
 
   object RemoveError extends Extractor[RemoveError] {
-    protected val _type = "[Auth] Login"
+    protected val _type = "[Ui] RemoveError"
 
     @scala.inline
     def apply(msgError: String): RemoveError = {
