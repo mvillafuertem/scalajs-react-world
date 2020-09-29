@@ -14,6 +14,7 @@ import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactE
 import typings.firebase.mod.User
 import typings.reactRedux.mod.connect
 import typings.redux.mod.Dispatch
+import typings.reduxThunk.mod.ThunkDispatch
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -23,7 +24,7 @@ object LoginScreen {
   @js.native
   trait Props extends js.Object {
     val state: AuthState
-    val dispatch: Dispatch[AuthAction]
+    val dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]
   }
 
   val component = ScalaFnComponent[Props] { props =>
@@ -79,8 +80,8 @@ object LoginScreen {
   val mapStateToProps: js.Function1[AppState, js.Dynamic] =
     (state: AppState) => js.Dynamic.literal(state = state.asInstanceOf[js.Dynamic].authReducer)
 
-  val mapDispatchToProps: js.Function1[Dispatch[AppActions], js.Dynamic] =
-    (dispatch: Dispatch[AppActions]) => js.Dynamic.literal(dispatch = dispatch)
+  val mapDispatchToProps: js.Function1[ThunkDispatch[js.Any, js.Any, AuthAction], js.Dynamic] =
+    (dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]) => js.Dynamic.literal(dispatch = dispatch)
 
   val connectElem: Js.Component[LoginScreen.Props, Null, CtorType.PropsAndChildren] =
     JsComponent[LoginScreen.Props, Children.Varargs, Null](
