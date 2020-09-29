@@ -5,7 +5,6 @@ import typings.redux.mod.Action
 
 import scala.scalajs.js
 
-
 @js.native
 sealed trait UiAction extends Action[String]
 
@@ -23,7 +22,7 @@ object UiAction {
     def apply(msgError: String): SetError = {
       val __obj = js.Dynamic.literal()
       __obj.updateDynamic("type")(_type.asInstanceOf[js.Any])
-      __obj.asInstanceOf[SetError]
+      __obj.asInstanceOf[SetError].set("msgError", msgError)
     }
 
   }
@@ -40,7 +39,40 @@ object UiAction {
     def apply(msgError: String): RemoveError = {
       val __obj = js.Dynamic.literal()
       __obj.updateDynamic("type")(_type.asInstanceOf[js.Any])
-      __obj.asInstanceOf[RemoveError]
+      __obj.asInstanceOf[RemoveError].set("msgError", msgError)
+    }
+
+  }
+
+  @js.native
+  trait StartLoading extends UiAction {
+    val loading: Boolean = js.native
+  }
+
+  object StartLoading extends Extractor[StartLoading] {
+    protected val _type = "[Ui] StartLoading"
+
+    @scala.inline
+    override def apply(): StartLoading = {
+      val __obj = js.Dynamic.literal()
+      __obj.updateDynamic("type")(_type.asInstanceOf[js.Any])
+      __obj.asInstanceOf[StartLoading].set("loading", true)
+    }
+  }
+
+  @js.native
+  trait FinishLoading extends UiAction {
+    val loading: Boolean = js.native
+  }
+
+  object FinishLoading extends Extractor[FinishLoading] {
+    protected val _type = "[Ui] StartLoading"
+
+    @scala.inline
+    override def apply(): FinishLoading = {
+      val __obj = js.Dynamic.literal()
+      __obj.updateDynamic("type")(_type.asInstanceOf[js.Any])
+      __obj.asInstanceOf[FinishLoading].set("loading", false)
     }
 
   }

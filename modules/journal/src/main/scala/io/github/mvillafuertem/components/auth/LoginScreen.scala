@@ -1,19 +1,17 @@
-package io.github.mvillafuertem.auth
+package io.github.mvillafuertem.components.auth
 
-import io.github.mvillafuertem.actions.{AppActions, AuthAction}
+import io.github.mvillafuertem.actions.{ AuthAction, UiAction }
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.hooks.useForm
 import io.github.mvillafuertem.model.Person
 import io.github.mvillafuertem.reducers.AppState
-import io.github.mvillafuertem.states.AuthState
 import japgolly.scalajs.react.React.Fragment
 import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.vdom.SvgTags.text
-import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent}
+import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
+import japgolly.scalajs.react.{ Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent }
 import typings.firebase.mod.User
-import typings.reactRedux.mod.connect
-import typings.redux.mod.Dispatch
+import typings.reactRedux.mod.{ connect, useSelector }
 import typings.reduxThunk.mod.ThunkDispatch
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,19 +21,24 @@ object LoginScreen {
 
   @js.native
   trait Props extends js.Object {
-    val state: AuthState
+    val state: AppState
     val dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]
   }
 
   val component = ScalaFnComponent[Props] { props =>
-    val (state, handleInputChange) = useForm(props.state.person)
+    val loading                    = useSelector[AppState, AppState](state => state.asInstanceOf[js.Dynamic].uiReducer.loading)
+    val (state, handleInputChange) = useForm(props.state.asInstanceOf[js.Dynamic].person.asInstanceOf[Person])
 
-    println("MYCOMPONENT" + js.JSON.stringify(props))
-
-    val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
+    val handleLogin: js.Function1[ReactEventFromInput, Callback] =
       (e: ReactEventFromInput) =>
         Callback {
-          FirebaseConfiguration.firebase.auth().signInWithPopup(FirebaseConfiguration.googleAuthProvider).toFuture.map { userCredential =>
+          props.dispatch(UiAction.StartLoading())
+          (for {
+            userCredential <- FirebaseConfiguration.firebase
+                                .auth()
+                                .signInWithEmailAndPassword(state.email, state.password)
+                                .toFuture
+          } yield {
             props.dispatch(
               AuthAction.Login(
                 Person(
@@ -44,12 +47,26 @@ object LoginScreen {
                 )
               )
             )
-          }
+            props.dispatch(UiAction.FinishLoading())
+
+          }).recover { case e: Exception => println(e) }
         } >> e.preventDefaultCB
+
+    val handleGoogleLogin = () =>
+      FirebaseConfiguration.firebase.auth().signInWithPopup(FirebaseConfiguration.googleAuthProvider).toFuture.map { userCredential =>
+        props.dispatch(
+          AuthAction.Login(
+            Person(
+              userCredential.user.asInstanceOf[User].uid,
+              userCredential.user.asInstanceOf[User].displayName.asInstanceOf[String]
+            )
+          )
+        )
+      }
 
     Fragment(
       <.h3(^.className := "auth__title")("Login"),
-      <.form(^.onSubmit ==> handleSubmit)(
+      <.form(^.onSubmit ==> handleLogin)(
         <.input(
           ^.`type` := text.name,
           ^.placeholder := "Email",
@@ -68,9 +85,20 @@ object LoginScreen {
           ^.value := state.password,
           ^.onChange ==> handleInputChange
         ),
-        <.input(
+        <.button(
           ^.`type` := "submit",
-          ^.className := "btn btn-primary btn-block"
+          ^.className := "btn btn-primary btn-block",
+          ^.disabled := loading.asInstanceOf[Boolean]
+        )("Login")
+      ),
+      <.div(^.className := "auth__social-networks")(
+        <.p("Login with social networks"),
+        <.div(^.className := "google-btn", ^.onClick --> Callback(handleGoogleLogin()))(
+          <.div(^.className := "google-icon-wrapper")(
+            <.img(^.className := "google-icon", ^.src := "")),
+          <.p(^.className := "btn-text")(
+            <.b("Sign in with google")
+          )
         )
       )
     )
