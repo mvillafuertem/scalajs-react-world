@@ -1,15 +1,16 @@
 package io.github.mvillafuertem.auth
 
-import io.github.mvillafuertem.actions.{ AppActions, AuthAction }
+import io.github.mvillafuertem.actions.{AppActions, AuthAction}
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
-import io.github.mvillafuertem.hooks.{ useForm, Person }
+import io.github.mvillafuertem.hooks.useForm
+import io.github.mvillafuertem.model.Person
 import io.github.mvillafuertem.reducers.AppState
 import io.github.mvillafuertem.states.AuthState
 import japgolly.scalajs.react.React.Fragment
 import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.vdom.SvgTags.text
-import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
-import japgolly.scalajs.react.{ Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent }
+import japgolly.scalajs.react.vdom.html_<^.{<, _}
+import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent}
 import typings.firebase.mod.User
 import typings.reactRedux.mod.connect
 import typings.redux.mod.Dispatch
@@ -21,8 +22,8 @@ object LoginScreen {
 
   @js.native
   trait Props extends js.Object {
-    var state: AuthState = js.native
-    var dispatch: Dispatch[AuthAction]
+    val state: AuthState
+    val dispatch: Dispatch[AuthAction]
   }
 
   val component = ScalaFnComponent[Props] { props =>

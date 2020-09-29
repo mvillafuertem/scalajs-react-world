@@ -1,7 +1,7 @@
 package io.github.mvillafuertem.reducers
 
 import io.github.mvillafuertem.actions.AuthAction
-import io.github.mvillafuertem.hooks.Person
+import io.github.mvillafuertem.model.Person
 import io.github.mvillafuertem.states.AuthState
 import typings.redux.mod.Reducer
 

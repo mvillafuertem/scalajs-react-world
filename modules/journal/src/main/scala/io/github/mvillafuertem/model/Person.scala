@@ -1,4 +1,4 @@
-package io.github.mvillafuertem.hooks
+package io.github.mvillafuertem.model
 
 import scala.scalajs.js
 

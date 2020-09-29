@@ -1,5 +1,6 @@
 package io.github.mvillafuertem.hooks
 
+import io.github.mvillafuertem.model.Person
 import japgolly.scalajs.react.{Callback, ReactEventFromInput}
 import typings.react.mod.useState
 

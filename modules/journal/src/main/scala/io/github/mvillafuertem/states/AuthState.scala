@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.states
 
-import io.github.mvillafuertem.hooks.Person
+import io.github.mvillafuertem.model.Person
 
 import scala.scalajs.js
 

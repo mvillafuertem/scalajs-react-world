@@ -1,6 +1,7 @@
 package io.github.mvillafuertem.auth
 
-import io.github.mvillafuertem.hooks.{ useForm, Person }
+import io.github.mvillafuertem.hooks.useForm
+import io.github.mvillafuertem.model.Person
 import japgolly.scalajs.react.React.Fragment
 import japgolly.scalajs.react.vdom.SvgTags.text
 import japgolly.scalajs.react.vdom.html_<^._
