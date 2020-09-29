@@ -1,4 +1,4 @@
-package io.github.mvillafuertem.reducers
+package io.github.mvillafuertem.states
 
 import io.github.mvillafuertem.hooks.Person
 

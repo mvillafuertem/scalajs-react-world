@@ -1,7 +1,6 @@
-package io.github.mvillafuertem.reducers
+package io.github.mvillafuertem.actions
 
-import io.github.mvillafuertem.ReduxFacade.Extractor
-import io.github.mvillafuertem.hooks.Person
+import io.github.mvillafuertem.facade.ReduxFacade.Extractor
 import typings.redux.mod.Action
 
 import scala.scalajs.js

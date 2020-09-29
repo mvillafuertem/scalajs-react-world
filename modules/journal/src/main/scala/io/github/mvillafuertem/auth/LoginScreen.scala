@@ -1,15 +1,17 @@
 package io.github.mvillafuertem.auth
 
-import io.github.mvillafuertem.ReduxFacade.Connected
+import io.github.mvillafuertem.actions.{ AppActions, AuthAction }
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.hooks.{ useForm, Person }
-import io.github.mvillafuertem.reducers.AuthAction.Login
-import io.github.mvillafuertem.reducers.{ AuthAction, AuthState }
+import io.github.mvillafuertem.reducers.AppState
+import io.github.mvillafuertem.states.AuthState
 import japgolly.scalajs.react.React.Fragment
+import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.vdom.SvgTags.text
 import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
-import japgolly.scalajs.react.{ Callback, ReactEventFromInput, ScalaFnComponent }
+import japgolly.scalajs.react.{ Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent }
 import typings.firebase.mod.User
+import typings.reactRedux.mod.connect
 import typings.redux.mod.Dispatch
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +25,7 @@ object LoginScreen {
     var dispatch: Dispatch[AuthAction]
   }
 
-  val component = ScalaFnComponent[Connected[AuthState, AuthAction] with Props] { props =>
+  val component = ScalaFnComponent[Props] { props =>
     val (state, handleInputChange) = useForm(props.state.person)
 
     println("MYCOMPONENT" + js.JSON.stringify(props))
@@ -33,7 +35,7 @@ object LoginScreen {
         Callback {
           FirebaseConfiguration.firebase.auth().signInWithPopup(FirebaseConfiguration.googleAuthProvider).toFuture.map { userCredential =>
             props.dispatch(
-              Login(
+              AuthAction.Login(
                 Person(
                   userCredential.user.asInstanceOf[User].uid,
                   userCredential.user.asInstanceOf[User].displayName.asInstanceOf[String]
@@ -72,5 +74,16 @@ object LoginScreen {
     )
 
   }
+
+  val mapStateToProps: js.Function1[AppState, js.Dynamic] =
+    (state: AppState) => js.Dynamic.literal(state = state.asInstanceOf[js.Dynamic].authReducer)
+
+  val mapDispatchToProps: js.Function1[Dispatch[AppActions], js.Dynamic] =
+    (dispatch: Dispatch[AppActions]) => js.Dynamic.literal(dispatch = dispatch)
+
+  val connectElem: Js.Component[LoginScreen.Props, Null, CtorType.PropsAndChildren] =
+    JsComponent[LoginScreen.Props, Children.Varargs, Null](
+      connect.asInstanceOf[js.Dynamic](mapStateToProps, mapDispatchToProps)(this.component.toJsComponent.raw)
+    )
 
 }
