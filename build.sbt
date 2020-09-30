@@ -48,6 +48,7 @@ lazy val journal =
       addCommandAlias("journal", "project journal;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour := Flavour.Japgolly,
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"         -> "5.1.2",
         "@types/react-router-dom"  -> "5.1.2",
@@ -167,6 +168,8 @@ lazy val withCssLoading: Project => Project =
     Compile / npmDevDependencies ++= Seq(
       "webpack-merge" -> "4.2.2",
       "css-loader"    -> "3.4.2",
+      "sass-loader"    -> "10.0.2",
+      "sass"    -> "1.26.11",
       "style-loader"  -> "1.1.3",
       "file-loader"   -> "5.1.0",
       "url-loader"    -> "3.0.0"

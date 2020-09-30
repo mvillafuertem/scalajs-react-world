@@ -109,9 +109,9 @@ object RegisterScreen {
         ),
         <.button(
           ^.`type` := "submit",
-          ^.className := "btn btn-primary btn-block"
+          ^.className := "btn btn-primary btn-block mb-5"
         )("Register"),
-        Link[String]("/auth/login").className("link")
+        Link[String]("/auth/login").className("link mt-5")("Already registered?")
       )
     )
 

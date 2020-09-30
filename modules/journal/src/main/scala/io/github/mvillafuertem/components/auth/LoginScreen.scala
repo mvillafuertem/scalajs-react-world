@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.components.auth
 
-import io.github.mvillafuertem.actions.{ AuthAction, UiAction }
+import io.github.mvillafuertem.actions.{AuthAction, UiAction}
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.hooks.useForm
 import io.github.mvillafuertem.model.Person
@@ -8,10 +8,11 @@ import io.github.mvillafuertem.reducers.AppState
 import japgolly.scalajs.react.React.Fragment
 import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.vdom.SvgTags.text
-import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
-import japgolly.scalajs.react.{ Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent }
+import japgolly.scalajs.react.vdom.html_<^.{<, _}
+import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent}
 import typings.firebase.mod.User
-import typings.reactRedux.mod.{ connect, useSelector }
+import typings.reactRedux.mod.{connect, useSelector}
+import typings.reactRouterDom.components.Link
 import typings.reduxThunk.mod.ThunkDispatch
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,7 +27,7 @@ object LoginScreen {
   }
 
   val component = ScalaFnComponent[Props] { props =>
-    val loading                    = useSelector[AppState, AppState](state => state.asInstanceOf[js.Dynamic].uiReducer.loading)
+    val loading = useSelector[AppState, AppState](state => state.asInstanceOf[js.Dynamic].uiReducer.loading)
     val (state, handleInputChange) = useForm(props.state.asInstanceOf[js.Dynamic].person.asInstanceOf[Person])
 
     val handleLogin: js.Function1[ReactEventFromInput, Callback] =
@@ -35,9 +36,9 @@ object LoginScreen {
           props.dispatch(UiAction.StartLoading())
           (for {
             userCredential <- FirebaseConfiguration.firebase
-                                .auth()
-                                .signInWithEmailAndPassword(state.email, state.password)
-                                .toFuture
+              .auth()
+              .signInWithEmailAndPassword(state.email, state.password)
+              .toFuture
           } yield {
             props.dispatch(
               AuthAction.Login(
@@ -89,17 +90,18 @@ object LoginScreen {
           ^.`type` := "submit",
           ^.className := "btn btn-primary btn-block",
           ^.disabled := loading.asInstanceOf[Boolean]
-        )("Login")
-      ),
-      <.div(^.className := "auth__social-networks")(
-        <.p("Login with social networks"),
-        <.div(^.className := "google-btn", ^.onClick --> Callback(handleGoogleLogin()))(
-          <.div(^.className := "google-icon-wrapper")(
-            <.img(^.className := "google-icon", ^.src := "")),
-          <.p(^.className := "btn-text")(
-            <.b("Sign in with google")
+        )("Login"),
+        <.div(^.className := "auth__social-networks")(
+          <.p("Login with social networks"),
+          <.div(^.className := "google-btn", ^.onClick --> Callback(handleGoogleLogin()))(
+            <.div(^.className := "google-icon-wrapper")(
+              <.img(^.className := "google-icon", ^.src := "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg")),
+            <.p(^.className := "btn-text")(
+              <.b("Sign in with google")
+            )
           )
-        )
+        ),
+        Link[String]("/auth/register").className("link")("Create new account")
       )
     )
 
