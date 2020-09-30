@@ -17,7 +17,8 @@ object Sidebar {
       <.div(^.className := "journal__new-entry")(
         <.i(^.className := "far fa-calendar-plus fa-5x"),
         <.p("New entry")
-      )
+      ),
+      JournalEntries.component()
     )
   }
 
