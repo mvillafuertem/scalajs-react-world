@@ -10,7 +10,7 @@ object Sidebar {
       <.div(^.className := "journal__sidebar-navbar")(
         <.h3(^.className := "mt-5")(
           <.i(^.className := "far fa-moon"),
-          <.span("Pepe")
+          <.span(" Pepe")
         ),
         <.button(^.className := "btn")("Logout")
       ),
