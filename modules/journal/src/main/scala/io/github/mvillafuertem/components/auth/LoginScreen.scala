@@ -11,8 +11,9 @@ import japgolly.scalajs.react.vdom.SvgTags.text
 import japgolly.scalajs.react.vdom.html_<^.{<, _}
 import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent}
 import typings.firebase.mod.User
+import typings.history.mod.{History, LocationState}
 import typings.reactRedux.mod.{connect, useSelector}
-import typings.reactRouterDom.components.Link
+import typings.reactRouterDom.components.{Link, Redirect}
 import typings.reduxThunk.mod.ThunkDispatch
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,6 +25,7 @@ object LoginScreen {
   trait Props extends js.Object {
     val state: AppState
     val dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]
+    val history: History[LocationState]
   }
 
   val component = ScalaFnComponent[Props] { props =>
@@ -49,7 +51,6 @@ object LoginScreen {
               )
             )
             props.dispatch(UiAction.FinishLoading())
-
           }).recover { case e: Exception => println(e) }
         } >> e.preventDefaultCB
 
