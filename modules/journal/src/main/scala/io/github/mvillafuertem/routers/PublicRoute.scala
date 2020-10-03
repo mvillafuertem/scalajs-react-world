@@ -1,9 +1,6 @@
 package io.github.mvillafuertem.routers
 
-import io.github.mvillafuertem.components.auth.LoginScreen
-import io.github.mvillafuertem.routers.PrivateRoute.Props
 import japgolly.scalajs.react.ScalaFnComponent
-import typings.history.mod.{History, LocationState}
 import typings.reactRouter.mod.RouteProps
 import typings.reactRouterDom.components.{Redirect, Route}
 
@@ -13,8 +10,8 @@ object PublicRoute {
 
   case class Props(isAuthenticated: Boolean, routeProps: RouteProps)
 
-
-  val component = ScalaFnComponent[Props] { case Props(isAuthenticated, routeProps) => {
+  val component = ScalaFnComponent[Props] { case Props(isAuthenticated, routeProps) =>
+    println("asdfasdf asdf  asd f" +  js.JSON.stringify(routeProps))
     Route(
       routeProps.setRender(_ =>
         if (isAuthenticated) {
@@ -24,7 +21,6 @@ object PublicRoute {
         }
       )
     )
-  }
   }
 
 }

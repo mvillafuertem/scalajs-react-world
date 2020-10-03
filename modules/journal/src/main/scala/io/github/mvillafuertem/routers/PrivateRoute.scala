@@ -1,5 +1,6 @@
 package io.github.mvillafuertem.routers
 
+import io.github.mvillafuertem.components.journal.JournalScreen
 import japgolly.scalajs.react.ScalaFnComponent
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomElement
@@ -9,12 +10,13 @@ import typings.reactRouter.mod.RouteProps
 
 object PrivateRoute {
 
-  case class Props(isAuthenticated: Boolean, child: React.Element, routeProps: RouteProps)
-  val component = ScalaFnComponent[Props] { case Props(isAuthenticated, child, routeProps) =>
+  case class Props(isAuthenticated: Boolean)
+  val component = ScalaFnComponent[Props] { case Props(isAuthenticated) =>
     Route(
-      routeProps.setRender(_ =>
+      RouteProps()
+        .setPath("/").setRender(_ =>
         if (isAuthenticated) {
-          child
+          JournalScreen.component().rawElement
         } else {
           Redirect("/auth/login").build.rawElement
         }

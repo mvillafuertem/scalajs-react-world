@@ -1,6 +1,7 @@
 package io.github.mvillafuertem.routers
 
 import io.github.mvillafuertem.actions.{AppActions, AuthAction}
+import io.github.mvillafuertem.components.auth.LoginScreen
 import io.github.mvillafuertem.components.journal.JournalScreen
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.model.Person
@@ -52,20 +53,22 @@ object AppRouter {
       Router(
         <.div(
           Switch(
-            PublicRoute.component(
-              PublicRoute.Props(
-                isLoggedIn,
+            //Route(RouteProps().setExact(true).setPath("/login").setRender(props => LoginScreen(props.history))),
+            //PublicRoute(state.logged, LoginScreen.component, RouteProps().setExact(true).setPath("/login")),
+            // Esto debería ser PublicRoute, pero no funciona el redireccionamiento cuando está dentro de PublicRoute
+            Route(
               RouteProps()
-                //.setExact(true)
-                .setPath("/auth"))
+                .setExact(true)
+                .setPath("/auth/*")
+                .setRender(_ =>
+                  if (isLoggedIn) {
+                    Redirect("/").rawElement
+                  } else {
+                    AuthRouter.component().rawElement
+                  }
+                )
             ),
-            PrivateRoute.component(
-              PrivateRoute.Props(
-                isLoggedIn,
-                JournalScreen.component().rawElement,
-                RouteProps()
-                  .setPath("/"))
-            ),
+            PrivateRoute.component(PrivateRoute.Props(isLoggedIn)),
             Redirect("/auth/login")
           )
         )
