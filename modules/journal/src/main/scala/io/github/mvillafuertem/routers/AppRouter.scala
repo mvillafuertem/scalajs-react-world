@@ -52,7 +52,7 @@ object AppRouter {
     )
 
     if ( checking ) {
-      <.h1("Espere...")
+      <.h1("Wait...")
     }
 
     <.div(
@@ -61,8 +61,7 @@ object AppRouter {
           Switch(
             Route(
               RouteProps()
-                .setExact(true)
-                .setPath("/auth/*")
+                .setPath("/auth")
                 .setRender(_ =>
                   if (isLoggedIn) {
                     Redirect("/").rawElement
