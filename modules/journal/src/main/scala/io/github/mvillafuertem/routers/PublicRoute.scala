@@ -2,24 +2,26 @@ package io.github.mvillafuertem.routers
 
 import japgolly.scalajs.react.ScalaFnComponent
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{Redirect, Route}
+import typings.reactRouterDom.components.{ Redirect, Route }
 
 import scala.scalajs.js
 
 object PublicRoute {
 
-  case class Props(isAuthenticated: Boolean, routeProps: RouteProps)
+  case class Props(isLoggedIn: Boolean)
 
-  val component = ScalaFnComponent[Props] { case Props(isAuthenticated, routeProps) =>
-    println("asdfasdf asdf  asd f" +  js.JSON.stringify(routeProps))
+  val component = ScalaFnComponent[Props] { case Props(isLoggedIn) =>
     Route(
-      routeProps.setRender(_ =>
-        if (isAuthenticated) {
-          Redirect("/").build.rawElement
-        } else {
-          AuthRouter.component().rawElement
-        }
-      )
+      RouteProps()
+        .setExact(true)
+        .setPath("/auth/login")
+        .setRender(_ =>
+          if (isLoggedIn) {
+            Redirect("/").rawElement
+          } else {
+            AuthRouter.component().rawElement
+          }
+        )
     )
   }
 

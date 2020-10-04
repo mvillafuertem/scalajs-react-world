@@ -6,23 +6,19 @@ import io.github.mvillafuertem.hooks.useForm
 import io.github.mvillafuertem.model.Person
 import io.github.mvillafuertem.reducers.AppState
 import japgolly.scalajs.react.React.Fragment
-import japgolly.scalajs.react.component.Js
-import japgolly.scalajs.react.component.Js.Component
 import japgolly.scalajs.react.vdom.SvgTags.text
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{ Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent }
+import japgolly.scalajs.react.{ Callback, ReactEventFromInput, ScalaFnComponent }
 import typings.firebase.anon.DisplayName
 import typings.firebase.mod.User
-import typings.firebase.mod.auth.UserCredential
-import typings.reactRedux.mod.{ connect, useDispatch, useSelector }
+import typings.reactRedux.mod.{ useDispatch, useSelector }
 import typings.reactRouterDom.components.Link
 import typings.reduxThunk.mod.ThunkDispatch
+import typings.sweetalert2.mod.{ SweetAlertIcon, default => Swal }
 import typings.validator
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.scalajs.js.Promise
-import scala.util.{ Failure, Success }
 
 object RegisterScreen {
 
@@ -32,8 +28,7 @@ object RegisterScreen {
 
     val (formValues, handleInputChange) = useForm(Person.default)
 
-    val isFormValid: Boolean = {
-
+    val isFormValid: js.Function0[Boolean] = () => {
       if (formValues.name.trim.isEmpty) {
         dispatch(UiAction.SetError("Name is required"))
         false
@@ -51,7 +46,7 @@ object RegisterScreen {
     val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
       (e: ReactEventFromInput) =>
         Callback(
-          if (isFormValid) {
+          if (isFormValid()) {
             (for {
               userCredential <- FirebaseConfiguration.firebase
                                   .auth()
@@ -68,14 +63,17 @@ object RegisterScreen {
                   userCredential.user.asInstanceOf[User].displayName.asInstanceOf[String]
                 )
               )
-            )).recover { case e: Exception => println(e) }
+            )).recover { case e: Exception =>
+              println(e)
+              Swal.fire("Error", e.getMessage, SweetAlertIcon.error).toFuture
+            }
           }
         ) >> e.preventDefaultCB
 
     Fragment(
       <.h3(^.className := "auth__title")("Register"),
       <.form(^.onSubmit ==> handleSubmit)(
-        if (msgError.asInstanceOf[String].isEmpty)
+        if (msgError.asInstanceOf[String].nonEmpty)
           <.div(^.className := "auth__alert-error")(
             msgError.asInstanceOf[String]
           )
@@ -116,16 +114,5 @@ object RegisterScreen {
     )
 
   }
-
-  val mapStateToProps: js.Function1[AppState, js.Dynamic] =
-    (state: AppState) => js.Dynamic.literal(state = state.asInstanceOf[js.Dynamic].authReducer)
-
-  val mapDispatchToProps: js.Function1[ThunkDispatch[js.Any, js.Any, AuthAction], js.Dynamic] =
-    (dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]) => js.Dynamic.literal(dispatch = dispatch)
-
-  val connectElem: Component[Null, Null, CtorType.Children] =
-    JsComponent[Null, Children.Varargs, Null](
-      connect.asInstanceOf[js.Dynamic](mapStateToProps, mapDispatchToProps)(this.component.toJsComponent.raw)
-    )
 
 }

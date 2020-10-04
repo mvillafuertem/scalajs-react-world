@@ -20,8 +20,6 @@ object JournalApp extends App {
       JournalCSS
       Provider(store.default)(
         AppRouter.component()
-        //LoginScreen.connectElem((new js.Object).asInstanceOf[LoginScreen.Props])()
-        //RegisterScreen.component()
       ).renderIntoDOM(document.getElementById("container"))
     }.exitCode
 

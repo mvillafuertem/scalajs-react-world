@@ -59,8 +59,9 @@ lazy val journal =
         "redux"                    -> "4.0.5",
         "firebase"                 -> "7.21.1",
         "redux-thunk"              -> "2.3.0",
-        "validator"              -> "13.1.0",
-        "@types/validator"              -> "13.1.0",
+        "validator"                -> "13.1.0",
+        "@types/validator"         -> "13.1.0",
+        "sweetalert2"              -> "10.3.5"
       )
     )
 
@@ -168,8 +169,8 @@ lazy val withCssLoading: Project => Project =
     Compile / npmDevDependencies ++= Seq(
       "webpack-merge" -> "4.2.2",
       "css-loader"    -> "3.4.2",
-      "sass-loader"    -> "10.0.2",
-      "sass"    -> "1.26.11",
+      "sass-loader"   -> "10.0.2",
+      "sass"          -> "1.26.11",
       "style-loader"  -> "1.1.3",
       "file-loader"   -> "5.1.0",
       "url-loader"    -> "3.0.0"

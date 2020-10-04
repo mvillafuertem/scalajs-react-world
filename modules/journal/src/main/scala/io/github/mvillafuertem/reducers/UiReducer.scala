@@ -4,6 +4,8 @@ import io.github.mvillafuertem.actions.UiAction
 import io.github.mvillafuertem.states.UiState
 import typings.redux.mod.Reducer
 
+import scala.scalajs.js
+
 object UiReducer {
 
   val default: Reducer[UiState, UiAction] = (stateOpt, action) => {

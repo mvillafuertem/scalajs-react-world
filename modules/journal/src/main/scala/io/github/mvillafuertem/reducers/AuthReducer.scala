@@ -11,7 +11,6 @@ object AuthReducer {
 
   val default: Reducer[AuthState, AuthAction] = (stateOpt, action) => {
     val state = stateOpt.getOrElse(AuthState.initial)
-    println(js.JSON.stringify(action))
     action match {
       case AuthAction.Login(_action) => AuthState(_action.person)
       case AuthAction.Logout(_)      => AuthState(Person.default)

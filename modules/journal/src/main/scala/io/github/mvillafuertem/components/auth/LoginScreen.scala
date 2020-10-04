@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.components.auth
 
-import io.github.mvillafuertem.actions.{AuthAction, UiAction}
+import io.github.mvillafuertem.actions.{AppActions, AuthAction, UiAction}
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.hooks.useForm
 import io.github.mvillafuertem.model.Person
@@ -12,37 +12,32 @@ import japgolly.scalajs.react.vdom.html_<^.{<, _}
 import japgolly.scalajs.react.{Callback, Children, CtorType, JsComponent, ReactEventFromInput, ScalaFnComponent}
 import typings.firebase.mod.User
 import typings.history.mod.{History, LocationState}
-import typings.reactRedux.mod.{connect, useSelector}
+import typings.reactRedux.mod.{connect, useDispatch, useSelector}
 import typings.reactRouterDom.components.{Link, Redirect}
 import typings.reduxThunk.mod.ThunkDispatch
+import typings.sweetalert2.mod.{SweetAlertIcon, default => Swal}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 
 object LoginScreen {
 
-  @js.native
-  trait Props extends js.Object {
-    val state: AppState
-    val dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]
-    val history: History[LocationState]
-  }
-
-  val component = ScalaFnComponent[Props] { props =>
+  val component = ScalaFnComponent[Unit] { _ =>
+    val dispatch = useDispatch[ThunkDispatch[js.Any, js.Any, AppActions]]()
     val loading = useSelector[AppState, AppState](state => state.asInstanceOf[js.Dynamic].uiReducer.loading)
-    val (state, handleInputChange) = useForm(props.state.asInstanceOf[js.Dynamic].person.asInstanceOf[Person])
+    val (state, handleInputChange) = useForm(Person.default)
 
     val handleLogin: js.Function1[ReactEventFromInput, Callback] =
       (e: ReactEventFromInput) =>
         Callback {
-          props.dispatch(UiAction.StartLoading())
+          dispatch(UiAction.StartLoading())
           (for {
             userCredential <- FirebaseConfiguration.firebase
               .auth()
               .signInWithEmailAndPassword(state.email, state.password)
               .toFuture
           } yield {
-            props.dispatch(
+            dispatch(
               AuthAction.Login(
                 Person(
                   userCredential.user.asInstanceOf[User].uid,
@@ -50,13 +45,16 @@ object LoginScreen {
                 )
               )
             )
-            props.dispatch(UiAction.FinishLoading())
-          }).recover { case e: Exception => println(e) }
+            dispatch(UiAction.FinishLoading())
+          }).recoverWith { case e: Exception =>
+            println(e)
+            Swal.fire("Error", e.getMessage, SweetAlertIcon.error).toFuture
+          }
         } >> e.preventDefaultCB
 
     val handleGoogleLogin = () =>
       FirebaseConfiguration.firebase.auth().signInWithPopup(FirebaseConfiguration.googleAuthProvider).toFuture.map { userCredential =>
-        props.dispatch(
+        dispatch(
           AuthAction.Login(
             Person(
               userCredential.user.asInstanceOf[User].uid,
@@ -107,16 +105,5 @@ object LoginScreen {
     )
 
   }
-
-  val mapStateToProps: js.Function1[AppState, js.Dynamic] =
-    (state: AppState) => js.Dynamic.literal(state = state.asInstanceOf[js.Dynamic].authReducer)
-
-  val mapDispatchToProps: js.Function1[ThunkDispatch[js.Any, js.Any, AuthAction], js.Dynamic] =
-    (dispatch: ThunkDispatch[js.Any, js.Any, AuthAction]) => js.Dynamic.literal(dispatch = dispatch)
-
-  val connectElem: Js.Component[LoginScreen.Props, Null, CtorType.PropsAndChildren] =
-    JsComponent[LoginScreen.Props, Children.Varargs, Null](
-      connect.asInstanceOf[js.Dynamic](mapStateToProps, mapDispatchToProps)(this.component.toJsComponent.raw)
-    )
 
 }

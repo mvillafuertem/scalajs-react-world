@@ -18,7 +18,7 @@ object AuthRouter {
             RouteProps()
               .setExact(true)
               .setPath("/auth/login")
-              .setRender(_ => LoginScreen.connectElem((new js.Object).asInstanceOf[LoginScreen.Props])().rawElement)
+              .setRender(_ => LoginScreen.component().rawElement)
           ),
           Route(
             RouteProps()
