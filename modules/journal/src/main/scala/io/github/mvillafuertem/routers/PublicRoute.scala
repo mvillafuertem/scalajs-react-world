@@ -6,6 +6,7 @@ import typings.reactRouterDom.components.{ Redirect, Route }
 
 import scala.scalajs.js
 
+// THIS DOESN'T WORK INSIDE APP ROUTER :(
 object PublicRoute {
 
   case class Props(isLoggedIn: Boolean)
