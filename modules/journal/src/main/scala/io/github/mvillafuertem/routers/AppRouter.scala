@@ -61,7 +61,7 @@ object AppRouter {
     }
 
     <.div(
-      Router(
+      Router.basename(basename)(
         <.div(
           Switch(
             Route(
