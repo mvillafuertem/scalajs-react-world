@@ -4,11 +4,32 @@ import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
 
 lazy val `scalajs-react-world` = (project in file("."))
-  .aggregate(heroes)
   .aggregate(`gif-finder`)
-  .aggregate(journal)
-  .aggregate(dashboard)
   .aggregate(`simple-test`)
+  .aggregate(calendar)
+  .aggregate(dashboard)
+  .aggregate(heroes)
+  .aggregate(journal)
+
+lazy val calendar =
+  (project in file("modules/calendar"))
+    .enablePlugins(ScalablyTypedConverterPlugin)
+    .enablePlugins(ScalaJSPlugin)
+    .configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings, withCssLoading)
+    .settings(
+      addCommandAlias("calendar", "project calendar;fastOptJS::startWebpackDevServer;~fastOptJS"),
+      webpackDevServerPort := 8008,
+      stFlavour := Flavour.Japgolly,
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      Compile / npmDependencies ++= Seq(
+        "react-router-dom"                  -> "5.1.2",
+        "@types/react-router-dom"           -> "5.1.2",
+        "reactstrap"                        -> "8.5.1",
+        "@types/reactstrap"                 -> "8.5.1",
+        "@microsoft/microsoft-graph-client" -> "2.1.0",
+        "@azure/msal-browser"               -> "2.3.0"
+      )
+    )
 
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
