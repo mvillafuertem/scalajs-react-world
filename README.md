@@ -22,6 +22,8 @@ WITH THE COMMAND `sbt docs/mdoc`
   </a>
 </p>
 
+## Real World Examples
+
 https://mvillafuertem.github.io/scalajs-react-world/heroes/
 
 https://mvillafuertem.github.io/scalajs-react-world/gif-finder/
@@ -30,7 +32,7 @@ https://mvillafuertem.github.io/scalajs-react-world/journal/
 
 https://mvillafuertem.github.io/scalajs-react-world/dashboard/
 
-This Poc use:
+## Libraries
 
 https://github.com/ScalablyTyped/Converter
 
@@ -40,3 +42,12 @@ https://github.com/shadaj/slinky
 
 https://github.com/zio/zio
 
+## Notes
+
+https://github.com/japgolly/scalajs-react/blob/master/doc/INTEROP.md
+
+https://staltz.com/unidirectional-user-interface-architectures.html
+
+https://stackoverflow.com/questions/25139257/terminology-what-is-a-glitch-in-functional-reactive-programming-rx
+
+https://stackoverflow.com/questions/1028250/what-is-functional-reactive-programming/28247944#28247944

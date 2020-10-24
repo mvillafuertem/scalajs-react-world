@@ -10,17 +10,17 @@ import scala.scalajs.js
 
 object Welcome {
 
-  case class WelcomeProps(isAuthenticated: Boolean, authButtonMethod: ReactMouseEventFrom[js.Any with Element] => Callback, user: js.Any)
+  case class WelcomeProps(isAuthenticated: Boolean, authButtonMethod: js.Function1[ReactMouseEventFrom[js.Any with Element], Callback], user: User)
 
   val welcomeContent: js.Function1[WelcomeProps, TagMod] = props =>
     // If authenticated, greet the user
     if (props.isAuthenticated) {
       <.div(
-        <.h4(s"Welcome ${props.user}!"),
+        <.h4(s"Welcome ${props.user.displayName}!"),
         <.p("Use the navigation bar at the top of the page to get started.")
       )
     } else { // Not authenticated, present a sign in button
-      Button().color("primary").onClick(props.authButtonMethod)
+      Button().color("primary").onClick(props.authButtonMethod)("Click here to sign in")
     }
 
   val component: Component[WelcomeProps, CtorType.Props] = ScalaFnComponent[WelcomeProps] { props =>

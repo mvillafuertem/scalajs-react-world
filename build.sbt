@@ -19,15 +19,18 @@ lazy val calendar =
     .settings(
       addCommandAlias("calendar", "project calendar;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour := Flavour.Japgolly,
+      stFlavour            := Flavour.Japgolly,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
       Compile / npmDependencies ++= Seq(
-        "react-router-dom"                  -> "5.1.2",
-        "@types/react-router-dom"           -> "5.1.2",
-        "reactstrap"                        -> "8.5.1",
-        "@types/reactstrap"                 -> "8.5.1",
+        "@azure/msal-browser"               -> "2.3.0",
+        "@fortawesome/fontawesome-free"     -> "5.14.0",
         "@microsoft/microsoft-graph-client" -> "2.1.0",
-        "@azure/msal-browser"               -> "2.3.0"
+        "@types/react-router-dom"           -> "5.1.2",
+        "@types/reactstrap"                 -> "8.5.1",
+        "bootstrap"                         -> "4.5.2",
+        "react-router-dom"                  -> "5.1.2",
+        "reactstrap"                        -> "8.5.1"
       )
     )
 
@@ -39,7 +42,7 @@ lazy val `gif-finder` =
     .settings(
       addCommandAlias("gif-finder", "project gif-finder;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour := Flavour.Slinky,
+      stFlavour            := Flavour.Slinky,
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6")
     )
 
@@ -51,7 +54,7 @@ lazy val heroes =
     .settings(
       addCommandAlias("heroes", "project heroes;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour := Flavour.Slinky,
+      stFlavour            := Flavour.Slinky,
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"        -> "5.1.2",
@@ -68,7 +71,7 @@ lazy val journal =
     .settings(
       addCommandAlias("journal", "project journal;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour := Flavour.Japgolly,
+      stFlavour            := Flavour.Japgolly,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"         -> "5.1.2",
@@ -93,9 +96,9 @@ lazy val dashboard =
     .configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings)
     .settings(
       addCommandAlias("dashboard", "project dashboard;fastOptJS::startWebpackDevServer;~fastOptJS"),
-      useYarn := true,
+      useYarn              := true,
       webpackDevServerPort := 8008,
-      stFlavour := Flavour.Slinky,
+      stFlavour            := Flavour.Slinky,
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
       Compile / npmDependencies ++= Seq(
         "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
@@ -118,7 +121,7 @@ lazy val `simple-test` =
       addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
       addCommandAlias("build", "fullOptJS::webpack"),
       scalaVersion := "2.13.3",
-      useYarn := true,
+      useYarn      := true,
       Compile / npmDependencies ++= Seq(
         "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
         "@material-ui/styles"     -> "3.0.0-alpha.10", // note: version 4 is not supported yet
@@ -142,20 +145,20 @@ lazy val `simple-test` =
         "me.shadaj"     %%% "slinky-hot" % "0.6.6",
         "org.scalatest" %%% "scalatest"  % "3.2.1" % Test
       ),
-      stFlavour := Flavour.Slinky,
-      fastOptJS / webpackBundlingMode := BundlingMode.LibraryOnly(),
-      fastOptJS / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-fastopt.config.js"),
+      stFlavour                             := Flavour.Slinky,
+      fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
+      fastOptJS / webpackConfigFile         := Some(baseDirectory.value / "webpack" / "webpack-fastopt.config.js"),
       fastOptJS / webpackDevServerExtraArgs := Seq("--inline", "--hot"),
-      fullOptJS / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-opt.config.js"),
+      fullOptJS / webpackConfigFile         := Some(baseDirectory.value / "webpack" / "webpack-opt.config.js"),
       scalacOptions += "-Ymacro-annotations",
       startWebpackDevServer / version := "3.11.0",
-      webpack / version := "4.43.0",
-      webpackResources := baseDirectory.value / "webpack" * "*"
+      webpack / version               := "4.43.0",
+      webpackResources                := baseDirectory.value / "webpack" * "*"
     )
 
 lazy val testConfiguration: Project => Project =
   _.settings(
-    Test / requireJsDomEnv := true,
+    Test / requireJsDomEnv   := true,
     Test / webpackConfigFile := Some(baseDirectory.value / "webpack" / "webpack-core.config.js"),
     stIgnore := List(
       "react-proxy",
@@ -226,7 +229,7 @@ lazy val dist = TaskKey[File]("dist")
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
-      useYarn := true,
+      useYarn      := true,
       scalaVersion := "2.13.3",
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",

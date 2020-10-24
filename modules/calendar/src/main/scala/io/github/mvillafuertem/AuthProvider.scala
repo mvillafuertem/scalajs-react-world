@@ -1,109 +1,146 @@
 package io.github.mvillafuertem
 
+import io.github.mvillafuertem.ErrorMessage.ErrorMessageProps
+import japgolly.scalajs.react.component.JsFn.Unmounted
 import japgolly.scalajs.react.component.Scala.BackendScope
-import japgolly.scalajs.react.{ AsyncCallback, ScalaComponent }
-import org.scalablytyped.runtime.StringDictionary
+import japgolly.scalajs.react.component.ScalaFn
+import japgolly.scalajs.react.internal.Box
+import japgolly.scalajs.react.raw.React.ComponentClassP
+import japgolly.scalajs.react.{ AsyncCallback, Callback, CtorType, ScalaComponent }
 import typings.azureMsalBrowser.configurationMod.{ BrowserAuthOptions, CacheOptions, Configuration }
-import typings.azureMsalBrowser.publicClientApplicationMod.PublicClientApplication
+import typings.azureMsalBrowser.mod.PublicClientApplication
 import typings.azureMsalBrowser.silentRequestMod.SilentRequest
 import typings.azureMsalCommon.authorizationUrlRequestMod.AuthorizationUrlRequest
-
+import scala.language.existentials
 import scala.scalajs.js
 import scala.scalajs.js.|
 
 object AuthProvider {
 
-  case class AuthProviderState(error: js.Any = js.Object, isAuthenticated: Boolean = false, user: js.Any = js.Object)
+  case class AuthComponentProps(
+    error:           ErrorMessageProps,
+    isAuthenticated: Boolean,
+    user:            User,
+    login:           js.Function0[Callback],
+    logout:          js.Function0[Callback],
+    getAccessToken:  js.Function1[js.Array[String], AsyncCallback[String]],
+    setError:        js.Function2[String, String, Callback]
+  )
 
-  class Backend($ : BackendScope[Unit, AuthProviderState]) {
+  case class AuthProviderState(error: ErrorMessageProps = ErrorMessageProps(), isAuthenticated: Boolean = false, user: User = User())
 
-    private val configuration: Configuration = Configuration()
-      .setAuth(
-        BrowserAuthOptions("appId")
-          .setRedirectUri("")
-      )
-      .setCache(
-        CacheOptions()
-          .setCacheLocation("sessionStorage")
-          .setStoreAuthStateInCookie(true)
-      )
+  def withAuthProvider(WrappedComponent: CtorType.Props[AuthComponentProps, ScalaFn.Unmounted[AuthComponentProps]]) = {
+    class Backend($ : BackendScope[Unit, AuthProviderState]) {
 
-    val publicClientApplication = new PublicClientApplication(configuration)
-
-    def render(s: AuthProviderState) = ???
-
-    def componentDidMount() {
-
-      val accounts = this.publicClientApplication.getAllAccounts()
-
-      if (accounts.length > 0) {
-        // Enhance user object with data from Graph
-        this.getUserProfile()
-      }
-    }
-
-    def login() =
-      // Login via popup
-      (for {
-        _           <- AsyncCallback.fromJsPromise(this.publicClientApplication.loginPopup(AuthorizationUrlRequest(js.Array()).setPrompt("select_account")))
-        userProfile <- this.getUserProfile()
-      } yield userProfile)
-        .handleErrorSync(e => $.modState(_.copy(isAuthenticated = false, user = null, error = normalizeError(e))))
-
-    def logout() =
-      AsyncCallback.fromJsPromise(this.publicClientApplication.logout())
-
-    def getUserProfile(): AsyncCallback[Unit] =
-      (for {
-        accessToken <- this.getAccessToken(js.Array()) // TODO config.scopes
-        user        <- GraphService.getUserDetails(accessToken)
-        _           <- $.modState(_.copy(isAuthenticated = true, error = StringDictionary("message" -> "Access token:", "debug" -> accessToken))).asAsyncCallback
-      } yield ())
-        .handleError(e => $.modState(_.copy(isAuthenticated = true, user = null, error = e.getMessage)).async)
-
-    def getAccessToken(scopes: js.Array[String]): AsyncCallback[String] = {
-      val accounts = this.publicClientApplication.getAllAccounts()
-
-      if (accounts.length <= 0) throw new Error("login_required")
-      // Get the access token silently
-      // If the cache contains a non-expired token, this function
-      // will just return the cached token. Otherwise, it will
-      // make a request to the Azure OAuth endpoint to get a token
-      AsyncCallback
-        .fromJsPromise(
-          this.publicClientApplication
-            .acquireTokenSilent(SilentRequest(accounts.head, scopes))
+      private val configuration: Configuration = Configuration()
+        .setAuth(
+          BrowserAuthOptions("")
+            .setRedirectUri("http://localhost:8008")
         )
-        .handleError {
-          case e if isInteractionRequired(e) => AsyncCallback.fromJsPromise(this.publicClientApplication.acquireTokenPopup(AuthorizationUrlRequest(scopes)))
+        .setCache(
+          CacheOptions()
+            .setCacheLocation("sessionStorage")
+            .setStoreAuthStateInCookie(true)
+        )
+
+      val publicClientApplication = new PublicClientApplication(configuration)
+
+      def render(state: AuthProviderState): ScalaFn.Unmounted[AuthComponentProps] =
+        WrappedComponent(AuthComponentProps(state.error, state.isAuthenticated, state.user, login(), logout(), getAccessToken, setErrorMessage()))
+
+      def componentDidMount: Callback =
+        //val accounts = this.publicClientApplication.getAllAccounts().map(_ => this.getUserProfile)
+        this.publicClientApplication
+          .getAllAccounts()
+          .headOption
+          .fold(AsyncCallback.unit)(_ => this.getUserProfile)
+          .toCallback
+
+      //if (accounts.length > 0) {
+      // Enhance user object with data from Graph
+      //this.getUserProfile
+      //}
+
+      def login(): js.Function0[Callback] = () =>
+        // Login via popup
+        (for {
+          _ <- AsyncCallback.fromJsPromise(
+            this.publicClientApplication.loginPopup(
+              AuthorizationUrlRequest(js.Array("user.read", "mailboxsettings.read", "calendars.readwrite")).setPrompt("select_account")
+            )
+          )
+          userProfile <- this.getUserProfile
+        } yield userProfile)
+          .handleErrorSync(e => $.modState(_.copy(isAuthenticated = false, user = null, error = normalizeError(e))))
+          .toCallback
+
+      def logout(): js.Function0[Callback] = () => AsyncCallback.fromJsPromise(this.publicClientApplication.logout()).toCallback
+
+      def getUserProfile: AsyncCallback[Unit] =
+        (for {
+          accessToken <- this.getAccessToken(js.Array("user.read", "mailboxsettings.read", "calendars.readwrite"))
+          user <- GraphService.getUserDetails(accessToken)
+          _ <- $.modState(_.copy(user = user,isAuthenticated = true, error = ErrorMessageProps(debug = accessToken, message = "Access token:"))).asAsyncCallback
+        } yield ())
+          .handleError(e => $.modState(_.copy(isAuthenticated = false, user = null, error = ErrorMessageProps(message = e.getMessage))).async)
+
+      def getAccessToken: js.Function1[js.Array[String], AsyncCallback[String]] = scopes => {
+        val accounts = this.publicClientApplication.getAllAccounts()
+
+        println(js.JSON.stringify(accounts))
+        if (accounts.length <= 0) throw new Error("login_required")
+        // Get the access token silently
+        // If the cache contains a non-expired token, this function
+        // will just return the cached token. Otherwise, it will
+        // make a request to the Azure OAuth endpoint to get a token
+        AsyncCallback
+          .fromJsPromise(
+            this.publicClientApplication
+              .acquireTokenSilent(SilentRequest(accounts.head, scopes))
+          )
+          .handleError {
+            case e if isInteractionRequired(e) => AsyncCallback.fromJsPromise(this.publicClientApplication.acquireTokenPopup(AuthorizationUrlRequest(scopes)))
+          }
+          .map(_.accessToken)
+      }
+
+      def setErrorMessage(): js.Function2[String, String, Callback] =
+        (message, debug) =>
+          $.setState(
+            AuthProviderState(
+              error = ErrorMessageProps(message, debug)
+            )
+          )
+
+      def normalizeError(error: String | Throwable): ErrorMessageProps =
+        (error: Any) match { // (the upcast to Any silences a warning for Scala 2’s type system). https://contributors.scala-lang.org/t/union-types-in-scala-3/4046/7
+          case e: String if e.split('|').length > 1 =>
+            ErrorMessageProps(debug = e.split('|')(0), message = e.split('|')(1))
+          case e: String =>
+            ErrorMessageProps(message = e)
+          case e: Throwable =>
+            println(e.getMessage)
+            ErrorMessageProps(debug = js.JSON.stringify(e.getMessage), message = e.getMessage)
         }
-        .map(_.accessToken)
+
+      def isInteractionRequired(error: Throwable): Boolean =
+        if (error.getMessage.nonEmpty) {
+          false
+        } else {
+          error.getMessage.indexOf("consent_required") > -1 ||
+          error.getMessage.indexOf("interaction_required") > -1 ||
+          error.getMessage.indexOf("login_required") > -1 ||
+          error.getMessage.indexOf("no_account_in_silent_request") > -1
+        }
     }
 
-    def normalizeError(error: String | Throwable) =
-      (error: Any) match { // (the upcast to Any silences a warning for Scala 2’s type system). https://contributors.scala-lang.org/t/union-types-in-scala-3/4046/7
-        case e: String if e.split('|').length > 1 =>
-          StringDictionary("message" -> e.split('|')(1), "debug" -> e.split('|')(0))
-        case e: String                            =>
-          StringDictionary("message" -> e)
-        case e: Throwable                         =>
-          StringDictionary("message" -> e.getMessage, "debug" -> js.JSON.stringify(e.getMessage))
-      }
+    ScalaComponent
+      .builder[Unit]
+      .initialState[AuthProviderState](AuthProviderState())
+      .renderBackend[Backend]
+      .componentDidMount(_.backend.componentDidMount)
+      .build
 
-    def isInteractionRequired(error: Throwable): Boolean =
-      if (error.getMessage.nonEmpty) {
-        false
-      } else {
-        error.getMessage.indexOf("consent_required") > -1 ||
-        error.getMessage.indexOf("interaction_required") > -1 ||
-        error.getMessage.indexOf("login_required") > -1 ||
-        error.getMessage.indexOf("no_account_in_silent_request") > -1
-      }
   }
-
-  ScalaComponent
-    .builder[Unit]
-    .initialState[AuthProviderState](AuthProviderState())
-    .renderBackend[Backend]
 
 }

@@ -7,7 +7,7 @@ import typings.reactstrap.components.Alert
 
 object ErrorMessage {
 
-  case class ErrorMessageProps(debug: String, message: String)
+  case class ErrorMessageProps(debug: String = "", message: String = "")
 
   val component: Component[ErrorMessageProps, CtorType.Props] = ScalaFnComponent[ErrorMessageProps] { props =>
     Alert().color("danger")(
