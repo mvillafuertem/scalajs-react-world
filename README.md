@@ -12,25 +12,27 @@ WITH THE COMMAND `sbt docs/mdoc`
     <img src="https://github.com/mvillafuertem/scalajs-react-world/workflows/scalaci/badge.svg"/>
   </a>
   <a href="https://www.scala-js.org">
-    <img src="https://img.shields.io/badge/scala.js-1.1.1-red.svg?logo=scala&logoColor=red"/>
+    <img src="https://img.shields.io/badge/scala.js-1.3.0-red.svg?logo=scala&logoColor=red"/>
   </a>
   <a href="https://www.oracle.com/technetwork/java/javase/11all-relnotes-5013287.html">
     <img src="https://img.shields.io/badge/jdk-11.0.8-orange.svg?logo=java&logoColor=white"/>
   </a>
   <a href="https://github.com/sbt/sbt/releases">
-    <img src="https://img.shields.io/badge/sbt-1.3.13-blue.svg?logo=sbt"/>
+    <img src="https://img.shields.io/badge/sbt-1.4.1-blue.svg?logo=sbt"/>
   </a>
 </p>
 
 ## Real World Examples
 
-https://mvillafuertem.github.io/scalajs-react-world/heroes/
+https://mvillafuertem.github.io/scalajs-react-world/calendar/
+
+https://mvillafuertem.github.io/scalajs-react-world/dashboard/
 
 https://mvillafuertem.github.io/scalajs-react-world/gif-finder/
 
-https://mvillafuertem.github.io/scalajs-react-world/journal/
+https://mvillafuertem.github.io/scalajs-react-world/heroes/
 
-https://mvillafuertem.github.io/scalajs-react-world/dashboard/
+https://mvillafuertem.github.io/scalajs-react-world/journal/
 
 ## Libraries
 
