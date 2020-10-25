@@ -241,8 +241,8 @@ lazy val baseSettings: Project => Project =
         "dev.zio"                      %%% "zio"             % "1.0.1",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
         "org.scalatest"                %%% "scalatest"       % "3.2.1" % Test,
-        "com.softwaremill.sttp.client" %%% "core"            % "2.2.7",
-        "com.softwaremill.sttp.client" %%% "circe"           % "2.2.7",
+        "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
+        "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",
         "io.circe"                     %%% "circe-generic"   % "0.13.0"
       )
