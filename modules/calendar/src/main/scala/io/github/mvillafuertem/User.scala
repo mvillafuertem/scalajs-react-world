@@ -1,3 +1,3 @@
 package io.github.mvillafuertem
 
-case class User(avatar: String = "", displayName: String = "", email: String = "")
+case class User(avatar: String = "", displayName: String = "", email: String = "", timeZone: String = "")

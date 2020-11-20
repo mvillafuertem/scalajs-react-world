@@ -1,16 +1,14 @@
 package io.github.mvillafuertem
 
 import io.github.mvillafuertem.ErrorMessage.ErrorMessageProps
-import japgolly.scalajs.react.component.JsFn.Unmounted
 import japgolly.scalajs.react.component.Scala.BackendScope
 import japgolly.scalajs.react.component.ScalaFn
-import japgolly.scalajs.react.internal.Box
-import japgolly.scalajs.react.raw.React.ComponentClassP
 import japgolly.scalajs.react.{ AsyncCallback, Callback, CtorType, ScalaComponent }
 import typings.azureMsalBrowser.configurationMod.{ BrowserAuthOptions, CacheOptions, Configuration }
 import typings.azureMsalBrowser.mod.PublicClientApplication
 import typings.azureMsalBrowser.silentRequestMod.SilentRequest
 import typings.azureMsalCommon.authorizationUrlRequestMod.AuthorizationUrlRequest
+
 import scala.language.existentials
 import scala.scalajs.js
 import scala.scalajs.js.|
@@ -49,17 +47,11 @@ object AuthProvider {
         WrappedComponent(AuthComponentProps(state.error, state.isAuthenticated, state.user, login(), logout(), getAccessToken, setErrorMessage()))
 
       def componentDidMount: Callback =
-        //val accounts = this.publicClientApplication.getAllAccounts().map(_ => this.getUserProfile)
         this.publicClientApplication
           .getAllAccounts()
           .headOption
           .fold(AsyncCallback.unit)(_ => this.getUserProfile)
           .toCallback
-
-      //if (accounts.length > 0) {
-      // Enhance user object with data from Graph
-      //this.getUserProfile
-      //}
 
       def login(): js.Function0[Callback] = () =>
         // Login via popup
@@ -80,7 +72,9 @@ object AuthProvider {
         (for {
           accessToken <- this.getAccessToken(js.Array("user.read", "mailboxsettings.read", "calendars.readwrite"))
           user <- GraphService.getUserDetails(accessToken)
-          _ <- $.modState(_.copy(user = user,isAuthenticated = true, error = ErrorMessageProps(debug = accessToken, message = "Access token:"))).asAsyncCallback
+          _ <- $.modState(
+            _.copy(user = user, isAuthenticated = true, error = ErrorMessageProps(debug = accessToken, message = "Access token:"))
+          ).asAsyncCallback
         } yield ())
           .handleError(e => $.modState(_.copy(isAuthenticated = false, user = null, error = ErrorMessageProps(message = e.getMessage))).async)
 

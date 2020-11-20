@@ -26,11 +26,15 @@ lazy val calendar =
         "@azure/msal-browser"               -> "2.3.0",
         "@fortawesome/fontawesome-free"     -> "5.14.0",
         "@microsoft/microsoft-graph-client" -> "2.1.0",
+        "@types/microsoft-graph"            -> "1.18.0",
         "@types/react-router-dom"           -> "5.1.2",
         "@types/reactstrap"                 -> "8.5.1",
         "bootstrap"                         -> "4.5.2",
+        "moment"                            -> "2.27.0",
+        "moment-timezone"                   -> "0.5.31",
         "react-router-dom"                  -> "5.1.2",
-        "reactstrap"                        -> "8.5.1"
+        "reactstrap"                        -> "8.5.1",
+        "windows-iana"                      -> "4.2.1"
       )
     )
 
