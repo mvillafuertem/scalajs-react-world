@@ -7,4 +7,4 @@ pull_request_rules:
       merge:
         method: squash
         commit_message:
-          title: {{ title | replace("Update", "chore(Dependencies) : update")}}
+          title: {{title | replace("Update", "chore(Dependencies) : update")}}
