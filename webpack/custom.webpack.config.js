@@ -2,6 +2,9 @@ var merge = require('webpack-merge');
 var generated = require('./scalajs.webpack.config');
 
 var local = {
+    devServer: {
+        historyApiFallback: true // https://blog.jimmydc.com/webpack-history-api-fallback/
+    },
     module: {
         rules: [
             {
