@@ -5,7 +5,7 @@ import slinky.core.annotations.react
 import slinky.web.html._
 import typings.materialUiCore.components.Button
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{BrowserRouter, Link, Route, Switch}
+import typings.reactRouterDom.components.{HashRouter => Router, Link, Route, Switch}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -23,7 +23,7 @@ object AppCSS extends js.Object
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { _ =>
     div(className := "App")(
       h1("Welcome to React (with Scala.js!)"),
-      BrowserRouter(
+      Router(
         div(
           Link[String](to = "/")(
             Button("Home")

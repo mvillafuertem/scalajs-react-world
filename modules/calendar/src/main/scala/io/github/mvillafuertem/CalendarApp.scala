@@ -9,7 +9,7 @@ import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.document
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{Redirect, Route, BrowserRouter => Router}
+import typings.reactRouterDom.components.{Redirect, Route, HashRouter => Router}
 import typings.reactstrap.components.Container
 import zio.{App, ExitCode, IO, ZIO}
 
@@ -32,12 +32,9 @@ object CalendarApp extends App {
 
   object App {
 
-    /* the production build is deployed at github pages under /calendar , while dev build is server from root of webpack-dev-server */
-    val basename: String = if (scala.scalajs.runtime.linkingInfo.productionMode) "/scalajs-react-world/calendar/" else ""
-
     val component: Component[AuthComponentProps, CtorType.Props] = ScalaFnComponent[AuthComponentProps] { props =>
 
-      Router.basename(basename)(
+      Router(
         <.div(
           NavBar.component(NavBarProps(props.isAuthenticated, _ => props.logout(), props.user)).when(props.isAuthenticated),
           NavBar.component(NavBarProps(props.isAuthenticated, _ => props.login(), props.user)).when(!props.isAuthenticated),

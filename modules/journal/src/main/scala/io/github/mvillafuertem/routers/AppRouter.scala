@@ -12,7 +12,7 @@ import typings.firebase.mod.{ Observer, User }
 import typings.react.mod.{ useEffect, useState, EffectCallback }
 import typings.reactRedux.mod.useDispatch
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, Switch, BrowserRouter => Router }
+import typings.reactRouterDom.components.{ Redirect, Route, Switch, HashRouter => Router }
 import typings.reduxThunk.mod.{ ThunkAction, ThunkDispatch }
 import io.github.mvillafuertem.store.thunkDispatch
 
@@ -65,7 +65,7 @@ object AppRouter {
     }
 
     <.div(
-      Router.basename(basename)(
+      Router(
         <.div(
           Switch(
             Route(

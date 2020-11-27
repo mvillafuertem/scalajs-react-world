@@ -5,7 +5,7 @@ import io.github.mvillafuertem.model.Hero
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html.{p, _}
-import typings.reactRouterDom.components.{Link, Switch, BrowserRouter => Router}
+import typings.reactRouterDom.components.{Link, Switch, HashRouter => Router}
 
 import scala.scalajs.js
 

@@ -20,7 +20,7 @@ import typings.materialUiIcons.{ components => Icons }
 import typings.materialUiStyles.makeStylesMod.StylesHook
 import typings.materialUiStyles.withStylesMod.{ CSSProperties, Styles }
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ BrowserRouter, Route, Switch }
+import typings.reactRouterDom.components.{ HashRouter => Router, Route, Switch }
 
 import scala.scalajs.js
 
@@ -164,7 +164,7 @@ import scala.scalajs.js
               )
             )
         ),
-      BrowserRouter(
+      Router(
         Drawer
           .variant(permanent)
           .classes(

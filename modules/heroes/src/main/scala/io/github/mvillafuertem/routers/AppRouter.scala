@@ -7,7 +7,7 @@ import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html.div
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, Switch, BrowserRouter => Router }
+import typings.reactRouterDom.components.{ Redirect, Route, Switch, HashRouter => Router }
 
 @react object AppRouter {
 
@@ -16,7 +16,7 @@ import typings.reactRouterDom.components.{ Redirect, Route, Switch, BrowserRoute
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { _ =>
     val (state, _) = Hooks.useContext(authContext)
 
-    Router.basename(basename)(
+    Router(
       div(
         Switch(
           //Route(RouteProps().setExact(true).setPath("/login").setRender(props => LoginScreen(props.history))),
