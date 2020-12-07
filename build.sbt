@@ -77,7 +77,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
-  .in(file("modules/chat/chat-shared-sources"))
+  .in(file("modules/chat/chat-shared"))
   .jsConfigure(_.enablePlugins(ScalaJSWeb))
   .settings(
     scalaVersion := "2.13.1",
