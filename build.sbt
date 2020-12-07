@@ -7,6 +7,8 @@ lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(`gif-finder`)
   .aggregate(`simple-test`)
   .aggregate(calendar)
+  .aggregate(`chat-backend`)
+  .aggregate(`chat-frontend`)
   .aggregate(dashboard)
   .aggregate(heroes)
   .aggregate(journal)
@@ -37,6 +39,62 @@ lazy val calendar =
         "windows-iana"                      -> "4.2.1"
       )
     )
+
+lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
+  .settings(scalaVersion := "2.13.1", organization := "io.github.mvillafuertem")
+  .settings(
+    scalaJSProjects          := Seq(`chat-frontend`),
+    pipelineStages in Assets := Seq(scalaJSPipeline),
+    // triggers scalaJSPipeline when using compile or continuous compilation
+    compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-http"       % "10.2.1",
+      "com.typesafe.akka" %% "akka-stream"     % "2.6.10",
+      "com.vmunier"       %% "scalajs-scripts" % "1.1.4"
+    ),
+    WebKeys.packagePrefix in Assets := "public/",
+    managedClasspath in Runtime += (packageBin in Assets).value
+  )
+  .enablePlugins(SbtWeb, SbtTwirl, JavaAppPackaging)
+  .dependsOn(chatSharedJvm)
+
+lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
+  .enablePlugins(ScalablyTypedConverterPlugin)
+  .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(ScalaJSWeb)
+  .configure(baseSettings,
+    //browserProject,
+    reactNpmDeps, bundlerSettings, withCssLoading)
+  .settings(
+    addCommandAlias("chat-frontend", "project chat-frontend;fastOptJS::startWebpackDevServer;~fastOptJS"),
+    webpackDevServerPort := 8008,
+    stFlavour            := Flavour.Japgolly,
+    libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+    stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
+    Compile / npmDependencies ++= Seq(
+      "@types/react-router-dom" -> "5.1.2",
+      "react-router-dom"        -> "5.1.2"
+    )
+  )
+  .settings(
+    scalaJSUseMainModuleInitializer := true,
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0"
+    )
+  )
+  .dependsOn(chatSharedJs)
+
+lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("modules/chat/chat-shared"))
+  .jsConfigure(_.enablePlugins(ScalaJSWeb))
+  .settings(
+    scalaVersion := "2.13.1",
+    organization := "io.github.mvillafuertem"
+  )
+
+lazy val chatSharedJvm = `chat-shared`.jvm
+lazy val chatSharedJs  = `chat-shared`.js
 
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
