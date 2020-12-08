@@ -12,6 +12,13 @@ lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(dashboard)
   .aggregate(heroes)
   .aggregate(journal)
+  .settings(commands += Command.command("chat-release") { state =>
+    "chat-frontend/clean" ::
+      "chat-backend/clean" ::
+      "chat-backend/compile" ::
+      "chat-backend/stage" ::
+      state
+  })
 
 lazy val calendar =
   (project in file("modules/calendar"))
@@ -32,6 +39,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .settings(
     scalaJSProjects          := Seq(`chat-frontend`),
     pipelineStages in Assets := Seq(scalaJSPipeline),
+    // pipelineStages := Seq(digest, gzip),
     // triggers scalaJSPipeline when using compile or continuous compilation
     compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
     libraryDependencies ++= Seq(
@@ -40,9 +48,12 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.vmunier"       %% "scalajs-scripts" % "1.1.4"
     ),
     WebKeys.packagePrefix in Assets := "public/",
-    managedClasspath in Runtime += (packageBin in Assets).value
+    managedClasspath in Runtime += (packageBin in Assets).value,
+    // Expose as sbt-web assets some files retrieved from the NPM packages of the `client` project
+    npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
   )
-  .enablePlugins(SbtWeb, SbtTwirl, JavaAppPackaging)
+  .configure(DockerSettings.value)
+  .enablePlugins(WebScalaJSBundlerPlugin, SbtTwirl, JavaAppPackaging)
   .dependsOn(chatSharedJvm)
 
 lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
@@ -51,7 +62,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   .enablePlugins(ScalaJSWeb)
   .configure(
     baseSettings,
-    //browserProject,
+    browserProject,
     reactNpmDeps,
     bundlerSettings,
     withCssLoading
@@ -64,7 +75,8 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
     Compile / npmDependencies ++= Seq(
       "@types/react-router-dom" -> "5.1.2",
-      "react-router-dom"        -> "5.1.2"
+      "react-router-dom"        -> "5.1.2",
+      "bootstrap"               -> "4.5.3"
     )
   )
   .settings(

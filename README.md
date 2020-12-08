@@ -21,16 +21,67 @@ WITH THE COMMAND `sbt docs/mdoc`
 
 ## Real World Examples
 
-https://mvillafuertem.github.io/scalajs-react-world/calendar/ is 
+### [Calendar](https://mvillafuertem.github.io/scalajs-react-world/calendar/)
+
+[Calendar](https://mvillafuertem.github.io/scalajs-react-world/calendar/) is 
 inspired by [microsoft graph training](https://github.com/microsoftgraph/msgraph-training-reactspa)
 
-https://mvillafuertem.github.io/scalajs-react-world/dashboard/
+### Chat
 
-https://mvillafuertem.github.io/scalajs-react-world/gif-finder/
+#### Backend Development
 
-https://mvillafuertem.github.io/scalajs-react-world/heroes/
+```shell script
 
-https://mvillafuertem.github.io/scalajs-react-world/journal/
+sbt "project chat-backend; ~reStart"
+
+```
+
+#### Frontend Development
+
+```shell script
+
+sbt chat-frontend
+
+```
+
+#### Docker 
+
+```shell script
+
+sbt chat-backend/docker:publishLocal && \
+docker run --rm -p 8080:8080 user/chat-backend:0.1.0
+
+```
+
+#### Production Build
+
+```shell script
+
+sbt chat-release
+
+```
+
+Creates an optimized Client bundle and adds it to the Server Library.
+
+The whole distribution you can find here: `./modules/chat/chat-backend/target/universal/stage`.
+
+You can start the server like this:
+
+* Mac / Linux: `./modules/chat/chat-backend/target/universal/stage/bin/chat-backend`
+* Windows: `./modules/chat/chat-backend/target/universal/stage/bin/chat-backend`
+
+
+
+### [Dashboard](https://mvillafuertem.github.io/scalajs-react-world/dashboard/)
+
+[Dashboard](https://mvillafuertem.github.io/scalajs-react-world/dashboard/) is 
+inspired by [material-ui layout example](https://v3.material-ui.com/getting-started/page-layout-examples/dashboard/)
+
+### [Gif Finder](https://mvillafuertem.github.io/scalajs-react-world/gif-finder/)
+
+### [Heroes](https://mvillafuertem.github.io/scalajs-react-world/heroes/)
+
+### [Journal](https://mvillafuertem.github.io/scalajs-react-world/journal/)
 
 ## Libraries
 

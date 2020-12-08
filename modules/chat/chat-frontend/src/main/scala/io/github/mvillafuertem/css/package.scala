@@ -13,4 +13,8 @@ package object css {
   @js.native
   object LoginRegisterCSS extends js.Object
 
+  @JSImport("./node_modules/bootstrap/dist/css/bootstrap.min.css", JSImport.Namespace)
+  @js.native
+  object BootstrapMinCSS extends js.Object
+
 }
