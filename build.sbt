@@ -47,7 +47,10 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http"       % "10.2.1",
       "com.typesafe.akka" %% "akka-stream"     % "2.6.10",
-      "com.vmunier"       %% "scalajs-scripts" % "1.1.4"
+      "com.vmunier"       %% "scalajs-scripts" % "1.1.4",
+      "org.http4s" %% "http4s-dsl" % "0.21.12",
+      "org.http4s" %% "http4s-blaze-server" % "0.21.12"
+
     ),
     //WebKeys.packagePrefix in Assets := "public/",
     //managedClasspath in Runtime += (packageBin in Assets).value,

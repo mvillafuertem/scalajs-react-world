@@ -5,7 +5,7 @@ import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^.<
 import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, Switch, HashRouter => Router }
+import typings.reactRouterDom.components.{ Redirect, Route, Switch, BrowserRouter => Router }
 
 object AppRouter {
 

@@ -48,7 +48,7 @@ sbt chat-frontend
 
 ```shell script
 
-sbt chat-backend/docker:publishLocal && \
+sbt "chat-release;chat-backend/docker:publishLocal" && \
 docker run --rm -p 8080:8080 user/chat-backend:0.1.0
 
 ```
