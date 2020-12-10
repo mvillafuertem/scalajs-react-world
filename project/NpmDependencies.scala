@@ -15,7 +15,20 @@ object NpmDependencies {
     Package.`windows-iana`                      -> Version.`windows-iana`
   )
 
-  lazy val `chat`: Seq[(String, String)] = Seq()
+  lazy val `chat-frontend`: Seq[(String, String)] = Seq(
+    "@types/react-router-dom" -> "5.1.2",
+    "react-router-dom"        -> "5.1.2",
+    "bootstrap"               -> "4.5.3"
+  )
+
+  lazy val `chat-frontend-dev`: Seq[(String, String)] = Seq(
+      "file-loader"         -> "6.0.0",
+      "style-loader"        -> "1.2.1",
+      "css-loader"          -> "3.5.3",
+      "html-webpack-plugin" -> "4.3.0",
+      "copy-webpack-plugin" -> "5.1.1",
+      "webpack-merge"       -> "4.2.2"
+  )
 
   lazy val `dashboard`: Seq[(String, String)] = Seq(
     Package.`@material-ui/core`       -> Version.`@material-ui/core`,

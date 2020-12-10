@@ -1,25 +1,18 @@
 package io.github.mvillafuertem
 
-import akka.http.scaladsl.server.Directives
-import io.github.mvillafuertem.shared.SharedMessages
-import io.github.mvillafuertem.twirl.Implicits._
+import akka.http.scaladsl.model.ContentType
+import akka.http.scaladsl.model.HttpCharsets.`UTF-8`
+import akka.http.scaladsl.model.MediaTypes.`text/html`
+import akka.http.scaladsl.server.{Directives, Route}
 
 class WebService() extends Directives {
 
-  val route = {
-    pathSingleSlash {
+  def assets: Route =
+    getFromResourceDirectory("assets") ~ pathSingleSlash {
       get {
-        complete {
-          io.github.mvillafuertem.html.index.render(SharedMessages.itWorks)
-        }
+        getFromResource("assets/index.html", ContentType(`text/html`, `UTF-8`))
       }
-    } ~
-      pathPrefix("assets" / Remaining) { file =>
-        // optionally compresses the response with Gzip or Deflate
-        // if the client accepts compressed responses
-        encodeResponse {
-          getFromResource("public/" + file)
-        }
-      }
-  }
+    }
+
+  val route = assets
 }

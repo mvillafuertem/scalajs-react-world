@@ -14,6 +14,7 @@ lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(journal)
   .settings(commands += Command.command("chat-release") { state =>
     "chat-frontend/clean" ::
+    "chat-frontend/fullOptJS::webpack" ::
       "chat-backend/clean" ::
       "chat-backend/compile" ::
       "chat-backend/stage" ::
@@ -37,47 +38,40 @@ lazy val calendar =
 lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .settings(scalaVersion := "2.13.1", organization := "io.github.mvillafuertem")
   .settings(
-    scalaJSProjects          := Seq(`chat-frontend`),
-    pipelineStages in Assets := Seq(scalaJSPipeline),
+    //scalaJSProjects          := Seq(`chat-frontend`),
+    //Assets / pipelineStages := Seq(scalaJSPipeline),
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
     // pipelineStages := Seq(digest, gzip),
     // triggers scalaJSPipeline when using compile or continuous compilation
-    compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
+    //Compile / compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http"       % "10.2.1",
       "com.typesafe.akka" %% "akka-stream"     % "2.6.10",
       "com.vmunier"       %% "scalajs-scripts" % "1.1.4"
     ),
-    WebKeys.packagePrefix in Assets := "public/",
-    managedClasspath in Runtime += (packageBin in Assets).value,
+    //WebKeys.packagePrefix in Assets := "public/",
+    //managedClasspath in Runtime += (packageBin in Assets).value,
     // Expose as sbt-web assets some files retrieved from the NPM packages of the `client` project
-    npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
+   // npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
   )
   .configure(DockerSettings.value)
-  .enablePlugins(WebScalaJSBundlerPlugin, SbtTwirl, JavaAppPackaging)
-  .dependsOn(chatSharedJvm)
+  .enablePlugins(JavaAppPackaging)
+  .dependsOn(`chat-shared`.jvm)
 
 lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   .enablePlugins(ScalablyTypedConverterPlugin)
   .enablePlugins(ScalaJSPlugin)
-  .enablePlugins(ScalaJSWeb)
   .configure(
-    baseSettings,
-    browserProject,
+    WebpackSettings.value,
     reactNpmDeps,
-    bundlerSettings,
-    withCssLoading
   )
   .settings(
-    addCommandAlias("chat-frontend", "project chat-frontend;fastOptJS::startWebpackDevServer;~fastOptJS"),
-    webpackDevServerPort := 8008,
+    addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
     stFlavour            := Flavour.Japgolly,
     libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
-    Compile / npmDependencies ++= Seq(
-      "@types/react-router-dom" -> "5.1.2",
-      "react-router-dom"        -> "5.1.2",
-      "bootstrap"               -> "4.5.3"
-    )
+    Compile / npmDependencies ++= NpmDependencies.`chat-frontend`,
+    Compile / npmDevDependencies ++= NpmDependencies.`chat-frontend-dev`,
   )
   .settings(
     scalaJSUseMainModuleInitializer := true,
@@ -85,19 +79,27 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
       "org.scala-js" %%% "scalajs-dom" % "1.1.0"
     )
   )
-  .dependsOn(chatSharedJs)
+  .dependsOn(`chat-shared`.js)  .settings(
+  scalaVersion := "2.13.1",
+  organization := "io.github.mvillafuertem",
+  libraryDependencies ++= Seq(
+    "dev.zio"                      %%% "zio"             % "1.0.3",
+    "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
+    "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
+    "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
+    "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
+    "io.circe"                     %%% "circe-optics"    % "0.13.0",
+    "io.circe"                     %%% "circe-generic"   % "0.13.0"
+  )
+)
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/chat/chat-shared"))
-  .jsConfigure(_.enablePlugins(ScalaJSWeb))
   .settings(
     scalaVersion := "2.13.1",
     organization := "io.github.mvillafuertem"
   )
-
-lazy val chatSharedJvm = `chat-shared`.jvm
-lazy val chatSharedJs  = `chat-shared`.js
 
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
