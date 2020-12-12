@@ -4,6 +4,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
+  devServer: {
+    historyApiFallback: true // https://blog.jimmydc.com/webpack-history-api-fallback/
+  },
   resolve: {
     alias: {
       "resources": path.resolve(__dirname, "../../../../src/main/resources"),

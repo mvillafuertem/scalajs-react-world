@@ -1,7 +1,7 @@
+import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
+
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
-
-import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
 
 lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(`gif-finder`)
@@ -14,7 +14,7 @@ lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(journal)
   .settings(commands += Command.command("chat-release") { state =>
     "chat-frontend/clean" ::
-    "chat-frontend/fullOptJS::webpack" ::
+      "chat-frontend/fullOptJS::webpack" ::
       "chat-backend/clean" ::
       "chat-backend/compile" ::
       "chat-backend/stage" ::
@@ -45,17 +45,19 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
     // triggers scalaJSPipeline when using compile or continuous compilation
     //Compile / compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-http"       % "10.2.1",
-      "com.typesafe.akka" %% "akka-stream"     % "2.6.10",
-      "com.vmunier"       %% "scalajs-scripts" % "1.1.4",
-      "org.http4s" %% "http4s-dsl" % "0.21.12",
-      "org.http4s" %% "http4s-blaze-server" % "0.21.12"
-
-    ),
+      "com.typesafe.akka"  %% "akka-http"                   % "10.2.1",
+      "com.typesafe.akka"  %% "akka-stream"                 % "2.6.10",
+      "com.typesafe.akka"  %% "akka-slf4j"                  % "2.6.10",
+      "com.lightbend.akka" %% "akka-stream-alpakka-mongodb" % "2.0.2",
+      "org.mongodb.scala"  %% "mongo-scala-bson"            % "2.9.0",
+      "ch.qos.logback"      % "logback-classic"             % "1.2.3",
+      "org.http4s"         %% "http4s-dsl"                  % "0.21.12",
+      "org.http4s"         %% "http4s-blaze-server"         % "0.21.12"
+    )
     //WebKeys.packagePrefix in Assets := "public/",
     //managedClasspath in Runtime += (packageBin in Assets).value,
     // Expose as sbt-web assets some files retrieved from the NPM packages of the `client` project
-   // npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
+    // npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
   )
   .configure(DockerSettings.value)
   .enablePlugins(JavaAppPackaging)
@@ -66,15 +68,15 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   .enablePlugins(ScalaJSPlugin)
   .configure(
     WebpackSettings.value,
-    reactNpmDeps,
+    reactNpmDeps
   )
   .settings(
     addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
-    stFlavour            := Flavour.Japgolly,
+    stFlavour := Flavour.Japgolly,
     libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
     Compile / npmDependencies ++= NpmDependencies.`chat-frontend`,
-    Compile / npmDevDependencies ++= NpmDependencies.`chat-frontend-dev`,
+    Compile / npmDevDependencies ++= NpmDependencies.`chat-frontend-dev`
   )
   .settings(
     scalaJSUseMainModuleInitializer := true,
@@ -82,19 +84,20 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
       "org.scala-js" %%% "scalajs-dom" % "1.1.0"
     )
   )
-  .dependsOn(`chat-shared`.js)  .settings(
-  scalaVersion := "2.13.1",
-  organization := "io.github.mvillafuertem",
-  libraryDependencies ++= Seq(
-    "dev.zio"                      %%% "zio"             % "1.0.3",
-    "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
-    "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
-    "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
-    "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
-    "io.circe"                     %%% "circe-optics"    % "0.13.0",
-    "io.circe"                     %%% "circe-generic"   % "0.13.0"
+  .dependsOn(`chat-shared`.js)
+  .settings(
+    scalaVersion := "2.13.1",
+    organization := "io.github.mvillafuertem",
+    libraryDependencies ++= Seq(
+      "dev.zio"                      %%% "zio"             % "1.0.3",
+      "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
+      "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
+      "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
+      "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
+      "io.circe"                     %%% "circe-optics"    % "0.13.0",
+      "io.circe"                     %%% "circe-generic"   % "0.13.0"
+    )
   )
-)
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
