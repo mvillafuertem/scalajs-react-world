@@ -2,7 +2,7 @@ package io.github.mvillafuertem
 
 import com.typesafe.config.{ Config, ConfigFactory }
 
-final case class MongoDBConfigurationProperties(user: String, password: String, hostname: String, port: Int) {
+final case class MongoDBConfigurationProperties(user: String, password: String, hostname: String, port: Int, database: String) {
 
   def withUser(user: String): MongoDBConfigurationProperties =
     copy(user = user)
@@ -16,6 +16,9 @@ final case class MongoDBConfigurationProperties(user: String, password: String, 
   def withPort(port: Int): MongoDBConfigurationProperties =
     copy(port = port)
 
+  def withDatabase(database: String): MongoDBConfigurationProperties =
+    copy(database = database)
+
 }
 
 object MongoDBConfigurationProperties {
@@ -28,7 +31,7 @@ object MongoDBConfigurationProperties {
       password = config.getString("password"),
       hostname = config.getString("hostname"),
       port = config.getInt("port"),
+      database = config.getString("database")
     )
 
 }
-

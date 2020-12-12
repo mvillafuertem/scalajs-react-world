@@ -36,14 +36,11 @@ lazy val calendar =
     )
 
 lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
+  .configs(IntegrationTest)
+  .settings(Defaults.itSettings)
   .settings(scalaVersion := "2.13.1", organization := "io.github.mvillafuertem")
   .settings(
-    //scalaJSProjects          := Seq(`chat-frontend`),
-    //Assets / pipelineStages := Seq(scalaJSPipeline),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
-    // pipelineStages := Seq(digest, gzip),
-    // triggers scalaJSPipeline when using compile or continuous compilation
-    //Compile / compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
     libraryDependencies ++= Seq(
       "com.typesafe.akka"  %% "akka-http"                   % "10.2.1",
       "com.typesafe.akka"  %% "akka-stream"                 % "2.6.10",
@@ -52,12 +49,10 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "org.mongodb.scala"  %% "mongo-scala-bson"            % "2.9.0",
       "ch.qos.logback"      % "logback-classic"             % "1.2.3",
       "org.http4s"         %% "http4s-dsl"                  % "0.21.12",
-      "org.http4s"         %% "http4s-blaze-server"         % "0.21.12"
+      "org.http4s"         %% "http4s-blaze-server"         % "0.21.12",
+      "org.scalatest"      %% "scalatest"                   % "3.2.3"  % IntegrationTest,
+      "com.dimafeng"       %% "testcontainers-scala-core"   % "0.38.7" % IntegrationTest
     )
-    //WebKeys.packagePrefix in Assets := "public/",
-    //managedClasspath in Runtime += (packageBin in Assets).value,
-    // Expose as sbt-web assets some files retrieved from the NPM packages of the `client` project
-    // npmAssets ++= NpmAssets.ofProject(`chat-frontend`)(modules => (modules / "bootstrap").allPaths).value
   )
   .configure(DockerSettings.value)
   .enablePlugins(JavaAppPackaging)

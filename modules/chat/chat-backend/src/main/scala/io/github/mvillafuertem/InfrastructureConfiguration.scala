@@ -1,11 +1,12 @@
 package io.github.mvillafuertem
 
-import akka.NotUsed
+import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import akka.stream.alpakka.mongodb.scaladsl.MongoSource
+import akka.stream.alpakka.mongodb.scaladsl.{MongoSink, MongoSource}
 import akka.stream.scaladsl.{Sink, Source}
-import com.mongodb.reactivestreams.client.{MongoClient, MongoClients}
+import com.mongodb.reactivestreams.client.{MongoClient, MongoClients, MongoDatabase}
+import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
 import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros._
@@ -27,13 +28,13 @@ object InfrastructureConfiguration extends App {
     val password = mongoDBConfigurationProperties.password
     val hostname = mongoDBConfigurationProperties.hostname
     val port     = mongoDBConfigurationProperties.port
-    s"mongodb://$user:$password@$hostname:$port"
+    s"mongodb://$hostname:$port"
   }
 
   val client: MongoClient = MongoClients.create(connectionString)
-  private val db     = client.getDatabase("MongoSourceSpec")
+  private val db: MongoDatabase = client.getDatabase("chat")
   private val numbersColl = db
-    .getCollection("numbers", classOf[Number])
+    .getCollection("users", classOf[Number])
     .withCodecRegistry(codecRegistry)
 
   implicit val system = ActorSystem()
@@ -46,5 +47,21 @@ object InfrastructureConfiguration extends App {
   val rows: Future[Seq[Number]] = source.runWith(Sink.seq)
 
   rows.map(println)
+  val testRange = 0 until 10
+  val numbersDocumentColl                              = db.getCollection("numbersSink")
+
+
+  val s: Source[Document, NotUsed] = Source(testRange).map(i => Document.parse(s"""{"value":$i}"""))
+  val completion = s.runWith(MongoSink.insertOne(numbersDocumentColl))
+
+  completion.map(a => assert(a == Done))
+  val found: Future[Seq[Document]] = Source.fromPublisher(numbersDocumentColl.find()).runWith(Sink.seq)
+
+  private val future: Future[Seq[Integer]] = for {
+    a <- Source.fromPublisher(numbersDocumentColl.find()).runWith(Sink.seq)
+    b <- Future(a.map(_.getInteger("value")))
+  } yield b
+
+  future.map(println)
 
 }

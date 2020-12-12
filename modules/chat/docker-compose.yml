@@ -1,18 +1,32 @@
 version: '3.8'
 
+networks:
+  mongo-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        # Change this subnet range if it conflicts with your personal/work network
+        - subnet: 192.168.213.0/24
+          gateway: 192.168.213.1
+
 services:
 
   mongo:
     image: mongo:4.2.11
+    hostname: mongo
     ports:
       - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./chat-backend/src/main/resources/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - mongo-net
 
   mongoclient:
     image: mongoclient/mongoclient:4.0.1
     ports:
       - 3000:3000
-    volumes:
-      - /tmp/mongoclient/db:/data/db
+    depends_on:
+      - mongo
+    networks:
+      - mongo-net
