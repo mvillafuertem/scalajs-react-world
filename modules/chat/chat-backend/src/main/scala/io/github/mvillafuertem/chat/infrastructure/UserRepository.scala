@@ -36,7 +36,7 @@ object UserRepository {
   def findUserByEmail(email: String): stream.ZStream[ZUserRepository, Throwable, User] =
     stream.ZStream.accessStream(_.get.findUserByEmail(email))
 
-  val live: ZLayer[Has[MongoDatabase], Nothing, ZUserRepository] =
+  val live: ZLayer[Has[MongoDatabase], Nothing, Has[UserRepository]] =
     ZLayer.fromService[MongoDatabase, UserRepository](UserRepository(_))
 
   def make(mongoDatabase: MongoDatabase): ULayer[ZUserRepository] =

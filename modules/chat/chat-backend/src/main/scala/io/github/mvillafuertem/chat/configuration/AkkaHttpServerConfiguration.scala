@@ -3,10 +3,10 @@ package io.github.mvillafuertem.chat.configuration
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.adapter._
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.ContentType
 import akka.http.scaladsl.model.HttpCharsets.`UTF-8`
 import akka.http.scaladsl.model.MediaTypes.`text/html`
-import akka.http.scaladsl.model.{ ContentType, ContentTypes, HttpEntity, StatusCodes }
-import akka.http.scaladsl.server.Directives.{ complete, get, getFromResource, getFromResourceDirectory, path, pathEndOrSingleSlash, pathSingleSlash, redirect }
+import akka.http.scaladsl.server.Directives.{ getFromResource, getFromResourceDirectory, pathEndOrSingleSlash }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteConcatenation._
 import akka.stream.Materializer
@@ -35,8 +35,8 @@ trait AkkaHttpServerConfiguration {
     ]((actorSystem, executionContext, properties) => make(actorSystem, executionContext, properties))
 
   def assets: Route =
-     pathEndOrSingleSlash {
-        redirect("assets/index.html", StatusCodes.PermanentRedirect)
+    pathEndOrSingleSlash {
+      getFromResource("assets/index.html", ContentType(`text/html`, `UTF-8`))
     } ~ getFromResourceDirectory("assets")
 
   val route = assets
