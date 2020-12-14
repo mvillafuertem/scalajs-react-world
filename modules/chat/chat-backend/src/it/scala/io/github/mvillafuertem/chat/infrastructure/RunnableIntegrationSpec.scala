@@ -3,7 +3,7 @@ package io.github.mvillafuertem.chat.infrastructure
 import com.dimafeng.testcontainers.{ DockerComposeContainer, ExposedService }
 import com.mongodb.reactivestreams.client.{ MongoClient, MongoClients, MongoDatabase }
 import io.github.mvillafuertem.chat.configuration.properties.MongoDBConfigurationProperties
-import io.github.mvillafuertem.chat.infrastructure.RunnableIntegrationSpec.ZIntegrationSpecEnv
+import io.github.mvillafuertem.chat.infrastructure.RunnableIntegrationSpec._
 import org.testcontainers.containers
 import org.testcontainers.containers.wait.strategy.Wait
 import zio._
@@ -28,20 +28,19 @@ trait RunnableIntegrationSpec extends RunnableSpec[ZIntegrationSpecEnv, Any] {
       zio.test.environment.testEnvironment >+>
       mongoDatabaseLayer).orDie
 
-  private lazy val dockerInfrastructureLayer: ZLayer[Any, Throwable, Has[containers.DockerComposeContainer[_]]] = Task
-    .effect(
+  private lazy val dockerInfrastructureLayer: ZLayer[ZMongoDBConfigurationProperties, Throwable, ZDockerInfrastructure] =
+    ZLayer.fromService[MongoDBConfigurationProperties, containers.DockerComposeContainer[_]](properties =>
       DockerComposeContainer(
         new File(s"modules/chat/chat-backend/src/it/resources/docker-compose.it.yml"),
-        exposedServices = Seq(ExposedService("mongo", 27017, 1, Wait.forLogMessage(".*waiting for connections on port .*\\n", 1))),
+        exposedServices = Seq(ExposedService("mongo", properties.port, 1, Wait.forLogMessage(".*waiting for connections on port .*\\n", 1))),
         identifier = "docker_infrastructure"
       ).container
     )
-    .toLayer
 
-  private lazy val mongoDatabaseLayer: ZLayer[Has[MongoDBConfigurationProperties] with Has[MongoClient], Nothing, Has[MongoDatabase]] =
+  private lazy val mongoDatabaseLayer: ZLayer[ZMongoDBConfigurationProperties with ZMongoClient, Nothing, ZMongoDatabase] =
     ZLayer.fromServices[MongoDBConfigurationProperties, MongoClient, MongoDatabase]((properties, client) => client.getDatabase(properties.database))
 
-  private lazy val mongoClientLayer: ZLayer[Has[MongoDBConfigurationProperties], Nothing, Has[MongoClient]] =
+  private lazy val mongoClientLayer: ZLayer[ZMongoDBConfigurationProperties, Nothing, ZMongoClient] =
     ZLayer.fromService[MongoDBConfigurationProperties, MongoClient] { properties =>
       val connectionString = {
         val user     = properties.user
