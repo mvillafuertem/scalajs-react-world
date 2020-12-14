@@ -14,25 +14,24 @@ import akka.{ actor, Done }
 import io.github.mvillafuertem.chat.configuration.ActorSystemConfiguration.ZActorSystem
 import io.github.mvillafuertem.chat.configuration.properties.AkkaHttpServerConfigurationProperties
 import io.github.mvillafuertem.chat.configuration.properties.AkkaHttpServerConfigurationProperties.ZAkkaHttpServerConfigurationProperties
-import zio.{ Has, ZLayer, ZManaged }
+import zio.{ Has, Runtime, ZEnv, ZLayer, ZManaged }
 
+import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.concurrent.{ ExecutionContext, Future }
 
 trait AkkaHttpServerConfiguration {
 
-  val live: ZLayer[ZActorSystem with Has[ExecutionContext] with ZAkkaHttpServerConfigurationProperties, Throwable, Has[
+  val live: ZLayer[ZEnv with ZActorSystem with ZAkkaHttpServerConfigurationProperties, Throwable, Has[
     Future[Http.ServerBinding]
   ]] =
     ZLayer.fromServicesManaged[
       ActorSystem[Done],
-      ExecutionContext,
       //ApiConfiguration,
       AkkaHttpServerConfigurationProperties,
-      Any,
+      ZEnv,
       Throwable,
       Future[Http.ServerBinding]
-    ]((actorSystem, executionContext, properties) => make(actorSystem, executionContext, properties))
+    ]((actorSystem, properties) => make(actorSystem, properties))
 
   def assets: Route =
     pathEndOrSingleSlash {
@@ -42,24 +41,25 @@ trait AkkaHttpServerConfiguration {
   val route = assets
 
   def make(
-    actorSystem:      ActorSystem[_],
-    executionContext: ExecutionContext,
+    actorSystem: ActorSystem[_],
     //api:              ApiConfiguration,
     properties: AkkaHttpServerConfigurationProperties
-  ): ZManaged[Any, Throwable, Future[Http.ServerBinding]] =
-    ZManaged.makeEffect {
-      implicit lazy val untypedSystem: actor.ActorSystem = actorSystem.toClassic
-      implicit lazy val materializer:  Materializer      = Materializer(actorSystem)
-      Http().newServerAt(properties.interface, properties.port).bind(route)
-    }(_.map(_.terminate(10.second))(executionContext))
-      .tapError(exception =>
-        ZManaged.succeed(actorSystem.log.error(s"Server could not start with parameters [host:port]=[${properties.interface},${properties.port}]", exception))
-      )
-      .tap(future =>
-        ZManaged.succeed(
-          future.map(serverBinding => actorSystem.log.info(s"Server online at http:/${serverBinding.localAddress}"))(executionContext)
+  ): ZManaged[ZEnv, Throwable, Future[Http.ServerBinding]] =
+    ZManaged.runtime[ZEnv].flatMap { implicit runtime: Runtime[ZEnv] =>
+      ZManaged.makeEffect {
+        implicit lazy val untypedSystem: actor.ActorSystem = actorSystem.toClassic
+        implicit lazy val materializer:  Materializer      = Materializer(actorSystem)
+        Http().newServerAt(properties.interface, properties.port).bind(route)
+      }(_.map(_.terminate(10.second))(runtime.platform.executor.asEC))
+        .tapError(exception =>
+          ZManaged.succeed(actorSystem.log.error(s"Server could not start with parameters [host:port]=[${properties.interface},${properties.port}]", exception))
         )
-      )
+        .tap(future =>
+          ZManaged.succeed(
+            future.map(serverBinding => actorSystem.log.info(s"Server online at http:/${serverBinding.localAddress}"))(runtime.platform.executor.asEC)
+          )
+        )
+    }
 }
 
 object AkkaHttpServerConfiguration extends AkkaHttpServerConfiguration
