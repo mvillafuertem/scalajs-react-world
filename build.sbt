@@ -243,7 +243,7 @@ lazy val baseSettings: Project => Project =
         .withModuleKind(ModuleKind.CommonJSModule)),
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.3",
-        "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
+        "io.github.cquiroz"            %%% "scala-java-time" % "2.1.0",
         "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
