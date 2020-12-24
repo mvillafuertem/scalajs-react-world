@@ -9,5 +9,15 @@ chat.createUser({
         { role: "readWrite", db: databaseName }
     ]
 });
+chat.users.createIndex(
+    {
+        "email": 1
+    },
+    {
+        unique: true,
+        sparse: true,
+        expireAfterSeconds: 3600
+    }
+)
 let users = chat.getUsers()
 print(users)
