@@ -5,7 +5,7 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import io.github.mvillafuertem.chat.configuration.properties.ChatConfigurationProperties
 import io.github.mvillafuertem.chat.configuration.properties.ChatConfigurationProperties.ZChatConfigurationProperties
-import zio.{ Has, ZEnv, ZLayer, ZManaged }
+import zio.{ Has, Runtime, ZLayer, ZManaged }
 
 import scala.concurrent.ExecutionContext
 
@@ -27,13 +27,14 @@ trait ActorSystemConfiguration {
       BootstrapSetup().withDefaultExecutionContext(executionContext)
     )
 
-  val live: ZLayer[ZEnv with ZChatConfigurationProperties, Throwable, ZActorSystem] =
-    ZLayer.fromServiceManaged[ChatConfigurationProperties, ZEnv, Throwable, ActorSystem[Done]](make)
+  val live: ZLayer[ZChatConfigurationProperties, Throwable, ZActorSystem] =
+    ZManaged
+      .runtime[ZChatConfigurationProperties]
+      .flatMap { implicit runtime: Runtime[ZChatConfigurationProperties] => make(runtime.environment.get, runtime.platform.executor.asEC) }
+      .toLayer
 
-  def make(chat: ChatConfigurationProperties): ZManaged[ZEnv, Throwable, ActorSystem[Done]] =
-    ZManaged.runtime[ZEnv].flatMap { implicit runtime: zio.Runtime[ZEnv] =>
-      ZManaged.makeEffect(live(runtime.platform.executor.asEC, chat))(_.terminate())
-    }
+  def make(chat: ChatConfigurationProperties, executionContext: ExecutionContext): ZManaged[Any, Throwable, ActorSystem[Done]] =
+    ZManaged.makeEffect(live(executionContext, chat))(_.terminate())
 
 }
 

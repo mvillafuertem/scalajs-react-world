@@ -43,23 +43,23 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
     libraryDependencies ++= Seq(
-      "dev.zio"            %% "zio-interop-reactivestreams" % "1.3.0.7-2",
-      "dev.zio"            %% "zio-logging-slf4j"           % "0.5.4",
-      "dev.zio"            %% "zio-streams"                 % "1.0.3",
-      "dev.zio"            %% "zio"                         % "1.0.3",
-      "com.typesafe.akka"  %% "akka-http"                   % "10.2.1",
-      "com.typesafe.akka"  %% "akka-stream"                 % "2.6.10",
-      "com.typesafe.akka"  %% "akka-actor-typed"            % "2.6.10",
-      "com.typesafe.akka"  %% "akka-slf4j"                  % "2.6.10",
-      "com.lightbend.akka" %% "akka-stream-alpakka-mongodb" % "2.0.2",
-      "org.mongodb.scala"  %% "mongo-scala-bson"            % "2.9.0",
-      "ch.qos.logback"      % "logback-classic"             % "1.2.3",
-      "org.http4s"         %% "http4s-dsl"                  % "0.21.12",
-      "org.http4s"         %% "http4s-blaze-server"         % "0.21.12",
-      "dev.zio"            %% "zio-test"                    % "1.0.3"  % IntegrationTest,
-      "dev.zio"            %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
-      "org.scalatest"      %% "scalatest"                   % "3.2.3"  % IntegrationTest,
-      "com.dimafeng"       %% "testcontainers-scala-core"   % "0.38.7" % IntegrationTest
+      "dev.zio"           %% "zio-interop-reactivestreams"    % "1.3.0.7-2",
+      "dev.zio"           %% "zio-logging-slf4j"              % "0.5.4",
+      "dev.zio"           %% "zio-streams"                    % "1.0.3",
+      "dev.zio"           %% "zio"                            % "1.0.3",
+      "com.typesafe.akka" %% "akka-http"                      % "10.2.1",
+      "com.typesafe.akka" %% "akka-stream"                    % "2.6.10",
+      "com.typesafe.akka" %% "akka-actor-typed"               % "2.6.10",
+      "com.typesafe.akka" %% "akka-slf4j"                     % "2.6.10",
+      "org.mongodb.scala" %% "mongo-scala-driver"             % "4.1.1",
+      "ch.qos.logback"     % "logback-classic"                % "1.2.3",
+      "org.http4s"        %% "http4s-dsl"                     % "0.21.12",
+      "org.http4s"        %% "http4s-blaze-server"            % "0.21.12",
+      "dev.zio"           %% "zio-test"                       % "1.0.3"  % IntegrationTest,
+      "dev.zio"           %% "zio-test-sbt"                   % "1.0.3"  % IntegrationTest,
+      "org.scalatest"     %% "scalatest"                      % "3.2.3"  % IntegrationTest,
+      "com.dimafeng"      %% "testcontainers-scala-core"      % "0.38.7" % IntegrationTest,
+      "com.pauldijou"     %% "jwt-circe"                      % "4.3.0"
     )
   )
   .configure(DockerSettings.value)
@@ -108,6 +108,15 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .settings(
     scalaVersion := "2.13.1",
     organization := "io.github.mvillafuertem"
+  )
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server"   % "0.17.0",
+      "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % "0.17.0",
+      "io.circe"                    %% "circe-generic"            % "0.13.0",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs"       % "0.17.0",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml" % "0.17.0"
+    )
   )
 
 lazy val `gif-finder` =

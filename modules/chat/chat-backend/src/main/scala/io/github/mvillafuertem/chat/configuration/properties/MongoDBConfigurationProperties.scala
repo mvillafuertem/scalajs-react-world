@@ -1,6 +1,7 @@
 package io.github.mvillafuertem.chat.configuration.properties
 
 import com.typesafe.config.{Config, ConfigFactory}
+import zio.Has
 
 final case class MongoDBConfigurationProperties(user: String, password: String, hostname: String, port: Int, database: String) {
 
@@ -22,6 +23,8 @@ final case class MongoDBConfigurationProperties(user: String, password: String, 
 }
 
 object MongoDBConfigurationProperties {
+
+  type ZMongoDBConfigurationProperties = Has[MongoDBConfigurationProperties]
 
   val default: Config = ConfigFactory.load().getConfig("infrastructure.mongodb")
 
