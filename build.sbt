@@ -39,7 +39,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .configs(IntegrationTest)
   .settings(Defaults.itSettings)
   .settings(IntegrationTest / parallelExecution := false)
-  .settings(scalaVersion := "2.13.1", organization := "io.github.mvillafuertem")
+  .settings(scalaVersion := "2.13.4", organization := "io.github.mvillafuertem")
   .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
@@ -91,7 +91,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
   .dependsOn(`chat-shared`.js)
   .settings(
-    scalaVersion := "2.13.1",
+    scalaVersion := "2.13.4",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"                      %%% "zio"             % "1.0.3",
@@ -108,16 +108,17 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/chat/chat-shared"))
   .settings(
-    scalaVersion := "2.13.1",
+    scalaVersion := "2.13.4",
     organization := "io.github.mvillafuertem"
   )
   .settings(
     libraryDependencies ++= Seq(
-      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server"   % "0.17.0",
-      "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % "0.17.0",
+      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server"   % "0.17.1",
+      "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % "0.17.1",
       "io.circe"                    %% "circe-generic"            % "0.13.0",
-      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs"       % "0.17.0",
-      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml" % "0.17.0"
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs"       % "0.17.1",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml" % "0.17.1",
+      "com.softwaremill.sttp.tapir" %% "tapir-zio"                % "0.17.1"
     )
   )
 
@@ -185,7 +186,7 @@ lazy val `simple-test` =
     .settings(
       addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
       addCommandAlias("build", "fullOptJS::webpack"),
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.4",
       useYarn      := true,
       Compile / npmDependencies ++= NpmDependencies.`simple-test`,
       Compile / npmDevDependencies ++= Seq(
@@ -272,7 +273,7 @@ lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
       useYarn      := true,
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.4",
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",
       scalaJSUseMainModuleInitializer := true,

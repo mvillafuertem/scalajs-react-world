@@ -9,14 +9,15 @@ import zio.{ stream, Has, ZIO, ZLayer }
 
 final class CreateNewUser private (userRepository: UserRepository) {
 
-  def createUser(user: User): stream.Stream[Throwable, User] = for {
-    dbo <- ZStream
-      .fromEffect(ZIO(user.password.bcrypt))
-      .map(encryptedPassword => UserDBO(user.name, user.email, encryptedPassword))
-    createdUser <- userRepository
-      .createUser(dbo)
-      .map(_ => user)
-  } yield createdUser
+  def createUser(user: User): stream.Stream[Throwable, User] =
+    for {
+      dbo <- ZStream
+        .fromEffect(ZIO(user.password.bcrypt))
+        .map(encryptedPassword => UserDBO(user.name, user.email, encryptedPassword))
+      createdUser <- userRepository
+        .createUser(dbo)
+        .map(_ => user)
+    } yield createdUser
 
 }
 

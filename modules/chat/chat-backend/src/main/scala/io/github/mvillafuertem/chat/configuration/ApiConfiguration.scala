@@ -6,6 +6,11 @@ import akka.http.scaladsl.model.{ ContentType, HttpResponse, StatusCodes }
 import akka.http.scaladsl.server.Directives.{ getFromResource, getFromResourceDirectory, pathEndOrSingleSlash, withRequestTimeoutResponse }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteConcatenation._
+import akka.stream.scaladsl.Source
+import akka.util.ByteString
+import io.circe.generic.auto._
+import io.circe.syntax.EncoderOps
+import io.github.mvillafuertem.chat.api.AuthEndpoint
 import io.github.mvillafuertem.chat.api.AuthEndpoint.{ loginUser, newUser, renewToken }
 import io.github.mvillafuertem.chat.api.MessageEndpoint.getAllMessages
 import io.github.mvillafuertem.chat.application.CreateNewUser
@@ -13,7 +18,8 @@ import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.shared.{ Message, User }
 import pdi.jwt.{ JwtAlgorithm, JwtCirce, JwtClaim }
 import sttp.tapir.server.akkahttp._
-import zio.{ Has, ZLayer, ZManaged }
+import zio.interop.reactivestreams._
+import zio.{ CanFail, Has, ZLayer, ZManaged }
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -38,7 +44,20 @@ object ApiConfiguration {
           override val routes: Route = withRequestTimeoutResponse(request =>
             HttpResponse(StatusCodes.EnhanceYourCalm, entity = "Unable to serve response within time limit, please enhance your calm.")
           ) {
-            val newUserRoute: Route = newUser.toRoute(user => runtime.unsafeRunToFuture(CreateNewUser.createUser(user).runHead.map(_.toRight[String]("error"))))
+            //val newUserRoute: Route = newUser.toRoute(user => runtime.unsafeRunToFuture(CreateNewUser.createUser(user).runHead.map(_.toRight[String]("error"))))
+            val newUserRoute: Route = AkkaHttpServerInterpreter.toRoute[User, String, Source[ByteString, Any]](
+              AuthEndpoint.newUser
+            ) { user =>
+              runtime.unsafeRunToFuture(
+                CreateNewUser
+                  .createUser(user)
+                  .map(bytes => akka.util.ByteString(bytes.asJson.noSpaces))
+                  .toPublisher
+                  .map(Source.fromPublisher)
+                  .either(CanFail.canFail[Nothing])
+              )
+            }
+
             val loginUserRoute: Route = loginUser.toRoute { _ =>
               Future(Right(User("", "", "")))(runtime.platform.executor.asEC)
             }
