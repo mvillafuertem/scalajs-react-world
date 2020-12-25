@@ -1,14 +1,14 @@
 package io.github.mvillafuertem.chat.infrastructure
 
-import io.github.mvillafuertem.chat.infrastructure.RunnableIntegrationSpec.{ZDockerInfrastructure, ZIntegrationSpecEnv}
+import io.github.mvillafuertem.chat.infrastructure.RunnableIntegrationSpec.ZIntegrationSpecEnv
 import zio._
-import zio.test.Assertion.{anything, contains, dies, equalTo, fails, hasMessage, isSubtype, throws}
+import zio.test.Assertion._
 import zio.test._
 
 object UserRepositoryIT extends RunnableIntegrationSpec {
 
   override def spec: ZSpec[ZIntegrationSpecEnv, Any] =
-    (suite(getClass.getSimpleName)(
+    suite(getClass.getSimpleName)(
       testM("create an user")(
         // w h e n
         for {
@@ -44,12 +44,7 @@ object UserRepositoryIT extends RunnableIntegrationSpec {
           // t h e n
         )(equalTo(Chunk.empty))
       )
-    ) @@ TestAspect.around(
-      for {
-        container <- ZIO.access[ZDockerInfrastructure](_.get)
-        _         <- Task.effect(container.start())
-      } yield container
-    )(container => Task.effect(container.stop()).run))
+    )
       .provideSomeLayer[ZIntegrationSpecEnv](MongoUserRepository.live)
 
 }
