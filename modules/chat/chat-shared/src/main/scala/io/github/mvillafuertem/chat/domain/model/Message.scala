@@ -1,4 +1,4 @@
-package io.github.mvillafuertem.shared
+package io.github.mvillafuertem.chat.domain.model
 
 case class Message(
   sender:    String,

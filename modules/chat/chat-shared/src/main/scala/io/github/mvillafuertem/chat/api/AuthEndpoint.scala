@@ -1,20 +1,17 @@
 package io.github.mvillafuertem.chat.api
 
-import akka.stream.scaladsl.Source
 import akka.http.scaladsl.model.{StatusCodes => AkkaStatusCodes}
+import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import io.circe.generic.auto._
-import io.github.mvillafuertem.chat.model.error.ChatError
-import io.github.mvillafuertem.chat.model.error.ChatError.DuplicateEntityError
-import io.github.mvillafuertem.shared.User
+import io.github.mvillafuertem.chat.domain.error.ChatError
+import io.github.mvillafuertem.chat.domain.error.ChatError.DuplicateEntityError
+import io.github.mvillafuertem.chat.domain.model.{Jwt, User}
 import sttp.capabilities.akka.AkkaStreams
-import sttp.capabilities.zio.ZioStreams
+import sttp.model.StatusCode
 import sttp.tapir._
 import sttp.tapir.generic.auto._
 import sttp.tapir.json.circe._
-import sttp.tapir.model.UsernamePassword
-import zio.stream
-import sttp.model.StatusCode
 
 trait AuthEndpoint {
 
@@ -26,11 +23,12 @@ trait AuthEndpoint {
   private[api] lazy val statusDefault: EndpointOutput.StatusMapping[ChatError] =
     statusDefaultMapping(anyJsonBody[ChatError].example(ChatError.ServiceNotAvailable()).description(defaultDescription))
 
-  val loginUser: Endpoint[Unit, String, User, Any] =
+  val loginUser: Endpoint[User, ChatError, Source[ByteString, Any], Any with AkkaStreams] =
     baseEndpoint.post
       .in("auth" / "login")
-      .errorOut(stringBody)
-      .out(jsonBody[User])
+      .in(jsonBody[User])
+      .out(streamBody(AkkaStreams)(Schema(Schema.derived[Jwt].schemaType), CodecFormat.Json()))
+      .errorOut(oneOf(statusConflict, statusDefault))
 
   val newUser: Endpoint[User, ChatError, Source[ByteString, Any], Any with AkkaStreams] =
     baseEndpoint.post

@@ -1,7 +1,7 @@
 package io.github.mvillafuertem.chat.infrastructure
 
 import com.mongodb.reactivestreams.client.{MongoCollection, MongoDatabase}
-import io.github.mvillafuertem.chat.model.error.ChatError
+import io.github.mvillafuertem.chat.domain.error.ChatError
 import org.mongodb.scala.MongoWriteException
 import zio.interop.reactivestreams._
 import zio.stream._
@@ -21,7 +21,7 @@ final class MongoUserRepository private (mongoDatabase: MongoDatabase) extends U
       .map(result => dbo.copy(_id = Some(result.getInsertedId.asObjectId().getValue)))
       .mapError {
         case e: MongoWriteException if e.getCode == 11000 =>
-          ChatError.DuplicateEntityError("asdfasdf")
+          ChatError.DuplicateEntityError()
       }
 
   def findUserByEmail(email: String): Stream[Throwable, UserDBO] =

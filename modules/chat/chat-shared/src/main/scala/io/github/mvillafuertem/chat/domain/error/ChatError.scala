@@ -1,9 +1,9 @@
-package io.github.mvillafuertem.chat.model.error
+package io.github.mvillafuertem.chat.domain.error
 
 import java.time.Instant
 import java.util.UUID
 
-sealed trait ChatError { self =>
+sealed trait ChatError extends Product { self =>
 
   val id: UUID = UUID.randomUUID()
 

@@ -5,27 +5,26 @@ import akka.http.scaladsl.server.Route
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import io.circe.generic.auto._
-import io.circe.syntax._
-import io.github.mvillafuertem.chat.application.AuthenticateUser
-import io.github.mvillafuertem.chat.application.AuthenticateUser.ZAuthenticateUser
-import io.github.mvillafuertem.chat.configuration.InfrastructureConfiguration
+import io.circe.syntax.EncoderOps
+import io.github.mvillafuertem.chat.application.CreateNewUser
+import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.chat.domain.error.ChatError
 import io.github.mvillafuertem.chat.domain.model.User
 import sttp.tapir.server.akkahttp.AkkaHttpServerInterpreter
 import zio.ZManaged
 import zio.stream.Sink
 
-trait AuthController extends InfrastructureConfiguration {
+trait UserController {
 
-  val routes: ZManaged[ZAuthenticateUser, Nothing, Route] = ZManaged
-    .runtime[ZAuthenticateUser]
-    .map { implicit runtime: zio.Runtime[ZAuthenticateUser] =>
-      val authenticateUserRoute = AkkaHttpServerInterpreter.toRoute[User, ChatError, Source[ByteString, Any]](
-        AuthEndpoint.loginUser
+  val routes: ZManaged[ZCreateNewUser, Nothing, Route] = ZManaged
+    .runtime[ZCreateNewUser]
+    .map { implicit runtime: zio.Runtime[ZCreateNewUser] =>
+      val createNewUserRoute = AkkaHttpServerInterpreter.toRoute[User, ChatError, Source[ByteString, Any]](
+        AuthEndpoint.newUser
       )(user =>
         runtime.unsafeRunToFuture(
-          AuthenticateUser
-            .authenticateUser(user)
+          CreateNewUser
+            .createUser(user)
             .map(_.asJson.noSpaces)
             .map(ByteString(_))
             .map(Source.single)
@@ -36,14 +35,15 @@ trait AuthController extends InfrastructureConfiguration {
                   case (input, users) =>
                     for {
                       source <- input
-                      d      <- users
+                      d <- users
                     } yield source.concat(d)
                 }
             )
         )
       )
-      authenticateUserRoute
+      createNewUserRoute
     }
+
 }
 
-object AuthController extends AuthController
+object UserController extends UserController

@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.chat.infrastructure
 
-import io.github.mvillafuertem.chat.model.error.ChatError
+import io.github.mvillafuertem.chat.domain.error.ChatError
 import zio.stream.Stream
 
 trait UserRepository {

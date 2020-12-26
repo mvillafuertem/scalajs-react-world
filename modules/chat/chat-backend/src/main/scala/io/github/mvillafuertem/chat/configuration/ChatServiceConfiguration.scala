@@ -1,16 +1,16 @@
 package io.github.mvillafuertem.chat.configuration
 
-import io.github.mvillafuertem.chat.application.CreateNewUser
+import io.github.mvillafuertem.chat.application.{AuthenticateUser, CreateNewUser}
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.chat.configuration
 import io.github.mvillafuertem.chat.configuration.ApiConfiguration.ZApiConfiguration
-import io.github.mvillafuertem.chat.configuration.properties.{ AkkaHttpServerConfigurationProperties, ChatConfigurationProperties }
-import io.github.mvillafuertem.chat.infrastructure.{ MongoUserRepository, UserRepository, ZMongoDatabase }
+import io.github.mvillafuertem.chat.configuration.properties.{AkkaHttpServerConfigurationProperties, ChatConfigurationProperties}
+import io.github.mvillafuertem.chat.infrastructure.{MongoUserRepository, UserRepository, ZMongoDatabase}
 import zio._
 import zio.blocking.Blocking
 import zio.clock.Clock
 import zio.console.Console
-import zio.logging.{ log, LogFormat, LogLevel, Logging }
+import zio.logging.{LogFormat, LogLevel, Logging, log}
 
 trait ChatServiceConfiguration extends InfrastructureConfiguration {
 
@@ -28,6 +28,7 @@ trait ChatServiceConfiguration extends InfrastructureConfiguration {
       ZLayer.succeed[AkkaHttpServerConfigurationProperties](AkkaHttpServerConfigurationProperties()) >+>
       mongoDBLayer >+>
       MongoUserRepository.live >+>
+      AuthenticateUser.live >+>
       CreateNewUser.live >+>
       ApiConfiguration.live >+>
       ActorSystemConfiguration.live

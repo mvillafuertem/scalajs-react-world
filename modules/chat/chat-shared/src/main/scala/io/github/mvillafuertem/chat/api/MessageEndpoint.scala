@@ -1,7 +1,7 @@
 package io.github.mvillafuertem.chat.api
 
 import io.circe.generic.auto._
-import io.github.mvillafuertem.shared.Message
+import io.github.mvillafuertem.chat.domain.model.Message
 import sttp.tapir._
 import sttp.tapir.generic.auto._
 import sttp.tapir.json.circe._

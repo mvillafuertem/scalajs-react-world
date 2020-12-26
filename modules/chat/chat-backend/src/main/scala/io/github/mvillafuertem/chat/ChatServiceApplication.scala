@@ -1,7 +1,7 @@
 package io.github.mvillafuertem.chat
 
 import io.github.mvillafuertem.chat.configuration.ChatServiceConfiguration
-import zio.{ExitCode, ZIO}
+import zio.{ ExitCode, ZIO }
 
 /**
  * @author Miguel Villafuerte

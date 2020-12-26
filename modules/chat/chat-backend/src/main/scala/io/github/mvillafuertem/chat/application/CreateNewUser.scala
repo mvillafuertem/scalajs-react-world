@@ -1,21 +1,21 @@
 package io.github.mvillafuertem.chat.application
 
 import com.github.t3hnar.bcrypt._
+import io.github.mvillafuertem.chat.domain.error.ChatError
+import io.github.mvillafuertem.chat.domain.model.User
 import io.github.mvillafuertem.chat.infrastructure.MongoUserRepository.ZUserRepository
 import io.github.mvillafuertem.chat.infrastructure.{UserDBO, UserRepository}
-import io.github.mvillafuertem.chat.model.error.ChatError
-import io.github.mvillafuertem.shared.User
 import zio.stream.ZStream
-import zio.{Has, ZIO, ZLayer, stream}
+import zio.{Has, Task, ZIO, ZLayer, stream}
 
 final class CreateNewUser private (userRepository: UserRepository) {
 
   def createUser(user: User): stream.Stream[ChatError, User] =
     for {
       dbo <- ZStream
-        .fromEffect(ZIO(user.password.bcrypt))
+        .fromEffect(Task.effect(user.password.bcrypt))
         .map(encryptedPassword => UserDBO(user.name, user.email, encryptedPassword))
-        .mapError(e => ChatError.InternalServerError(e.getMessage))
+        .mapError(e => ChatError.ServiceNotAvailable(e.getMessage))
       createdUser <- userRepository
         .createUser(dbo)
         .map(_ => user)
