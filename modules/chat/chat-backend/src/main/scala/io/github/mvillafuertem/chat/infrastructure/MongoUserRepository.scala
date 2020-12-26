@@ -1,10 +1,11 @@
 package io.github.mvillafuertem.chat.infrastructure
 
-import com.mongodb.reactivestreams.client.{ MongoCollection, MongoDatabase }
+import com.mongodb.reactivestreams.client.{MongoCollection, MongoDatabase}
+import io.github.mvillafuertem.chat.model.error.ChatError
 import org.mongodb.scala.MongoWriteException
 import zio.interop.reactivestreams._
 import zio.stream._
-import zio.{ stream, Has, ZLayer }
+import zio.{Has, ZLayer, stream}
 
 final class MongoUserRepository private (mongoDatabase: MongoDatabase) extends UserRepository {
 
@@ -13,14 +14,14 @@ final class MongoUserRepository private (mongoDatabase: MongoDatabase) extends U
   private val collection: MongoCollection[UserDBO] = mongoDatabase
     .getCollection(COLLECTION_NAME, classOf[UserDBO])
 
-  def createUser(dbo: UserDBO): Stream[Throwable, UserDBO] =
+  def createUser(dbo: UserDBO): Stream[ChatError, UserDBO] =
     collection
       .insertOne(dbo)
       .toStream()
       .map(result => dbo.copy(_id = Some(result.getInsertedId.asObjectId().getValue)))
-      .catchAll {
+      .mapError {
         case e: MongoWriteException if e.getCode == 11000 =>
-          throw new RuntimeException("duplicate key")
+          ChatError.DuplicateEntityError("asdfasdf")
       }
 
   def findUserByEmail(email: String): Stream[Throwable, UserDBO] =
@@ -38,7 +39,7 @@ object MongoUserRepository {
 
   type ZUserRepository = Has[UserRepository]
 
-  def createUser(dbo: UserDBO): ZStream[ZUserRepository, Throwable, UserDBO] =
+  def createUser(dbo: UserDBO): ZStream[ZUserRepository, ChatError, UserDBO] =
     stream.ZStream.accessStream(_.get.createUser(dbo))
 
   def findUserByEmail(email: String): stream.ZStream[ZUserRepository, Throwable, UserDBO] =

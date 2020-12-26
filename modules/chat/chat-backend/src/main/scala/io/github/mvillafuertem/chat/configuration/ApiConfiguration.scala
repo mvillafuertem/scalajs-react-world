@@ -1,8 +1,9 @@
 package io.github.mvillafuertem.chat.configuration
 
-import akka.http.scaladsl.model.HttpCharsets.`UTF-8`
+import akka.NotUsed
+import akka.http.scaladsl.model
 import akka.http.scaladsl.model.MediaTypes.`text/html`
-import akka.http.scaladsl.model.{ ContentType, HttpResponse, StatusCodes }
+import akka.http.scaladsl.model.{ HttpCharsets, HttpResponse, StatusCodes }
 import akka.http.scaladsl.server.Directives.{ getFromResource, getFromResourceDirectory, pathEndOrSingleSlash, withRequestTimeoutResponse }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteConcatenation._
@@ -11,15 +12,16 @@ import akka.util.ByteString
 import io.circe.generic.auto._
 import io.circe.syntax.EncoderOps
 import io.github.mvillafuertem.chat.api.AuthEndpoint
-import io.github.mvillafuertem.chat.api.AuthEndpoint.{ loginUser, newUser, renewToken }
+import io.github.mvillafuertem.chat.api.AuthEndpoint.{ loginUser, renewToken }
 import io.github.mvillafuertem.chat.api.MessageEndpoint.getAllMessages
 import io.github.mvillafuertem.chat.application.CreateNewUser
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
+import io.github.mvillafuertem.chat.model.error.ChatError
 import io.github.mvillafuertem.shared.{ Message, User }
 import pdi.jwt.{ JwtAlgorithm, JwtCirce, JwtClaim }
 import sttp.tapir.server.akkahttp._
-import zio.interop.reactivestreams._
-import zio.{ CanFail, Has, ZLayer, ZManaged }
+import zio._
+import zio.stream.Sink
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -44,18 +46,26 @@ object ApiConfiguration {
           override val routes: Route = withRequestTimeoutResponse(request =>
             HttpResponse(StatusCodes.EnhanceYourCalm, entity = "Unable to serve response within time limit, please enhance your calm.")
           ) {
-            //val newUserRoute: Route = newUser.toRoute(user => runtime.unsafeRunToFuture(CreateNewUser.createUser(user).runHead.map(_.toRight[String]("error"))))
-            val newUserRoute: Route = AkkaHttpServerInterpreter.toRoute[User, String, Source[ByteString, Any]](
+
+            val newUserRoute: Route = AkkaHttpServerInterpreter.toRoute[User, ChatError, Source[ByteString, Any]](
               AuthEndpoint.newUser
             ) { user =>
-              runtime.unsafeRunToFuture(
-                CreateNewUser
-                  .createUser(user)
-                  .map(bytes => akka.util.ByteString(bytes.asJson.noSpaces))
-                  .toPublisher
-                  .map(Source.fromPublisher)
-                  .either(CanFail.canFail[Nothing])
-              )
+              val publisher = CreateNewUser
+                .createUser(user)
+                .either
+                .run(
+                  Sink
+                    .foldLeft[Either[ChatError, User], Either[ChatError, Source[ByteString, NotUsed]]](Right[ChatError, Source[ByteString, NotUsed]](Source.empty)){
+                      case (input, users) =>
+                      for {
+                       source <- input
+                       d <- users.map(_.asJson.noSpaces).map(ByteString(_)).map(Source.single)
+                      } yield source.concat(d)
+                    }
+                )
+
+              runtime.unsafeRunToFuture(publisher)
+
             }
 
             val loginUserRoute: Route = loginUser.toRoute { _ =>
@@ -86,7 +96,7 @@ object ApiConfiguration {
 
             def assets: Route =
               pathEndOrSingleSlash {
-                getFromResource("assets/index.html", ContentType(`text/html`, `UTF-8`))
+                getFromResource("assets/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
               } ~
                 getFromResourceDirectory("assets") ~
                 newUserRoute ~
