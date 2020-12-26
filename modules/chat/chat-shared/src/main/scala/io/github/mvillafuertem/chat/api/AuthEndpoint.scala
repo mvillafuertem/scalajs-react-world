@@ -37,11 +37,12 @@ trait AuthEndpoint {
       .out(streamBody(AkkaStreams)(Schema(Schema.derived[User].schemaType), CodecFormat.Json()))
       .errorOut(oneOf(statusConflict, statusDefault))
 
-  val renewToken: Endpoint[Unit, String, User, Any] =
+  val renewToken: Endpoint[AuthToken, ChatError, Source[ByteString, Any], Any with AkkaStreams] =
     baseEndpoint.get
       .in("auth" / "login" / "renew")
-      .errorOut(stringBody)
-      .out(jsonBody[User])
+      .in(header[AuthToken](AccessTokenHeaderName))
+      .out(streamBody(AkkaStreams)(Schema(Schema.derived[User].schemaType), CodecFormat.Json()))
+      .errorOut(oneOf(statusConflict, statusDefault))
 
 }
 

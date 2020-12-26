@@ -14,6 +14,7 @@ import io.github.mvillafuertem.chat.domain.model.User
 import sttp.tapir.server.akkahttp.AkkaHttpServerInterpreter
 import zio.ZManaged
 import zio.stream.Sink
+import akka.http.scaladsl.server.RouteConcatenation._
 
 trait AuthController extends InfrastructureConfiguration {
 
@@ -42,7 +43,30 @@ trait AuthController extends InfrastructureConfiguration {
             )
         )
       )
-      authenticateUserRoute
+
+      val authenticateRenewRoute = AkkaHttpServerInterpreter.toRoute[AuthToken, ChatError, Source[ByteString, Any]](
+        AuthEndpoint.renewToken
+      )(token =>
+        runtime.unsafeRunToFuture(
+          AuthenticateUser
+            .isTokenValid(token)
+            .map(_.asJson.noSpaces)
+            .map(ByteString(_))
+            .map(Source.single)
+            .either
+            .run(
+              Sink
+                .foldLeft[Either[ChatError, Source[ByteString, NotUsed]], Either[ChatError, Source[ByteString, NotUsed]]](Right(Source.empty)) {
+                  case (input, users) =>
+                    for {
+                      source <- input
+                      d      <- users
+                    } yield source.concat(d)
+                }
+            )
+        )
+      )
+      authenticateUserRoute ~ authenticateRenewRoute
     }
 }
 

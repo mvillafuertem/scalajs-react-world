@@ -34,6 +34,26 @@ final class AuthenticateUser(userRepository: UserRepository) {
       }) if user.password.isBcrypted(encryptedPassword)
     } yield jwt).mapError(_ => ChatError.ServiceNotAvailable())
 
+  def isTokenValid(token: String): ZStream[Any, ChatError, Jwt] =
+    (for {
+      valid <- ZStream.fromEffect(Task.effect {
+        JwtCirce
+          .isValid(token, key, Seq(algorithm))
+      })
+      jwt <- ZStream.fromEffect(Task.effect {
+        val now        = Instant.now
+        val expiration = now.plus(2, ChronoUnit.HOURS).getEpochSecond
+        val issuedAt   = now.getEpochSecond
+        val claim: JwtClaim = JwtClaim(
+          content = s"""{"username": "{user.email}"}""",
+          expiration = Some(expiration),
+          issuedAt = Some(issuedAt)
+        )
+        val token = JwtCirce.encode(claim, key, algorithm)
+        Jwt(token, expiration, issuedAt)
+      }) if valid
+    } yield jwt).mapError(_ => ChatError.ServiceNotAvailable())
+
 }
 
 object AuthenticateUser {
@@ -47,5 +67,8 @@ object AuthenticateUser {
 
   def authenticateUser(user: User): stream.ZStream[ZAuthenticateUser, ChatError, Jwt] =
     stream.ZStream.accessStream(_.get.authenticateUser(user))
+
+  def isTokenValid(token: String): stream.ZStream[ZAuthenticateUser, ChatError, Jwt] =
+    stream.ZStream.accessStream(_.get.isTokenValid(token))
 
 }

@@ -43,27 +43,6 @@ object ApiConfiguration {
               HttpResponse(StatusCodes.EnhanceYourCalm, entity = "Unable to serve response within time limit, please enhance your calm.")
             ) {
 
-              val renewTokenRoute: Route = renewToken.toRoute(_ =>
-                Future(Right {
-
-                  //val tk = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDgyMjkxMjMsImlhdCI6MTYwODIyMTkyM30.1bCYFnYR-o0ILIFuRJ2wxJ4UhFYKB42KuZmEhAjisTI"
-                  val now = Instant.now
-                  val claim = JwtClaim(
-                    content = """{"name": "asdfasd"}""",
-                    expiration = Some(now.plus(2, ChronoUnit.HOURS).getEpochSecond),
-                    issuedAt = Some(now.getEpochSecond)
-                  )
-                  val key       = "secretKey"
-                  val algo      = JwtAlgorithm.HS256
-                  val token     = JwtCirce.encode(claim, key, algo)
-                  val triedJson = JwtCirce.decodeJson(token, key, Seq(JwtAlgorithm.HS256))
-                  triedJson match {
-                    case Failure(exception) => throw exception
-                    case Success(value) =>
-                      User(token, "", value.noSpaces)
-                  }
-                })(runtime.platform.executor.asEC)
-              )
               val getAllMessagesRoute: Route = getAllMessages.toRoute(_ => Future(Right(Seq(Message("", "", ""))))(runtime.platform.executor.asEC))
 
               def assets: Route =
@@ -73,7 +52,7 @@ object ApiConfiguration {
                   getFromResourceDirectory("assets") ~
                   userRoutes ~
                   authRoutes ~
-                  renewTokenRoute ~
+                  //renewTokenRoute ~
                   getAllMessagesRoute
 
               val routes: Route = assets
