@@ -1,8 +1,7 @@
 package io.github.mvillafuertem
 
-import io.github.mvillafuertem.css.BootstrapMinCSS
-import io.github.mvillafuertem.css.ChatCSS
-import io.github.mvillafuertem.css.LoginRegisterCSS
+import io.github.mvillafuertem.auth.AuthProvider
+import io.github.mvillafuertem.css.{ BootstrapMinCSS, ChatCSS, LoginRegisterCSS }
 import io.github.mvillafuertem.router.AppRouter
 import org.scalajs.dom.document
 import zio.{ ExitCode, IO, ZIO }
@@ -14,7 +13,7 @@ object ChatApp extends zio.App {
       BootstrapMinCSS
       ChatCSS
       LoginRegisterCSS
-      AppRouter.component().renderIntoDOM(document.getElementById("container"))
+      AuthProvider.component(AppRouter.component()).renderIntoDOM(document.getElementById("container"))
     }.exitCode
 
 }
