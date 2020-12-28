@@ -49,7 +49,7 @@ trait AuthController extends InfrastructureConfiguration {
       )(token =>
         runtime.unsafeRunToFuture(
           AuthenticateUser
-            .isTokenValid(token)
+            .renewToken(token)
             .map(_.asJson.noSpaces)
             .map(ByteString(_))
             .map(Source.single)

@@ -6,20 +6,15 @@ import akka.http.scaladsl.model.{ HttpCharsets, HttpResponse, StatusCodes }
 import akka.http.scaladsl.server.Directives.{ getFromResource, getFromResourceDirectory, pathEndOrSingleSlash, withRequestTimeoutResponse }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.RouteConcatenation._
-import io.github.mvillafuertem.chat.api.AuthEndpoint.renewToken
 import io.github.mvillafuertem.chat.api.MessageEndpoint.getAllMessages
 import io.github.mvillafuertem.chat.api.{ AuthController, UserController }
 import io.github.mvillafuertem.chat.application.AuthenticateUser.ZAuthenticateUser
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
-import io.github.mvillafuertem.chat.domain.model.{ Message, User }
-import pdi.jwt.{ JwtAlgorithm, JwtCirce, JwtClaim }
+import io.github.mvillafuertem.chat.domain.model.Message
 import sttp.tapir.server.akkahttp._
 import zio._
 
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import scala.concurrent.Future
-import scala.util.{ Failure, Success }
 
 trait ApiConfiguration {
 

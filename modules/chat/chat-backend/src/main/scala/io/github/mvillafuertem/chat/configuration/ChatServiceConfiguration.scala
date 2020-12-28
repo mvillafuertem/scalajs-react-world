@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.chat.configuration
 
-import io.github.mvillafuertem.chat.application.{AuthenticateUser, CreateNewUser}
+import io.github.mvillafuertem.chat.application.{AuthenticateUser, CreateNewUser, ManageToken}
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.chat.configuration
 import io.github.mvillafuertem.chat.configuration.ApiConfiguration.ZApiConfiguration
@@ -27,6 +27,8 @@ trait ChatServiceConfiguration extends InfrastructureConfiguration {
     ZLayer.succeed[ChatConfigurationProperties](ChatConfigurationProperties()) >+>
       ZLayer.succeed[AkkaHttpServerConfigurationProperties](AkkaHttpServerConfigurationProperties()) >+>
       mongoDBLayer >+>
+      ZLayer.succeed("secretKey") >+>
+      ManageToken.live >+>
       MongoUserRepository.live >+>
       AuthenticateUser.live >+>
       CreateNewUser.live >+>
