@@ -2,12 +2,12 @@ package io.github.mvillafuertem.chat.configuration
 
 import akka.http.scaladsl.model
 import akka.http.scaladsl.model.MediaTypes.`text/html`
-import akka.http.scaladsl.model.{ HttpCharsets, HttpResponse, StatusCodes }
-import akka.http.scaladsl.server.Directives.{ getFromResource, getFromResourceDirectory, pathEndOrSingleSlash, withRequestTimeoutResponse }
-import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.{HttpCharsets, HttpResponse, StatusCodes}
+import akka.http.scaladsl.server.Directives.{encodeResponse, extractLog, extractUnmatchedPath, getFromDirectory, getFromFile, getFromResource, getFromResourceDirectory, pathEndOrSingleSlash, withRequestTimeoutResponse}
+import akka.http.scaladsl.server.{Directives, Route}
 import akka.http.scaladsl.server.RouteConcatenation._
 import io.github.mvillafuertem.chat.api.MessageEndpoint.getAllMessages
-import io.github.mvillafuertem.chat.api.{ AuthController, UserController }
+import io.github.mvillafuertem.chat.api.{AuthController, UserController}
 import io.github.mvillafuertem.chat.application.AuthenticateUser.ZAuthenticateUser
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.chat.domain.model.Message
@@ -41,6 +41,7 @@ object ApiConfiguration {
               val getAllMessagesRoute: Route = getAllMessages.toRoute(_ => Future(Right(Seq(Message("", "", ""))))(runtime.platform.executor.asEC))
 
               def assets: Route =
+                extractLog { log =>
                 pathEndOrSingleSlash {
                   getFromResource("assets/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
                 } ~
@@ -48,7 +49,14 @@ object ApiConfiguration {
                   userRoutes ~
                   authRoutes ~
                   //renewTokenRoute ~
-                  getAllMessagesRoute
+                  getAllMessagesRoute ~
+                  Directives.get {
+                    extractUnmatchedPath { path =>
+                    log.info(s"EXTRACT UNMATCHED PATH $path")
+                        getFromResource("assets/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                    }
+                  }
+                }
 
               val routes: Route = assets
 
