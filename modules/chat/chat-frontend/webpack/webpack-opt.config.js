@@ -12,7 +12,9 @@ module.exports = merge(core, {
   devtool: "source-map",
   entry: entries,
   output: {
-    path: path.resolve(__dirname, "../../../../target/build/assets")
+    path: path.resolve(__dirname, "../../../../target/build/assets"),
+    // https://stackoverflow.com/questions/49207826/webpack-dev-server-historyapifallback-not-working-in-case-of-multilevel-routing
+    publicPath : '/' // https://stackoverflow.com/questions/43191569/html-webpack-plugin-and-webpack-2-no-starting-slash
   },
   optimization: {
     splitChunks: {

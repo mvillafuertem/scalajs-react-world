@@ -1,8 +1,8 @@
 package io.github.mvillafuertem.pages
 
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import typings.reactRouterDom.components.Link
 
 object RegisterPage {

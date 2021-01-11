@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.router
 
-import io.github.mvillafuertem.pages.ChatPage
+import io.github.mvillafuertem.pages.{ ChatPage, LoginPage, RegisterPage }
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^.<
 import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
@@ -13,8 +13,8 @@ object AppRouter {
     Router(
       <.div(
         Switch(
-          Route(RouteProps().setPath("/auth").setRender(_ => AuthRouter.component().rawElement)),
-          Route(RouteProps().setExact(true).setPath("/").setRender(_ => ChatPage.component().rawElement)),
+          Route(RouteProps().setPath("/auth")).withKey("auth")(AuthRouter.component()),
+          Route(RouteProps().setExact(true).setPath("/")).withKey("home")(ChatPage.component()),
           Redirect("/")
         )
       )
