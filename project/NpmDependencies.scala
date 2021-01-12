@@ -18,7 +18,8 @@ object NpmDependencies {
   lazy val `chat-frontend`: Seq[(String, String)] = Seq(
     "@types/react-router-dom" -> "5.1.2",
     "react-router-dom"        -> "5.1.2",
-    "bootstrap"               -> "4.5.3"
+    "bootstrap"               -> "4.5.3",
+    Package.`@fortawesome/fontawesome-free`     -> Version.`@fortawesome/fontawesome-free`
   )
 
   lazy val `chat-frontend-dev`: Seq[(String, String)] = Seq(

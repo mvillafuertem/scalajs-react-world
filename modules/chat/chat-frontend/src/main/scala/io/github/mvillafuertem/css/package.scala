@@ -17,4 +17,8 @@ package object css {
   @js.native
   object BootstrapMinCSS extends js.Object
 
+  @JSImport("@fortawesome/fontawesome-free/css/all.css", JSImport.Namespace)
+  @js.native
+  object FontAwesomeCSS extends js.Object
+
 }

@@ -21,7 +21,10 @@ module.exports = {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
       },
-      // "file" loader for svg
+      {
+        test: /\.(ttf|eot|woff|woff2|png|glb|svg)$/,
+        use: 'file-loader'
+      },
       {
         test: /\.svg$/,
         use: [

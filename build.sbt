@@ -115,12 +115,14 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   )
   .settings(
     libraryDependencies ++= Seq(
-      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server"   % "0.17.1",
-      "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % "0.17.1",
-      "io.circe"                    %% "circe-generic"            % "0.13.0",
-      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs"       % "0.17.1",
-      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml" % "0.17.1",
-      "com.softwaremill.sttp.tapir" %% "tapir-zio"                % "0.17.1"
+      "com.softwaremill.sttp.tapir"   %% "tapir-akka-http-server"   % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"         % "0.17.3",
+      "io.circe"                      %% "circe-generic"            % "0.13.0",
+      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-docs"       % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-circe-yaml" % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-zio"                % "0.17.3",
+      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0.17.3",
+      "com.softwaremill.sttp.client3" %% "httpclient-backend-zio" % "3.0.0-RC15"
     )
   )
 
