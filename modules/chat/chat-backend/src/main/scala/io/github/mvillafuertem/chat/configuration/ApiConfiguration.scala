@@ -47,12 +47,12 @@ object ApiConfiguration {
 
               val getAllMessagesRoute: Route = getAllMessages.toRoute(_ => Future(Right(Seq(Message("", "", ""))))(runtime.platform.executor.asEC))
 
-              def assets: Route =
+              val routes: Route =
                 extractLog { log =>
                   pathEndOrSingleSlash {
-                    getFromResource("assets/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                    getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
                   } ~
-                    getFromResourceDirectory("assets") ~
+                    getFromResourceDirectory("public") ~
                     userRoutes ~
                     authRoutes ~
                     //renewTokenRoute ~
@@ -60,12 +60,10 @@ object ApiConfiguration {
                     Directives.get {
                       extractUnmatchedPath { path =>
                         log.info(s"EXTRACT UNMATCHED PATH $path")
-                        getFromResource("assets/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                        getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
                       }
                     }
                 }
-
-              val routes: Route = assets
 
               routes
             }
