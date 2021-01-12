@@ -77,6 +77,8 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
   .settings(
     addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
+    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+    //scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
     stFlavour := Flavour.Japgolly,
     libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
