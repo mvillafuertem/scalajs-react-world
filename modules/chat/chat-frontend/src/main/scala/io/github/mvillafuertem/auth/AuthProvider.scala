@@ -1,15 +1,18 @@
 package io.github.mvillafuertem.auth
 
 import io.circe
+import io.circe.generic.auto._
 import io.circe.Json
-import io.github.mvillafuertem.chat.domain.model.User
+import io.github.mvillafuertem.chat.domain.model.{Jwt, User}
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.{ CtorType, React, ScalaFnComponent }
-import sttp.client.circe.asJson
-import sttp.client.{ FetchBackend, Identity, NothingT, RequestT, ResponseError, SttpBackend, basicRequest, _ }
+import japgolly.scalajs.react.{AsyncCallback, Callback, CtorType, React, ScalaFnComponent}
+import sttp.client.{FetchBackend, Identity, NothingT, RequestT, ResponseError, SttpBackend, basicRequest, _}
+import sttp.model.MediaType
 import typings.react.mod._
 import typings.std.global.console
+import sttp.client.circe.{asJson, _}
+import sttp.client.{SttpBackend, _}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,7 +26,7 @@ case class ChatState(
 )
 
 object AuthContext {
-  def apply() = React.createContext(ChatState())
+  val value = React.createContext(ChatState())
 
 }
 
@@ -37,26 +40,37 @@ object AuthProvider {
 
     val login: js.Function2[String, String, Unit] = (email, password) => {
 
+      val url = "http://localhost:8080/api/v1/auth/login"
+
+      val requestPOST: RequestT[Identity, Either[ResponseError[circe.Error], Json], Nothing] = basicRequest
+        .post(uri"$url")
+        .contentType(MediaType.ApplicationJson)
+        .response(asJson[Json])
+        .body(s"""{"email":"$email","name": "$email","password": "$password"}""")
+
+      def result: Future[Either[ResponseError[circe.Error], String]] = requestPOST.send().map(_.body.map(_.noSpaces))
+      result.map(console.log(_))
+    }
+
+    val register: js.Function3[String, String, String, Unit] = (name, email, password) => {
+
       val url = "http://localhost:8080/api/v1/auth/login/new"
 
       val requestPOST: RequestT[Identity, Either[ResponseError[circe.Error], Json], Nothing] = basicRequest
         .post(uri"$url")
-        //.contentType(MediaType.ApplicationJson)
-        .body("email" -> email, "password" -> password)
+        .contentType(MediaType.ApplicationJson)
         .response(asJson[Json])
+        .body(s"""{"email":"$email","name": "$name","password": "$password"}""")
 
-      def result: Future[Either[ResponseError[circe.Error], Json]] = requestPOST.send().map(_.body)
-
-      console.log(result)
+      def result: Future[Either[ResponseError[circe.Error], String]] = requestPOST.send().map(_.body.map(_.noSpaces))
+      result.map(console.log(_))
     }
-
-    val register: js.Function3[String, String, String, Unit] = (name, email, password) => ()
 
     val verifyToken: Unit = useCallback[Unit](() => (), js.Array[js.Any]())
 
     val logout: js.Function0[Unit] = () => ()
 
-    AuthContext().provide(ChatState(Some(login), Some(register), Some(verifyToken), Some(logout)))(children)
+    AuthContext.value.provide(ChatState(Some(login), Some(register), Some(verifyToken), Some(logout)))(children)
   }
 
 }

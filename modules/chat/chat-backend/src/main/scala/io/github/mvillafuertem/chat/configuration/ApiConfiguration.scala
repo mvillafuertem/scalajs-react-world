@@ -5,6 +5,7 @@ import akka.http.scaladsl.model.MediaTypes.`text/html`
 import akka.http.scaladsl.model.{ HttpCharsets, HttpResponse, StatusCodes }
 import akka.http.scaladsl.server.Directives.{
   extractLog,
+  extractRequestContext,
   extractUnmatchedPath,
   getFromResource,
   getFromResourceDirectory,
@@ -49,20 +50,23 @@ object ApiConfiguration {
 
               val routes: Route =
                 extractLog { log =>
-                  pathEndOrSingleSlash {
-                    getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
-                  } ~
-                    getFromResourceDirectory("public") ~
-                    userRoutes ~
-                    authRoutes ~
-                    //renewTokenRoute ~
-                    getAllMessagesRoute ~
-                    Directives.get {
-                      extractUnmatchedPath { path =>
-                        log.info(s"EXTRACT UNMATCHED PATH $path")
-                        getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                  extractRequestContext { requestContext =>
+                    log.info(s"extractRequestContext ~> ${requestContext.request}")
+                    pathEndOrSingleSlash {
+                      getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                    } ~
+                      getFromResourceDirectory("public") ~
+                      userRoutes ~
+                      authRoutes ~
+                      //renewTokenRoute ~
+                      getAllMessagesRoute ~
+                      Directives.get {
+                        extractUnmatchedPath { path =>
+                          log.info(s"EXTRACT UNMATCHED PATH $path")
+                          getFromResource("public/index.html", model.ContentType(`text/html`, HttpCharsets.`UTF-8`))
+                        }
                       }
-                    }
+                  }
                 }
 
               routes

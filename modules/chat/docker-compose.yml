@@ -12,6 +12,14 @@ networks:
 
 services:
 
+  chat:
+    image: user/chat-backend:0.1.0
+    hostname: chat
+    ports:
+      - 8080:8080
+    networks:
+      - mongo-net
+
   mongo:
     image: mongo:4.2.11
     hostname: mongo

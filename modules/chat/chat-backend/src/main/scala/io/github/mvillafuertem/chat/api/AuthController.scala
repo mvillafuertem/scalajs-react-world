@@ -2,6 +2,7 @@ package io.github.mvillafuertem.chat.api
 
 import akka.NotUsed
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.RouteConcatenation._
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import io.circe.generic.auto._
@@ -14,7 +15,6 @@ import io.github.mvillafuertem.chat.domain.model.User
 import sttp.tapir.server.akkahttp.AkkaHttpServerInterpreter
 import zio.ZManaged
 import zio.stream.Sink
-import akka.http.scaladsl.server.RouteConcatenation._
 
 trait AuthController extends InfrastructureConfiguration {
 

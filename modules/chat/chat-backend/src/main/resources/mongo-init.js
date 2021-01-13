@@ -1,5 +1,4 @@
 let databaseName = "chat"
-let collectionName = "users"
 let chat = db.getSiblingDB(databaseName);
 chat.createUser({
     user: "chat_user",
