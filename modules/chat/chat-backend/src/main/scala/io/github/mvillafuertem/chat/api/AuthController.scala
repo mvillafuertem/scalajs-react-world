@@ -13,8 +13,9 @@ import io.github.mvillafuertem.chat.configuration.InfrastructureConfiguration
 import io.github.mvillafuertem.chat.domain.error.ChatError
 import io.github.mvillafuertem.chat.domain.model.User
 import sttp.tapir.server.akkahttp.AkkaHttpServerInterpreter
-import zio.ZManaged
-import zio.stream.Sink
+import zio.stream.ZSink.Push
+import zio.{Chunk, ZManaged}
+import zio.stream.{Sink, ZSink, ZStream}
 
 trait AuthController extends InfrastructureConfiguration {
 
@@ -32,14 +33,15 @@ trait AuthController extends InfrastructureConfiguration {
             .map(Source.single)
             .either
             .run(
-              Sink
-                .foldLeft[Either[ChatError, Source[ByteString, NotUsed]], Either[ChatError, Source[ByteString, NotUsed]]](Right(Source.empty)) {
-                  case (input, users) =>
-                    for {
-                      source <- input
-                      d      <- users
-                    } yield source.concat(d)
-                }
+              ZSink[Any, Nothing, Either[ChatError, Source[ByteString, NotUsed]], Either[ChatError, Source[ByteString, NotUsed]], Either[ChatError, Source[ByteString, NotUsed]]](ZManaged.succeed({
+                case Some(ch) =>
+                  if (ch.isEmpty) {
+                    Push.emit(Left[ChatError, Source[ByteString, NotUsed]](ChatError.ServiceNotAvailable()), Chunk.empty)
+                  } else {
+                    Push.emit(ch.head, ch.drop(1))
+                  }
+                case None => Push.emit(Left[ChatError, Source[ByteString, NotUsed]](ChatError.ServiceNotAvailable()), Chunk.empty)
+              }))
             )
         )
       )

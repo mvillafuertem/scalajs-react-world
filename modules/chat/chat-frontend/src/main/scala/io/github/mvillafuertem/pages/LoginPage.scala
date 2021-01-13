@@ -3,11 +3,14 @@ package io.github.mvillafuertem.pages
 import io.github.mvillafuertem.auth.AuthContext
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{Callback, CtorType, ReactEventFromInput, ScalaFnComponent}
+import japgolly.scalajs.react.{AsyncCallback, Callback, CallbackTo, CtorType, ReactEventFromInput, ScalaFnComponent}
 import typings.react.mod.{EffectCallback, useEffect, useState}
 import typings.reactRouterDom.components.Link
 import typings.std.global.{console, localStorage}
+import typings.sweetalert2.mod.{SweetAlertIcon, default => Swal}
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js
 
 class Fields(val email: String = "", val password: String = "", val `remember-me`: Boolean = false) extends js.Object
@@ -20,7 +23,7 @@ object LoginPage {
         (() => {
           val email = localStorage.getItem("email")
           if (email.nonEmpty) {
-            setForm(new Fields(email, form.password, true))
+            setForm((form => new Fields(email, form.password, true)): js.Function1[Fields, Fields])
           }
         }): EffectCallback,
         js.Array[js.Any]()
@@ -45,7 +48,7 @@ object LoginPage {
       val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
         (e: ReactEventFromInput) =>
           e.preventDefaultCB >>
-            Callback {
+            CallbackTo[Option[Unit]] {
               if (form.`remember-me`) {
                 localStorage.setItem("email", form.email)
               } else {
@@ -53,9 +56,12 @@ object LoginPage {
               }
               console.log("pepep")
               console.log("pepep" + chatState)
-              chatState.login.map(_(form.email, form.password)).map(_ =>console.log("popopo") )
-              //value.login.map(_(form.email, form.password))
-            }
+              chatState
+                .login.map(_(form.email, form.password))
+            } .>>=(a => a.fold(
+              AsyncCallback.fromFuture(
+                Swal.fire("Error", "Verifique el email o contraseña").toFuture
+              ).toCallback)(f => Callback()))
 
       <.form(
         ^.className := "login100-form validate-form flex-sb flex-w",

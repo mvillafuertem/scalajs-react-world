@@ -10,7 +10,7 @@ import japgolly.scalajs.react.{AsyncCallback, Callback, CtorType, React, ScalaFn
 import sttp.client.{FetchBackend, Identity, NothingT, RequestT, ResponseError, SttpBackend, basicRequest, _}
 import sttp.model.MediaType
 import typings.react.mod._
-import typings.std.global.console
+import typings.std.global.{console, localStorage}
 import sttp.client.circe.{asJson, _}
 import sttp.client.{SttpBackend, _}
 
@@ -19,6 +19,7 @@ import scala.concurrent.Future
 import scala.scalajs.js
 
 case class ChatState(
+  user:       Option[User] = None,
   login:       Option[js.Function2[String, String, Unit]] = None,
   register:    Option[js.Function3[String, String, String, Unit]] = None,
   verifyToken: Option[Unit] = None,
@@ -42,14 +43,17 @@ object AuthProvider {
 
       val url = "http://localhost:8080/api/v1/auth/login"
 
-      val requestPOST: RequestT[Identity, Either[ResponseError[circe.Error], Json], Nothing] = basicRequest
+      val requestPOST: RequestT[Identity, Either[ResponseError[circe.Error], Jwt], Nothing] = basicRequest
         .post(uri"$url")
         .contentType(MediaType.ApplicationJson)
-        .response(asJson[Json])
+        .response(asJson[Jwt])
         .body(s"""{"email":"$email","name": "$email","password": "$password"}""")
 
-      def result: Future[Either[ResponseError[circe.Error], String]] = requestPOST.send().map(_.body.map(_.noSpaces))
+      def result: Future[Either[ResponseError[circe.Error], Jwt]] = requestPOST.send().map(_.body.map{b => localStorage.setItem("token", b.token); b})
       result.map(console.log(_))
+
+      setAuth(User(email, email, "", Some(true), Some("123")))
+
     }
 
     val register: js.Function3[String, String, String, Unit] = (name, email, password) => {
@@ -70,7 +74,7 @@ object AuthProvider {
 
     val logout: js.Function0[Unit] = () => ()
 
-    AuthContext.value.provide(ChatState(Some(login), Some(register), Some(verifyToken), Some(logout)))(children)
+    AuthContext.value.provide(ChatState(Some(auth), Some(login), Some(register), Some(verifyToken), Some(logout)))(children)
   }
 
 }
