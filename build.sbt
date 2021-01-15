@@ -20,7 +20,7 @@ lazy val calendar =
       addCommandAlias("calendar", "project calendar;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Japgolly,
-      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.7.0"),
       stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
       Compile / npmDependencies ++= Seq(
         "@azure/msal-browser"               -> "2.3.0",
@@ -76,7 +76,7 @@ lazy val journal =
       addCommandAlias("journal", "project journal;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Japgolly,
-      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.7.0"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"         -> "5.1.2",
         "@types/react-router-dom"  -> "5.1.2",
