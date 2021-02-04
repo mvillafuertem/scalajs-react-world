@@ -47,7 +47,7 @@ lazy val `gif-finder` =
       addCommandAlias("gif-finder", "project gif-finder;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6")
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7")
     )
 
 lazy val heroes =
@@ -59,7 +59,7 @@ lazy val heroes =
       addCommandAlias("heroes", "project heroes;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"        -> "5.1.2",
         "@types/react-router-dom" -> "5.1.2",
@@ -103,7 +103,7 @@ lazy val dashboard =
       useYarn              := true,
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= Seq(
         "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
         "@material-ui/styles"     -> "3.0.0-alpha.10", // note: version 4 is not supported yet
@@ -146,7 +146,7 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-hot" % "0.6.6",
+        "me.shadaj"     %%% "slinky-hot" % "0.6.7",
         "org.scalatest" %%% "scalatest"  % "3.2.3" % Test
       ),
       stFlavour                             := Flavour.Slinky,
