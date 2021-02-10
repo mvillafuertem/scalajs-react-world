@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
 
   test:
-    name: Test
+    name: Integration Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,4 +23,4 @@ jobs:
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Run Tests
-        run: sbt test
+        run: sbt it:test
