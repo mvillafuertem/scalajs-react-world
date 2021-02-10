@@ -7,35 +7,81 @@ WITH THE COMMAND `sbt docs/mdoc`
 
 <p align="center"><img width="200" src="https://raw.githubusercontent.com/mvillafuertem/scalajs-react-world/master/reactjs-icon.svg"/></p>
 <h1 align="center">Scala.js React World</h1>
-<p align="center">
-  <a href="https://github.com/mvillafuertem/scalajs-react-world/actions?query=workflow%3A%22scalaci%22">
-    <img src="https://github.com/mvillafuertem/scalajs-react-world/workflows/scalaci/badge.svg"/>
-  </a>
-  <a href="https://www.scala-js.org">
-    <img src="https://img.shields.io/badge/scala.js-1.3.0-red.svg?logo=scala&logoColor=red"/>
-  </a>
-  <a href="https://www.oracle.com/technetwork/java/javase/11all-relnotes-5013287.html">
-    <img src="https://img.shields.io/badge/jdk-11.0.8-orange.svg?logo=java&logoColor=white"/>
-  </a>
-  <a href="https://github.com/sbt/sbt/releases">
-    <img src="https://img.shields.io/badge/sbt-1.4.1-blue.svg?logo=sbt"/>
-  </a>
-  <a href="https://github.com/scala-steward-org/scala-steward">
-    <img src="https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII="/>
-  </a>
-</p>
+<div align="center">
+
+[![scala-ci](https://github.com/mvillafuertem/scalajs-react-world/workflows/scalaci/badge.svg)](https://github.com/mvillafuertem/scalajs-react-world/actions?query=workflow%3A%22scalaci%22)
+[![scala.js](https://img.shields.io/badge/scala.js-1.3.1-red.svg?logo=scala&logoColor=red)](https://www.scala-js.org)
+[![react](https://img.shields.io/badge/react-16.13.1-61DAFB.svg?logo=React)](https://reactjs.org)
+[![jdk](https://img.shields.io/badge/jdk-11.0.8-orange.svg?logo=java&logoColor=white)](https://www.oracle.com/technetwork/java/javase/11all-relnotes-5013287.html)
+[![sbt](https://img.shields.io/badge/sbt-1.4.6-blue.svg?logo=sbt)](https://github.com/sbt/sbt/releases)
+[![scala-steward](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://github.com/scala-steward-org/scala-steward)
+
+</div>
+
 
 ## Real World Examples
 
-https://mvillafuertem.github.io/scalajs-react-world/calendar/
+### [Calendar](https://mvillafuertem.github.io/scalajs-react-world/calendar/)
 
-https://mvillafuertem.github.io/scalajs-react-world/dashboard/
+[Calendar](https://mvillafuertem.github.io/scalajs-react-world/calendar/) is 
+inspired by [microsoft graph training](https://github.com/microsoftgraph/msgraph-training-reactspa)
 
-https://mvillafuertem.github.io/scalajs-react-world/gif-finder/
+### Chat
 
-https://mvillafuertem.github.io/scalajs-react-world/heroes/
+#### Backend Development
 
-https://mvillafuertem.github.io/scalajs-react-world/journal/
+```shell script
+
+sbt "project chat-backend; ~reStart"
+
+```
+
+#### Frontend Development
+
+```shell script
+
+sbt chat-frontend
+
+```
+
+#### Docker 
+
+```shell script
+
+sbt "chat-release;chat-backend/docker:publishLocal" && \
+docker run --rm -p 8080:8080 user/chat-backend:0.1.0
+
+```
+
+#### Production Build
+
+```shell script
+
+sbt chat-release
+
+```
+
+Creates an optimized Client bundle and adds it to the Server Library.
+
+The whole distribution you can find here: `./modules/chat/chat-backend/target/universal/stage`.
+
+You can start the server like this:
+
+* Mac / Linux: `./modules/chat/chat-backend/target/universal/stage/bin/chat-backend`
+* Windows: `./modules/chat/chat-backend/target/universal/stage/bin/chat-backend`
+
+
+
+### [Dashboard](https://mvillafuertem.github.io/scalajs-react-world/dashboard/)
+
+[Dashboard](https://mvillafuertem.github.io/scalajs-react-world/dashboard/) is 
+inspired by [material-ui layout example](https://v3.material-ui.com/getting-started/page-layout-examples/dashboard/)
+
+### [Gif Finder](https://mvillafuertem.github.io/scalajs-react-world/gif-finder/)
+
+### [Heroes](https://mvillafuertem.github.io/scalajs-react-world/heroes/)
+
+### [Journal](https://mvillafuertem.github.io/scalajs-react-world/journal/)
 
 ## Libraries
 
