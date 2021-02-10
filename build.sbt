@@ -178,7 +178,7 @@ lazy val dashboard =
       useYarn              := true,
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
 
