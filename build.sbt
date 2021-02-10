@@ -56,7 +56,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "ch.qos.logback"     % "logback-classic"             % "1.2.3",
       "org.http4s"        %% "http4s-dsl"                  % "0.21.12",
       "org.http4s"        %% "http4s-blaze-server"         % "0.21.12",
-      "com.github.t3hnar" %% "scala-bcrypt"                % "4.1",
+      "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
       "dev.zio"           %% "zio-test"                    % "1.0.3"  % IntegrationTest,
       "dev.zio"           %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
       "org.scalatest"     %% "scalatest"                   % "3.2.3"  % IntegrationTest,
