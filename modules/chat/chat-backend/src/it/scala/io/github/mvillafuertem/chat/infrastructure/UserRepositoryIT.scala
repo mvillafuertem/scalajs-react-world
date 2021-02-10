@@ -1,5 +1,6 @@
 package io.github.mvillafuertem.chat.infrastructure
 
+import io.github.mvillafuertem.chat.domain.error.ChatError.DuplicateEntityError
 import io.github.mvillafuertem.chat.infrastructure.RunnableIntegrationSpec.ZIntegrationSpecEnv
 import zio._
 import zio.test.Assertion._
@@ -33,7 +34,7 @@ object UserRepositoryIT extends RunnableIntegrationSpec {
               .runCollect
           } yield ()).run
           // t h e n
-        )(dies(isSubtype[RuntimeException](anything) && hasMessage(equalTo("duplicate key"))))
+        )(fails(equalTo(DuplicateEntityError())))
       ),
       testM("get an user")(
         assertM(
