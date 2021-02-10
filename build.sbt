@@ -49,9 +49,9 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"           %% "zio-streams"                 % "1.0.3",
       "dev.zio"           %% "zio"                         % "1.0.3",
       "com.typesafe.akka" %% "akka-http"                   % "10.2.1",
-      "com.typesafe.akka" %% "akka-stream"                 % "2.6.10",
-      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.10",
-      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.10",
+      "com.typesafe.akka" %% "akka-stream"                 % "2.6.12",
+      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.12",
+      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.12",
       "org.mongodb.scala" %% "mongo-scala-driver"          % "4.1.1",
       "ch.qos.logback"     % "logback-classic"             % "1.2.3",
       "org.http4s"        %% "http4s-dsl"                  % "0.21.12",
@@ -119,7 +119,7 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   )
   .settings(
     libraryDependencies ++= Seq(
-      "io.circe"                      %% "circe-generic"          % "0.13.0",
+      "io.circe" %% "circe-generic" % "0.13.0"
     ) ++ Seq(
       "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server",
       "com.softwaremill.sttp.tapir" %% "tapir-json-circe",
