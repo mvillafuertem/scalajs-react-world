@@ -96,15 +96,19 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     scalaVersion := "2.13.4",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
-      "dev.zio"                      %%% "zio"             % "1.0.3",
-      "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
-      "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
-      "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
-      "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
-      "io.circe"                     %%% "circe-optics"    % "0.13.0",
-      "io.circe"                     %%% "circe-generic"   % "0.13.0"
-    )
+      "dev.zio"           %%% "zio"             % "1.0.3",
+      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+      "org.scalatest"     %%% "scalatest"       % "3.2.3" % Test,
+      "io.circe"          %%% "circe-optics"    % "0.13.0",
+      "io.circe"          %%% "circe-generic"   % "0.13.0"
+    ) ++ Seq(
+      "com.softwaremill.sttp.client3" %%% "core",
+      "com.softwaremill.sttp.client3" %%% "circe"
+    ).map(_ % sttpVersion)
   )
+
+lazy val tapirVersion = "0.17.9"
+lazy val sttpVersion  = "3.1.1"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -115,15 +119,15 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   )
   .settings(
     libraryDependencies ++= Seq(
-      "com.softwaremill.sttp.tapir"   %% "tapir-akka-http-server"   % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"         % "0.17.3",
-      "io.circe"                      %% "circe-generic"            % "0.13.0",
-      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-docs"       % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-circe-yaml" % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-zio"                % "0.17.3",
-      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0.17.3",
-      "com.softwaremill.sttp.client3" %% "httpclient-backend-zio" % "3.0.0-RC15"
-    )
+      "io.circe"                      %% "circe-generic"          % "0.13.0",
+    ) ++ Seq(
+      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server",
+      "com.softwaremill.sttp.tapir" %% "tapir-json-circe",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml",
+      "com.softwaremill.sttp.tapir" %% "tapir-zio",
+      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client"
+    ).map(_ % tapirVersion)
   )
 
 lazy val `gif-finder` =
