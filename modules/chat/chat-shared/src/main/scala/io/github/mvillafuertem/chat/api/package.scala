@@ -21,4 +21,18 @@ package object api {
   type AuthToken = String
   final lazy val AccessTokenHeaderName = "X-Auth-Token"
 
+  // PartialServerEndpoint
+//  /**
+//   * Defines authentication method.
+//   *
+//   * Returns either String with error message in case of failure or Api Key if authenticated successfully
+//   **/
+//  def authenticate(token: Option[String]): Future[Either[String, AuthToken]]
+//
+//  /** * Definition of the partial server endpoint which adds authentication to the endpoint */
+//  val securedEndpoint: PartialServerEndpoint[AuthToken, Unit, String, Unit, Nothing, F] = endpoint
+//    .in(header[AuthToken](AccessTokenHeaderName))
+//    .errorOut(statusCode(Unauthorized).and(stringBody.description("An error message when authentication failed")))
+//    .serverLogicForCurrent(authenticate)
+
 }

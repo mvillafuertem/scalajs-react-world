@@ -22,7 +22,7 @@ final class ManageToken private (secretKey: String) {
       } yield jwt
     ).mapError(_ => ChatError.ServiceNotAvailable())
 
-  def generateToken(user: User): stream.Stream[ChatError, Jwt] =
+  def generateToken(user: User): stream.Stream[Throwable, Jwt] =
     ZStream
       .fromEffect(Task.effect {
         val now        = Instant.now
@@ -36,9 +36,8 @@ final class ManageToken private (secretKey: String) {
         val token = JwtCirce.encode(claim, secretKey, algorithm)
         Jwt(token, expiration, issuedAt)
       })
-      .mapError(_ => ChatError.ServiceNotAvailable())
 
-  def isExpiredToken(token: String): stream.Stream[ChatError, Boolean] =
+  def isExpiredToken(token: String): stream.Stream[Throwable, Boolean] =
     ZStream
       .fromEffect(
         Task.fromTry(
@@ -47,7 +46,6 @@ final class ManageToken private (secretKey: String) {
             .map(_.expiration.exists(_ < Instant.now.getEpochSecond))
         )
       )
-      .mapError(_ => ChatError.ServiceNotAvailable())
 
 }
 
@@ -61,10 +59,10 @@ object ManageToken {
   def isTokenValid(token: String): stream.ZStream[ZManageToken, ChatError, Jwt] =
     stream.ZStream.accessStream(_.get.isTokenValid(token))
 
-  def generateToken(user: User): stream.ZStream[ZManageToken, ChatError, Jwt] =
+  def generateToken(user: User): stream.ZStream[ZManageToken, Throwable, Jwt] =
     stream.ZStream.accessStream(_.get.generateToken(user))
 
-  def isExpiredToken(token: String): stream.ZStream[ZManageToken, ChatError, Boolean] =
+  def isExpiredToken(token: String): stream.ZStream[ZManageToken, Throwable, Boolean] =
     stream.ZStream.accessStream(_.get.isExpiredToken(token))
 
   val live: ZLayer[ZSecretKey, Nothing, ZManageToken] =
