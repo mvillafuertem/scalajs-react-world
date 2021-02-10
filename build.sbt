@@ -1,15 +1,25 @@
+import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
+
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
-
-import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
 
 lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(`gif-finder`)
   .aggregate(`simple-test`)
   .aggregate(calendar)
+  .aggregate(`chat-backend`)
+  .aggregate(`chat-frontend`)
   .aggregate(dashboard)
   .aggregate(heroes)
   .aggregate(journal)
+  .settings(commands += Command.command("chat-release") { state =>
+    "chat-frontend/clean" ::
+      "chat-frontend/fullOptJS::webpack" ::
+      "chat-backend/clean" ::
+      "chat-backend/compile" ::
+      "chat-backend/stage" ::
+      state
+  })
 
 lazy val calendar =
   (project in file("modules/calendar"))
@@ -22,21 +32,99 @@ lazy val calendar =
       stFlavour            := Flavour.Japgolly,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
       stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
-      Compile / npmDependencies ++= Seq(
-        "@azure/msal-browser"               -> "2.3.0",
-        "@fortawesome/fontawesome-free"     -> "5.14.0",
-        "@microsoft/microsoft-graph-client" -> "2.1.0",
-        "@types/microsoft-graph"            -> "1.18.0",
-        "@types/react-router-dom"           -> "5.1.2",
-        "@types/reactstrap"                 -> "8.5.1",
-        "bootstrap"                         -> "4.5.2",
-        "moment"                            -> "2.27.0",
-        "moment-timezone"                   -> "0.5.31",
-        "react-router-dom"                  -> "5.1.2",
-        "reactstrap"                        -> "8.5.1",
-        "windows-iana"                      -> "4.2.1"
-      )
+      Compile / npmDependencies ++= NpmDependencies.`calendar`
     )
+
+lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
+  .configs(IntegrationTest)
+  .settings(Defaults.itSettings)
+  .settings(IntegrationTest / parallelExecution := false)
+  .settings(scalaVersion := "2.13.4", organization := "io.github.mvillafuertem")
+  .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
+  .settings(
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
+    libraryDependencies ++= Seq(
+      "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.0.7-2",
+      "dev.zio"           %% "zio-logging-slf4j"           % "0.5.4",
+      "dev.zio"           %% "zio-streams"                 % "1.0.3",
+      "dev.zio"           %% "zio"                         % "1.0.3",
+      "com.typesafe.akka" %% "akka-http"                   % "10.2.1",
+      "com.typesafe.akka" %% "akka-stream"                 % "2.6.10",
+      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.10",
+      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.10",
+      "org.mongodb.scala" %% "mongo-scala-driver"          % "4.1.1",
+      "ch.qos.logback"     % "logback-classic"             % "1.2.3",
+      "org.http4s"        %% "http4s-dsl"                  % "0.21.12",
+      "org.http4s"        %% "http4s-blaze-server"         % "0.21.12",
+      "com.github.t3hnar" %% "scala-bcrypt"                % "4.1",
+      "dev.zio"           %% "zio-test"                    % "1.0.3"  % IntegrationTest,
+      "dev.zio"           %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
+      "org.scalatest"     %% "scalatest"                   % "3.2.3"  % IntegrationTest,
+      "com.dimafeng"      %% "testcontainers-scala-core"   % "0.38.7" % IntegrationTest,
+      "com.pauldijou"     %% "jwt-circe"                   % "4.3.0"
+    )
+  )
+  .configure(DockerSettings.value)
+  .enablePlugins(JavaAppPackaging)
+  .dependsOn(`chat-shared`.jvm)
+
+lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
+  .enablePlugins(ScalablyTypedConverterPlugin)
+  .enablePlugins(ScalaJSPlugin)
+  .configure(
+    WebpackSettings.value,
+    reactNpmDeps
+  )
+  .settings(
+    addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
+    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+    //scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
+    stFlavour := Flavour.Japgolly,
+    libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+    stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
+    Compile / npmDependencies ++= NpmDependencies.`chat-frontend`,
+    Compile / npmDevDependencies ++= NpmDependencies.`chat-frontend-dev`
+  )
+  .settings(
+    scalaJSUseMainModuleInitializer := true,
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0"
+    )
+  )
+  .dependsOn(`chat-shared`.js)
+  .settings(
+    scalaVersion := "2.13.4",
+    organization := "io.github.mvillafuertem",
+    libraryDependencies ++= Seq(
+      "dev.zio"                      %%% "zio"             % "1.0.3",
+      "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
+      "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
+      "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
+      "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
+      "io.circe"                     %%% "circe-optics"    % "0.13.0",
+      "io.circe"                     %%% "circe-generic"   % "0.13.0"
+    )
+  )
+
+lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("modules/chat/chat-shared"))
+  .settings(
+    scalaVersion := "2.13.4",
+    organization := "io.github.mvillafuertem"
+  )
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.softwaremill.sttp.tapir"   %% "tapir-akka-http-server"   % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"         % "0.17.3",
+      "io.circe"                      %% "circe-generic"            % "0.13.0",
+      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-docs"       % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-circe-yaml" % "0.17.3",
+      "com.softwaremill.sttp.tapir"   %% "tapir-zio"                % "0.17.3",
+      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0.17.3",
+      "com.softwaremill.sttp.client3" %% "httpclient-backend-zio" % "3.0.0-RC15"
+    )
+  )
 
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
@@ -77,20 +165,7 @@ lazy val journal =
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Japgolly,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
-      Compile / npmDependencies ++= Seq(
-        "react-router-dom"         -> "5.1.2",
-        "@types/react-router-dom"  -> "5.1.2",
-        "query-string"             -> "6.13.1",
-        "react-redux"              -> "7.2.1",
-        "@types/react-redux"       -> "7.1.9",
-        "redux-devtools-extension" -> "2.13.8",
-        "redux"                    -> "4.0.5",
-        "firebase"                 -> "7.21.1",
-        "redux-thunk"              -> "2.3.0",
-        "validator"                -> "13.1.0",
-        "@types/validator"         -> "13.1.0",
-        "sweetalert2"              -> "10.3.5"
-      )
+      Compile / npmDependencies ++= NpmDependencies.`journal`
     )
 
 lazy val dashboard =
@@ -104,16 +179,7 @@ lazy val dashboard =
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
-      Compile / npmDependencies ++= Seq(
-        "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
-        "@material-ui/styles"     -> "3.0.0-alpha.10", // note: version 4 is not supported yet
-        "@material-ui/icons"      -> "3.0.2",
-        "recharts"                -> "1.8.5",
-        "@types/recharts"         -> "1.8.10",
-        "@types/classnames"       -> "2.2.10",
-        "react-router-dom"        -> "5.1.2",
-        "@types/react-router-dom" -> "5.1.2"
-      )
+      Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
 
 lazy val `simple-test` =
@@ -124,19 +190,9 @@ lazy val `simple-test` =
     .settings(
       addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
       addCommandAlias("build", "fullOptJS::webpack"),
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.4",
       useYarn      := true,
-      Compile / npmDependencies ++= Seq(
-        "@material-ui/core"       -> "3.9.4", // note: version 4 is not supported yet
-        "@material-ui/styles"     -> "3.0.0-alpha.10", // note: version 4 is not supported yet
-        "@material-ui/icons"      -> "3.0.2",
-        "@types/classnames"       -> "2.2.10",
-        "react-router-dom"        -> "5.1.2",
-        "@types/react-router-dom" -> "5.1.2", // note 5.1.4 did weird things to the Link component
-        "react-proxy"             -> "1.1.8",
-        "recharts"                -> "1.8.5",
-        "@types/recharts"         -> "1.8.10"
-      ),
+      Compile / npmDependencies ++= NpmDependencies.`simple-test`,
       Compile / npmDevDependencies ++= Seq(
         "file-loader"         -> "6.0.0",
         "style-loader"        -> "1.2.1",
@@ -194,25 +250,12 @@ lazy val withCssLoading: Project => Project =
   _.settings(
     /* custom webpack file to include css */
     webpackConfigFile := Some((ThisBuild / baseDirectory).value / "webpack" / "custom.webpack.config.js"),
-    Compile / npmDevDependencies ++= Seq(
-      "webpack-merge" -> "4.2.2",
-      "css-loader"    -> "3.4.2",
-      "sass-loader"   -> "10.0.2",
-      "sass"          -> "1.26.11",
-      "style-loader"  -> "1.1.3",
-      "file-loader"   -> "5.1.0",
-      "url-loader"    -> "3.0.0"
-    )
+    Compile / npmDevDependencies ++= NpmDependencies.`withCssLoading`
   )
 
 lazy val reactNpmDeps: Project => Project =
   _.settings(
-    Compile / npmDependencies ++= Seq(
-      "react"            -> "16.13.1",
-      "react-dom"        -> "16.13.1",
-      "@types/react"     -> "16.9.34",
-      "@types/react-dom" -> "16.9.6"
-    )
+    Compile / npmDependencies ++= NpmDependencies.`reactNpmDeps`
   )
 
 /**
@@ -234,7 +277,7 @@ lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
       useYarn      := true,
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.4",
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",
       scalaJSUseMainModuleInitializer := true,
