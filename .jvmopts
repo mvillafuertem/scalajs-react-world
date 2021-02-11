@@ -1,6 +1,6 @@
 -server
--Xms512M
--Xmx3G
+-Xms1G
+-Xmx4G
 -Xss1M
 -XX:NewRatio=8
 -XX:+UseG1GC
