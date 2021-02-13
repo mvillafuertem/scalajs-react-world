@@ -2,9 +2,9 @@ package io.github.mvillafuertem.pages
 
 import io.github.mvillafuertem.auth.AuthContext
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
-import japgolly.scalajs.react.{ Callback, CallbackTo, CtorType, ReactEventFromInput, ScalaFnComponent }
-import typings.react.mod.{ useEffect, useState, EffectCallback }
+import japgolly.scalajs.react.vdom.html_<^.{<, _}
+import japgolly.scalajs.react.{Callback, CallbackTo, CtorType, ReactEventFromInput, ScalaFnComponent}
+import typings.react.mod.{EffectCallback, useContext, useEffect, useState}
 import typings.reactRouterDom.components.Link
 import typings.std.global.localStorage
 
@@ -15,6 +15,7 @@ class Fields(val email: String = "", val password: String = "", val `remember-me
 object LoginPage {
 
   val component: Component[Unit, CtorType.Nullary] = ScalaFnComponent[Unit] { _ =>
+    val chatState = useContext(AuthContext.value)
     val js.Tuple2(form, setForm) = useState(new Fields())
     useEffect(
       (() => {
@@ -25,7 +26,6 @@ object LoginPage {
       }): EffectCallback,
       js.Array[js.Any]()
     )
-    AuthContext.value.consume { chatState =>
       val handleInputChange: js.Function1[ReactEventFromInput, Callback] =
         (e: ReactEventFromInput) =>
           Callback {
@@ -106,6 +106,6 @@ object LoginPage {
       )
     }
 
-  }
+
 
 }
