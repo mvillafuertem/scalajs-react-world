@@ -49,19 +49,19 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"           %% "zio-streams"                 % "1.0.3",
       "dev.zio"           %% "zio"                         % "1.0.3",
       "com.typesafe.akka" %% "akka-http"                   % "10.2.1",
-      "com.typesafe.akka" %% "akka-stream"                 % "2.6.10",
-      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.10",
-      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.10",
+      "com.typesafe.akka" %% "akka-stream"                 % "2.6.12",
+      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.12",
+      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.12",
       "org.mongodb.scala" %% "mongo-scala-driver"          % "4.1.1",
       "ch.qos.logback"     % "logback-classic"             % "1.2.3",
-      "org.http4s"        %% "http4s-dsl"                  % "0.21.12",
-      "org.http4s"        %% "http4s-blaze-server"         % "0.21.12",
-      "com.github.t3hnar" %% "scala-bcrypt"                % "4.1",
+      "org.http4s"        %% "http4s-dsl"                  % "0.21.19",
+      "org.http4s"        %% "http4s-blaze-server"         % "0.21.19",
+      "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
       "dev.zio"           %% "zio-test"                    % "1.0.3"  % IntegrationTest,
       "dev.zio"           %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
-      "org.scalatest"     %% "scalatest"                   % "3.2.3"  % IntegrationTest,
-      "com.dimafeng"      %% "testcontainers-scala-core"   % "0.38.7" % IntegrationTest,
-      "com.pauldijou"     %% "jwt-circe"                   % "4.3.0"
+      "org.scalatest"     %% "scalatest"                   % "3.2.4"  % IntegrationTest,
+      "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.1" % IntegrationTest,
+      "com.pauldijou"     %% "jwt-circe"                   % "5.0.0"
     )
   )
   .configure(DockerSettings.value)
@@ -96,15 +96,19 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     scalaVersion := "2.13.4",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
-      "dev.zio"                      %%% "zio"             % "1.0.3",
-      "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
-      "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
-      "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
-      "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
-      "io.circe"                     %%% "circe-optics"    % "0.13.0",
-      "io.circe"                     %%% "circe-generic"   % "0.13.0"
-    )
+      "dev.zio"           %%% "zio"             % "1.0.3",
+      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+      "org.scalatest"     %%% "scalatest"       % "3.2.4" % Test,
+      "io.circe"          %%% "circe-optics"    % "0.13.0",
+      "io.circe"          %%% "circe-generic"   % "0.13.0"
+    ) ++ Seq(
+      "com.softwaremill.sttp.client3" %%% "core",
+      "com.softwaremill.sttp.client3" %%% "circe"
+    ).map(_ % sttpVersion)
   )
+
+lazy val tapirVersion = "0.17.9"
+lazy val sttpVersion  = "3.1.2"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -115,15 +119,15 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   )
   .settings(
     libraryDependencies ++= Seq(
-      "com.softwaremill.sttp.tapir"   %% "tapir-akka-http-server"   % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"         % "0.17.3",
-      "io.circe"                      %% "circe-generic"            % "0.13.0",
-      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-docs"       % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-openapi-circe-yaml" % "0.17.3",
-      "com.softwaremill.sttp.tapir"   %% "tapir-zio"                % "0.17.3",
-      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0.17.3",
-      "com.softwaremill.sttp.client3" %% "httpclient-backend-zio" % "3.0.0-RC15"
-    )
+      "io.circe" %% "circe-generic" % "0.13.0"
+    ) ++ Seq(
+      "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server",
+      "com.softwaremill.sttp.tapir" %% "tapir-json-circe",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs",
+      "com.softwaremill.sttp.tapir" %% "tapir-openapi-circe-yaml",
+      "com.softwaremill.sttp.tapir" %% "tapir-zio",
+      "com.softwaremill.sttp.tapir" %% "tapir-sttp-client"
+    ).map(_ % tapirVersion)
   )
 
 lazy val `gif-finder` =
@@ -202,8 +206,8 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-hot" % "0.6.7",
-        "org.scalatest" %%% "scalatest"  % "3.2.3" % Test
+        "me.shadaj"     %%% "slinky-hot" % "0.6.6",
+        "org.scalatest" %%% "scalatest"  % "3.2.4" % Test
       ),
       stFlavour                             := Flavour.Slinky,
       fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
@@ -287,7 +291,7 @@ lazy val baseSettings: Project => Project =
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.3",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.3" % Test,
+        "org.scalatest"                %%% "scalatest"       % "3.2.4" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",

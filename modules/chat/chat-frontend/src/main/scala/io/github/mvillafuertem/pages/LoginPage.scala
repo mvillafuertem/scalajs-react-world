@@ -3,14 +3,11 @@ package io.github.mvillafuertem.pages
 import io.github.mvillafuertem.auth.AuthContext
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{AsyncCallback, Callback, CallbackTo, CtorType, ReactEventFromInput, ScalaFnComponent}
-import typings.react.mod.{EffectCallback, useEffect, useState}
+import japgolly.scalajs.react.{Callback, CallbackTo, CtorType, ReactEventFromInput, ScalaFnComponent}
+import typings.react.mod.{EffectCallback, useContext, useEffect, useState}
 import typings.reactRouterDom.components.Link
-import typings.std.global.{console, localStorage}
-import typings.sweetalert2.mod.{SweetAlertIcon, default => Swal}
+import typings.std.global.localStorage
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.scalajs.js
 
 class Fields(val email: String = "", val password: String = "", val `remember-me`: Boolean = false) extends js.Object
@@ -18,19 +15,17 @@ class Fields(val email: String = "", val password: String = "", val `remember-me
 object LoginPage {
 
   val component: Component[Unit, CtorType.Nullary] = ScalaFnComponent[Unit] { _ =>
-      val js.Tuple2(form, setForm) = useState(new Fields())
-      useEffect(
-        (() => {
-          val email = localStorage.getItem("email")
-          if (email.nonEmpty) {
-            setForm((form => new Fields(email, form.password, true)): js.Function1[Fields, Fields])
-          }
-        }): EffectCallback,
-        js.Array[js.Any]()
-      )
-    AuthContext.value.consume { chatState =>
-
-
+    val chatState = useContext(AuthContext.value)
+    val js.Tuple2(form, setForm) = useState(new Fields())
+    useEffect(
+      (() => {
+        val email = localStorage.getItem("email")
+        if (email.nonEmpty) {
+          setForm((form => new Fields(email, form.password, true)): js.Function1[Fields, Fields])
+        }
+      }): EffectCallback,
+      js.Array[js.Any]()
+    )
       val handleInputChange: js.Function1[ReactEventFromInput, Callback] =
         (e: ReactEventFromInput) =>
           Callback {
@@ -48,20 +43,16 @@ object LoginPage {
       val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
         (e: ReactEventFromInput) =>
           e.preventDefaultCB >>
-            CallbackTo[Option[Unit]] {
+            CallbackTo[Unit] {
               if (form.`remember-me`) {
                 localStorage.setItem("email", form.email)
               } else {
                 localStorage.removeItem("email")
               }
-              console.log("pepep")
-              console.log("pepep" + chatState)
-              chatState
-                .login.map(_(form.email, form.password))
-            } .>>=(a => a.fold(
-              AsyncCallback.fromFuture(
-                Swal.fire("Error", "Verifique el email o contraseña").toFuture
-              ).toCallback)(f => Callback()))
+              chatState.login.map(_(form.email, form.password))
+            }
+
+      val todoOk: js.Function0[Boolean] = () => if (form.email.nonEmpty && form.password.nonEmpty) true else false
 
       <.form(
         ^.className := "login100-form validate-form flex-sb flex-w",
@@ -107,11 +98,14 @@ object LoginPage {
           )
         ),
         <.div(^.className := "container-login100-form-btn m-t-17")(
-          <.button(^.className := "login100-form-btn")("Ingresar")
+          <.button(^.`type` := "submit",
+            ^.className := "login100-form-btn",
+            ^.disabled := !todoOk()
+          )("Ingresar")
         )
       )
     }
 
-  }
+
 
 }
