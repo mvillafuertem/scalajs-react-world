@@ -1,26 +1,26 @@
 package io.github.mvillafuertem.auth
 
 import io.circe
-import io.circe.Json
 import io.circe.generic.auto._
-import io.github.mvillafuertem.auth.AuthContext.value.Provider
-import io.github.mvillafuertem.chat.domain.model.{ Jwt, User }
-import japgolly.scalajs.react.component.JsFn
+import io.circe.parser.decode
+import io.github.mvillafuertem.chat.domain.model.{Jwt, User}
+import japgolly.scalajs.react.component.Js
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
 import japgolly.scalajs.react.component.JsFn.Unmounted
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.{ TagMod, VdomElement, VdomNode }
-import japgolly.scalajs.react.{ raw, AsyncCallback, Children, CtorType, JsFnComponent, ScalaFnComponent }
+import japgolly.scalajs.react.vdom.VdomNode
+import japgolly.scalajs.react.{AsyncCallback, Children, CtorType, JsComponent, ScalaFnComponent}
 import sttp.client3.circe.asJson
-import sttp.client3.{ basicRequest, FetchBackend, Identity, RequestT, ResponseException, SttpBackend, UriContext }
-import sttp.model.MediaType
+import sttp.client3.{FetchBackend, Identity, RequestT, Response, ResponseException, SttpBackend, UriContext, basicRequest}
+import sttp.model.{MediaType, StatusCode}
 import typings.react.mod._
-import typings.std.global.{ console, localStorage }
-import typings.sweetalert2.mod.{ SweetAlertIcon, default => Swal }
+import typings.std.global.{console, localStorage}
+import typings.sweetalert2.mod.{SweetAlertIcon, default => Swal}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
 case class ChatState(
   user:        Option[User] = None,
@@ -43,7 +43,7 @@ object AuthProvider {
 
     val sttpBackend: SttpBackend[Future, Any] = FetchBackend()
 
-    val login: js.Function2[String, String, Unit] = (email, password) => {
+    val login: js.Function2[String, String, Unit] = (email: String, password: String) => {
 
       val url = "http://localhost:8080/api/v1/auth/login"
 
@@ -54,16 +54,25 @@ object AuthProvider {
         .body(s"""{"email":"$email","name": "$email","password": "$password"}""")
 
       def result: Future[Either[ResponseException[String, circe.Error], Jwt]] =
-        requestPOST.send(sttpBackend).map(_.body.map { b => localStorage.setItem("token", b.token); b })
+        requestPOST.send(sttpBackend).map(_.body)
 
       AsyncCallback
         .fromFuture(result.transformWith {
           case Failure(exception) =>
+            console.log("Exception")
             console.log(exception)
             Swal.fire("Error", "Verifique el email o contraseña", SweetAlertIcon.error).toFuture
           case Success(value) =>
+            console.log("Success")
             console.log(value)
-            Future.successful(setAuth(Some(User(email, email, "", Some(true), Some("123")))))
+            value.fold(
+              _ => Swal.fire("Error", "Verifique el email o contraseña", SweetAlertIcon.error).toFuture,
+              jwt =>
+                Future.successful {
+                  localStorage.setItem("token", jwt.token)
+                  setAuth(Some(User(email, email, "", Some(true), Some("123"))))
+                }
+            )
 
         })
         .runNow()
@@ -74,13 +83,14 @@ object AuthProvider {
 
       val url = "http://localhost:8080/api/v1/auth/login/new"
 
-      val requestPOST: RequestT[Identity, Either[ResponseException[String, circe.Error], Json], Any] = basicRequest
+      val requestPOST: RequestT[Identity, Either[ResponseException[String, circe.Error], User], Any] = basicRequest
         .post(uri"$url")
         .contentType(MediaType.ApplicationJson)
-        .response(asJson[Json])
+        .response(asJson[User])
         .body(s"""{"email":"$email","name": "$name","password": "$password"}""")
 
-      def result: Future[Either[ResponseException[String, circe.Error], String]] = requestPOST.send(sttpBackend).map(_.body.map(_.noSpaces))
+      def result: Future[Response[Either[ResponseException[String, circe.Error], User]]] = requestPOST.send(sttpBackend)
+
       AsyncCallback
         .fromFuture(result.transformWith {
           case Failure(exception) =>
@@ -88,54 +98,72 @@ object AuthProvider {
             Swal.fire("Error", "El usuario ya existe", SweetAlertIcon.error).toFuture
           case Success(value) =>
             console.log(value)
-            Future.successful(setAuth(Some(User(email, email, "", Some(true), Some("123")))))
-
+            Future {
+              value.code match {
+                case StatusCode.Ok =>
+                  value.body.fold(
+                    _ => setAuth(None),
+                    user => {
+                      login(user.email, user.password)
+                      //setAuth(Some(user))
+                    }
+                  )
+                case StatusCode.Unauthorized => setAuth(None)
+              }
+            }
         })
         .runNow()
     }
 
     val verifyToken: js.Function1[Unit, Unit] =
       useCallback[js.Function1[Unit, Unit]](
-        _ => {
+        _ =>
+          Option(localStorage.getItem("token"))
+            .fold(setAuth(None)) { token =>
+              val url = "http://localhost:8080/api/v1/auth/login/renew"
 
-          console.log("PEPEPEPEPEP")
+              val requestGET = basicRequest
+                .get(uri"$url")
+                .header("X-Auth-Token", token)
+                .contentType(MediaType.ApplicationJson)
 
-          val token = localStorage.getItem("token")
+              def result: Future[Response[Either[String, String]]] = requestGET.send(sttpBackend)
 
-          if (token.isEmpty) {
-            setAuth(None)
-          }
+              AsyncCallback
+                .fromFuture(result.transformWith {
+                  case Failure(exception) =>
+                    console.log(exception)
+                    Future(setAuth(None))
+                  case Success(value) =>
+                    console.log("Success")
+                    Future {
+                      value.code match {
+                        case StatusCode.Ok =>
+                          for {
+                            body <- value.body
+                            jwt  <- decode[Jwt](body)
+                            _ = localStorage.setItem("token", jwt.token)
+                          } yield ()
+                          setAuth(Some(User("email", "email", "", Some(true), Some("123"))))
+                        case StatusCode.Unauthorized => setAuth(None)
+                      }
+                    }
 
-          val url = "http://localhost:8080/api/v1/auth/login/renew"
-
-          val requestGET: RequestT[Identity, Either[ResponseException[String, circe.Error], Json], Any] = basicRequest
-            .get(uri"$url")
-            .contentType(MediaType.ApplicationJson)
-            .response(asJson[Json])
-
-          def result: Future[Either[ResponseException[String, circe.Error], String]] = requestGET.send(sttpBackend).map(_.body.map(_.noSpaces))
-          AsyncCallback
-            .fromFuture(result.transformWith {
-              case Failure(exception) =>
-                console.log(exception)
-                Future.successful(setAuth(None))
-              case Success(value) =>
-                console.log(value)
-                Future.successful(setAuth(Some(User("email", "email", "", Some(true), Some("123")))))
-
-            })
-            .runNow()
-
-        },
+                })
+                .runNow()
+            },
         js.Array[js.Any]()
       )
 
-    val logout: js.Function0[Unit] = () => ()
+    val logout: js.Function0[Unit] = () => {
+      localStorage.removeItem("token")
+      setAuth(None)
+    }
 
-    lazy val ProviderComponent: JsFn.Component[ProviderProps[ChatState], CtorType.Props] =
-      JsFnComponent.force[ProviderProps[ChatState], Children.None](AuthContext.value.Provider)
+    val ProviderComponent: Js.Component[ProviderProps[ChatState], Null, CtorType.Props] =
+      JsComponent[ProviderProps[ChatState], Children.None, Null](AuthContext.value.Provider)
 
-    val value: Unmounted[ProviderProps[ChatState]] = ProviderComponent(
+    val value: UnmountedWithRawType[ProviderProps[ChatState], Null, RawMounted[ProviderProps[ChatState], Null]] = ProviderComponent(
       ProviderProps(
         ChatState(
           auth,

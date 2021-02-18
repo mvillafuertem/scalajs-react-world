@@ -20,7 +20,7 @@ final class AuthenticateUser private (manageToken: ManageToken, userRepository: 
   def renewToken(token: String): ZStream[Any, ChatError, Jwt] =
     (for {
       validToken <- manageToken.isTokenValid(token)
-    } yield validToken).mapError(_ => ChatError.ServiceNotAvailable())
+    } yield validToken).mapError(_ => ChatError.UnauthorizedError())
 
 }
 

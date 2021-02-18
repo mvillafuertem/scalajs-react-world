@@ -97,7 +97,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.3",
-      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+      "io.github.cquiroz" %%% "scala-java-time" % "2.1.0",
       "org.scalatest"     %%% "scalatest"       % "3.2.4" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
       "io.circe"          %%% "circe-generic"   % "0.13.0"
@@ -139,7 +139,7 @@ lazy val `gif-finder` =
       addCommandAlias("gif-finder", "project gif-finder;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6")
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7")
     )
 
 lazy val heroes =
@@ -151,7 +151,7 @@ lazy val heroes =
       addCommandAlias("heroes", "project heroes;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"        -> "5.1.2",
         "@types/react-router-dom" -> "5.1.2",
@@ -182,7 +182,7 @@ lazy val dashboard =
       useYarn              := true,
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
 
@@ -206,7 +206,7 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-hot" % "0.6.6",
+        "me.shadaj"     %%% "slinky-hot" % "0.6.7",
         "org.scalatest" %%% "scalatest"  % "3.2.4" % Test
       ),
       stFlavour                             := Flavour.Slinky,
@@ -290,7 +290,7 @@ lazy val baseSettings: Project => Project =
         .withModuleKind(ModuleKind.CommonJSModule)),
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.3",
-        "io.github.cquiroz"            %%% "scala-java-time" % "2.0.0",
+        "io.github.cquiroz"            %%% "scala-java-time" % "2.1.0",
         "org.scalatest"                %%% "scalatest"       % "3.2.4" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
