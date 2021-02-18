@@ -206,7 +206,7 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-hot" % "0.6.6",
+        "me.shadaj"     %%% "slinky-hot" % "0.6.7",
         "org.scalatest" %%% "scalatest"  % "3.2.4" % Test
       ),
       stFlavour                             := Flavour.Slinky,
