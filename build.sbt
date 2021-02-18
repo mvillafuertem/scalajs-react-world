@@ -2,16 +2,18 @@ import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.useYarn
 
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
+import scala.sys.process.{ Process, _ }
 
 lazy val `scalajs-react-world` = (project in file("."))
-  .aggregate(`gif-finder`)
-  .aggregate(`simple-test`)
   .aggregate(calendar)
   .aggregate(`chat-backend`)
   .aggregate(`chat-frontend`)
   .aggregate(dashboard)
+  .aggregate(`gif-finder`)
   .aggregate(heroes)
   .aggregate(journal)
+  .aggregate(laminar)
+  .aggregate(`simple-test`)
   .settings(commands += Command.command("chat-release") { state =>
     "chat-frontend/clean" ::
       "chat-frontend/fullOptJS::webpack" ::
@@ -185,6 +187,38 @@ lazy val dashboard =
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
+val yarnBuild     = taskKey[Unit]("fullOptJS then webpack")
+val yarnBuildFast = taskKey[Unit]("fastOptJS then webpack")
+val yarnRunDemo   = taskKey[Unit]("fastOptJS then run webpack server")
+lazy val laminar = (project in file("modules/laminar"))
+  .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+  .settings(
+    scalaVersion := "2.13.4",
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
+    scalaJSUseMainModuleInitializer := true,
+    externalNpm := {
+      Process("yarn", baseDirectory.value).!
+      baseDirectory.value
+    },
+    libraryDependencies += "com.raquo" %%% "laminar" % "0.11.0",
+    // Watch non-scala assets, when they change trigger sbt
+    // if you are using ~npmBuildFast, you get a rebuild
+    // when non-scala assets change
+    watchSources += baseDirectory.value / "public",
+    yarnBuild := {
+      (fullOptJS in Compile)
+      "yarn --cwd modules/laminar/ run app" !
+    },
+    yarnBuildFast := {
+      (fastOptJS in Compile)
+      "yarn --cwd modules/laminar/ run app:dev" !
+    },
+    yarnRunDemo := {
+      (fastOptJS in Compile)
+      "yarn --cwd modules/laminar/ run app:dev-start" !
+    }
+  )
 
 lazy val `simple-test` =
   (project in file("modules/simple-test"))
@@ -321,6 +355,7 @@ lazy val browserProject: Project => Project =
       val artifactFolder = (Compile / fullOptJS / crossTarget).value
       val distFolder     = (ThisBuild / baseDirectory).value / "docs" / moduleName.value
 
+      println(artifacts)
       distFolder.mkdirs()
       artifacts.foreach { artifact =>
         val target = artifact.data.relativeTo(artifactFolder) match {

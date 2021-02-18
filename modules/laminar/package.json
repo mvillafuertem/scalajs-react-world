@@ -1,0 +1,38 @@
+{
+  "name": "dotty-scalajs",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scala:full": "sbt \"project laminar;fullOptJS;\"",
+    "scala:fast": "sbt \"project laminar;fastOptJS;\"",
+    "scala:clean": "sbt \"project laminar;clean\"",
+    "app:dev:start": "webpack-dev-server --config scala.webpack.config.js",
+    "app:dev:watch": "webpack-cli --watch --config scala.webpack.config.js",
+    "app:dev": "webpack-cli --config scala.webpack.config.js",
+    "app": "webpack-cli --env.BUILD_KIND=production --config scala.webpack.config.js",
+    "build": "run-s scala:full app",
+    "start": "run-s scala:fast app:dev app:dev:start",
+    "compile:typescript": "npx tsc --outDir tsc-compiled",
+    "clean": "run-s scala:clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.9.4"
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.9.29",
+    "npm-run-all": "^4.1.1",
+    "scalajs-friendly-source-map-loader": "^0.1.5",
+    "copy-webpack-plugin": "^4.5.2",
+    "snowpack": "^2.18.5",
+    "typescript": "^4.1.3",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.4"
+  }
+}
