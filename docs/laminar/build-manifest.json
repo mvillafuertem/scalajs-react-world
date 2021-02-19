@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "_snowpack/pkg/chartjs.js": {
+      "bytes": 598640,
+      "imports": []
+    },
+    "main.js": {
+      "bytes": 835689,
+      "imports": [
+        {
+          "path": "_snowpack/pkg/chartjs.js",
+          "kind": "import-statement"
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "../../modules/laminar/~~bundle~~/main.js": {
+      "imports": [],
+      "exports": [],
+      "inputs": {
+        "_snowpack/pkg/chartjs.js": {
+          "bytesInOutput": 236789
+        },
+        "main.js": {
+          "bytesInOutput": 473048
+        }
+      },
+      "bytes": 710702
+    }
+  }
+}

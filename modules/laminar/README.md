@@ -13,8 +13,14 @@ You need to:
 
 -   Create the bundle (in a separate terminal):
 
-    > sbt "project laminar; ~fullLinkJS"
+    > sbt "project laminar; ~fastLinkJS"
 
 -   Run Snowpack dev server:
 
     > yarn --cwd modules/laminar/ snowpack dev
+
+-   Run Snowpack build:
+
+    > sbt "project laminar; ~fullLinkJS"
+    > 
+    > yarn --cwd modules/laminar/ snowpack build

@@ -83,6 +83,8 @@ inspired by [material-ui layout example](https://v3.material-ui.com/getting-star
 
 ### [Journal](https://mvillafuertem.github.io/scalajs-react-world/journal/)
 
+### [Laminar](https://mvillafuertem.github.io/scalajs-react-world/laminar/)
+
 ## Libraries
 
 https://github.com/ScalablyTyped/Converter
