@@ -99,8 +99,8 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.3",
-      "io.github.cquiroz" %%% "scala-java-time" % "2.1.0",
-      "org.scalatest"     %%% "scalatest"       % "3.2.5" % Test,
+      "io.github.cquiroz" %%% "scala-java-time" % "2.2.0",
+      "org.scalatest"     %%% "scalatest"       % "3.2.4" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
       "io.circe"          %%% "circe-generic"   % "0.13.0"
     ) ++ Seq(
@@ -324,8 +324,8 @@ lazy val baseSettings: Project => Project =
         .withModuleKind(ModuleKind.CommonJSModule)),
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.3",
-        "io.github.cquiroz"            %%% "scala-java-time" % "2.1.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.5" % Test,
+        "io.github.cquiroz"            %%% "scala-java-time" % "2.2.0",
+        "org.scalatest"                %%% "scalatest"       % "3.2.4" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",
