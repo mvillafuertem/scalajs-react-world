@@ -110,7 +110,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
 
 lazy val tapirVersion = "0.17.9"
-lazy val sttpVersion  = "3.1.3"
+lazy val sttpVersion  = "3.1.5"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
