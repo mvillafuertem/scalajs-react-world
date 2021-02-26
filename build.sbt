@@ -132,6 +132,26 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
     ).map(_ % tapirVersion)
   )
 
+lazy val `countdown-native` =
+  (project in file("modules/countdown-native"))
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    .settings(
+      scalaVersion := "2.13.4",
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSUseMainModuleInitializer := false,
+      /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      stFlavour := Flavour.Japgolly,
+      run := {
+        (Compile / fastOptJS).value
+        Process("expo start", baseDirectory.value).!
+      }
+    )
+
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
     .enablePlugins(ScalablyTypedConverterPlugin)
@@ -187,6 +207,34 @@ lazy val dashboard =
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
+
+
+lazy val `expense-tracker-native` =
+  (project in file("modules/expense-tracker-native"))
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    .settings(
+      scalaVersion := "2.13.4",
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSUseMainModuleInitializer := false,
+      /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      stFlavour := Flavour.Japgolly,
+      run := {
+        (Compile / fastOptJS).value
+        Process("expo start", baseDirectory.value).!
+      },
+      libraryDependencies ++= Seq(
+        "com.softwaremill.sttp.client" %%% "core"          % "2.2.9",
+        "com.softwaremill.sttp.client" %%% "circe"         % "2.2.9",
+        "io.circe"                     %%% "circe-optics"  % "0.13.0",
+        "io.circe"                     %%% "circe-generic" % "0.13.0"
+      )
+    )
+
 val yarnBuild     = taskKey[Unit]("fullOptJS then webpack")
 val yarnBuildFast = taskKey[Unit]("fastOptJS then webpack")
 val yarnRunDemo   = taskKey[Unit]("fastOptJS then run webpack server")
@@ -219,6 +267,32 @@ lazy val laminar = (project in file("modules/laminar"))
       "yarn --cwd modules/laminar/ run app:dev-start" !
     }
   )
+
+lazy val `login-native` =
+  (project in file("modules/login-native"))
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    .settings(
+      scalaVersion := "2.13.4",
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSUseMainModuleInitializer := false,
+      /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      stFlavour := Flavour.Japgolly,
+      run := {
+        (Compile / fastOptJS).value
+        Process("expo start", baseDirectory.value).!
+      },
+      libraryDependencies ++= Seq(
+        "com.softwaremill.sttp.client" %%% "core"          % "2.2.9",
+        "com.softwaremill.sttp.client" %%% "circe"         % "2.2.9",
+        "io.circe"                     %%% "circe-optics"  % "0.13.0",
+        "io.circe"                     %%% "circe-generic" % "0.13.0"
+      )
+    )
 
 lazy val `simple-test` =
   (project in file("modules/simple-test"))
