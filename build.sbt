@@ -41,7 +41,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .configs(IntegrationTest)
   .settings(Defaults.itSettings)
   .settings(IntegrationTest / parallelExecution := false)
-  .settings(scalaVersion := "2.13.4", organization := "io.github.mvillafuertem")
+  .settings(scalaVersion := "2.13.5", organization := "io.github.mvillafuertem")
   .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
@@ -95,7 +95,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
   .dependsOn(`chat-shared`.js)
   .settings(
-    scalaVersion := "2.13.4",
+    scalaVersion := "2.13.5",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.3",
@@ -116,7 +116,7 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/chat/chat-shared"))
   .settings(
-    scalaVersion := "2.13.4",
+    scalaVersion := "2.13.5",
     organization := "io.github.mvillafuertem"
   )
   .settings(
@@ -137,7 +137,7 @@ lazy val `countdown-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.4",
+      scalaVersion := "2.13.5",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -214,7 +214,7 @@ lazy val `expense-tracker-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.4",
+      scalaVersion := "2.13.5",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -242,7 +242,7 @@ lazy val laminar = (project in file("modules/laminar"))
   .enablePlugins(ScalaJSPlugin)
   .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
-    scalaVersion := "2.13.4",
+    scalaVersion := "2.13.5",
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSUseMainModuleInitializer := true,
     externalNpm := {
@@ -273,7 +273,7 @@ lazy val `login-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.4",
+      scalaVersion := "2.13.5",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -302,7 +302,7 @@ lazy val `simple-test` =
     .settings(
       addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
       addCommandAlias("build", "fullOptJS::webpack"),
-      scalaVersion := "2.13.4",
+      scalaVersion := "2.13.5",
       useYarn      := true,
       Compile / npmDependencies ++= NpmDependencies.`simple-test`,
       Compile / npmDevDependencies ++= Seq(
@@ -389,7 +389,7 @@ lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
       useYarn      := true,
-      scalaVersion := "2.13.4",
+      scalaVersion := "2.13.5",
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",
       scalaJSUseMainModuleInitializer := true,
