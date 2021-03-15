@@ -61,7 +61,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
       "dev.zio"           %% "zio-test"                    % "1.0.3"  % IntegrationTest,
       "dev.zio"           %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
-      "org.scalatest"     %% "scalatest"                   % "3.2.5"  % IntegrationTest,
+      "org.scalatest"     %% "scalatest"                   % "3.2.6"  % IntegrationTest,
       "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.3" % IntegrationTest,
       "com.github.jwt-scala"     %% "jwt-circe"                   % "6.0.0"
     )
@@ -100,7 +100,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.3",
       "io.github.cquiroz" %%% "scala-java-time" % "2.2.0",
-      "org.scalatest"     %%% "scalatest"       % "3.2.5" % Test,
+      "org.scalatest"     %%% "scalatest"       % "3.2.6" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
       "io.circe"          %%% "circe-generic"   % "0.13.0"
     ) ++ Seq(
@@ -315,7 +315,7 @@ lazy val `simple-test` =
       ),
       libraryDependencies ++= Seq(
         "me.shadaj"     %%% "slinky-hot" % "0.6.7",
-        "org.scalatest" %%% "scalatest"  % "3.2.5" % Test
+        "org.scalatest" %%% "scalatest"  % "3.2.6" % Test
       ),
       stFlavour                             := Flavour.Slinky,
       fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
@@ -399,7 +399,7 @@ lazy val baseSettings: Project => Project =
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.3",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.2.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.5" % Test,
+        "org.scalatest"                %%% "scalatest"       % "3.2.6" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",
