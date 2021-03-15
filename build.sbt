@@ -48,8 +48,8 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
     libraryDependencies ++= Seq(
       "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.0.7-2",
       "dev.zio"           %% "zio-logging-slf4j"           % "0.5.8",
-      "dev.zio"           %% "zio-streams"                 % "1.0.3",
-      "dev.zio"           %% "zio"                         % "1.0.3",
+      "dev.zio"           %% "zio-streams"                 % "1.0.5",
+      "dev.zio"           %% "zio"                         % "1.0.5",
       "com.typesafe.akka" %% "akka-http"                   % "10.2.4",
       "com.typesafe.akka" %% "akka-stream"                 % "2.6.13",
       "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.13",
@@ -59,11 +59,11 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "org.http4s"        %% "http4s-dsl"                  % "0.21.20",
       "org.http4s"        %% "http4s-blaze-server"         % "0.21.20",
       "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
-      "dev.zio"           %% "zio-test"                    % "1.0.3"  % IntegrationTest,
-      "dev.zio"           %% "zio-test-sbt"                % "1.0.3"  % IntegrationTest,
-      "org.scalatest"     %% "scalatest"                   % "3.2.5"  % IntegrationTest,
+      "dev.zio"           %% "zio-test"                    % "1.0.5"  % IntegrationTest,
+      "dev.zio"           %% "zio-test-sbt"                % "1.0.5"  % IntegrationTest,
+      "org.scalatest"     %% "scalatest"                   % "3.2.6"  % IntegrationTest,
       "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.3" % IntegrationTest,
-      "com.github.jwt-scala"     %% "jwt-circe"                   % "6.0.0"
+      "com.github.jwt-scala"     %% "jwt-circe"                   % "7.1.1"
     )
   )
   .configure(DockerSettings.value)
@@ -98,9 +98,9 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     scalaVersion := "2.13.5",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
-      "dev.zio"           %%% "zio"             % "1.0.3",
+      "dev.zio"           %%% "zio"             % "1.0.5",
       "io.github.cquiroz" %%% "scala-java-time" % "2.2.0",
-      "org.scalatest"     %%% "scalatest"       % "3.2.5" % Test,
+      "org.scalatest"     %%% "scalatest"       % "3.2.6" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
       "io.circe"          %%% "circe-generic"   % "0.13.0"
     ) ++ Seq(
@@ -110,7 +110,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
 
 lazy val tapirVersion = "0.17.9"
-lazy val sttpVersion  = "3.1.6"
+lazy val sttpVersion  = "3.1.7"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -315,7 +315,7 @@ lazy val `simple-test` =
       ),
       libraryDependencies ++= Seq(
         "me.shadaj"     %%% "slinky-hot" % "0.6.7",
-        "org.scalatest" %%% "scalatest"  % "3.2.5" % Test
+        "org.scalatest" %%% "scalatest"  % "3.2.6" % Test
       ),
       stFlavour                             := Flavour.Slinky,
       fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
@@ -397,9 +397,9 @@ lazy val baseSettings: Project => Project =
       _.withSourceMap(false)
         .withModuleKind(ModuleKind.CommonJSModule)),
       libraryDependencies ++= Seq(
-        "dev.zio"                      %%% "zio"             % "1.0.3",
+        "dev.zio"                      %%% "zio"             % "1.0.5",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.2.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.5" % Test,
+        "org.scalatest"                %%% "scalatest"       % "3.2.6" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",
