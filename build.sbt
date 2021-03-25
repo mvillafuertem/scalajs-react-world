@@ -300,8 +300,7 @@ lazy val `simple-test` =
     .enablePlugins(ScalaJSPlugin)
     .configure(testConfiguration, reactNpmDeps)
     .settings(
-      addCommandAlias("dev", ";fastOptJS::startWebpackDevServer;~fastOptJS"),
-      addCommandAlias("build", "fullOptJS::webpack"),
+      addCommandAlias("simple-test", "project simple-test;fastOptJS::startWebpackDevServer;~fastOptJS"),
       scalaVersion := "2.13.5",
       useYarn      := true,
       Compile / npmDependencies ++= NpmDependencies.`simple-test`,
