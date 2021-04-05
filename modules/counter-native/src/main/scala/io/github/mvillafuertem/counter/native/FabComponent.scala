@@ -1,4 +1,4 @@
-package io.mvillafuertem.counter.native
+package io.github.mvillafuertem.counter.native
 
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._

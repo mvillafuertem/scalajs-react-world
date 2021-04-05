@@ -1,4 +1,4 @@
-package io.mvillafuertem.counter.native
+package io.github.mvillafuertem.counter.native
 
 import japgolly.scalajs.react.component.JsFn.UnusedObject
 import japgolly.scalajs.react.raw.React.StatelessFunctionalComponent

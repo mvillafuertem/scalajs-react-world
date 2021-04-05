@@ -1,4 +1,4 @@
-package io.mvillafuertem.counter
+package io.github.mvillafuertem.counter
 
 import typings.reactNative.mod.{TextStyle, ViewStyle}
 
