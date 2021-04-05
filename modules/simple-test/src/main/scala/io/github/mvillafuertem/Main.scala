@@ -1,7 +1,6 @@
 package io.github.mvillafuertem
 
 import io.github.mvillafuertem.facade.{DataSet, Network}
-import io.github.mvillafuertem.Graph
 import org.scalajs.dom
 import slinky.hot
 import slinky.web.ReactDOM
@@ -35,6 +34,6 @@ object Main {
     }
 
 
-    ReactDOM.render(Graph(()), container)
+    ReactDOM.render(Graph(), container)
   }
 }

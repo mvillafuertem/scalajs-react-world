@@ -10,6 +10,7 @@ lazy val `scalajs-react-world` = (project in file("."))
   .aggregate(`chat-frontend`)
   .aggregate(dashboard)
   .aggregate(`gif-finder`)
+  .aggregate(`graph-viewer`)
   .aggregate(heroes)
   .aggregate(journal)
   .aggregate(laminar)
@@ -56,12 +57,12 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.13",
       "org.mongodb.scala" %% "mongo-scala-driver"          % "4.2.2",
       "ch.qos.logback"     % "logback-classic"             % "1.2.3",
-      "org.http4s"        %% "http4s-dsl"                  % "0.21.21",
-      "org.http4s"        %% "http4s-blaze-server"         % "0.21.21",
+      "org.http4s"        %% "http4s-dsl"                  % "0.21.20",
+      "org.http4s"        %% "http4s-blaze-server"         % "0.21.20",
       "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
       "dev.zio"           %% "zio-test"                    % "1.0.5"  % IntegrationTest,
       "dev.zio"           %% "zio-test-sbt"                % "1.0.5"  % IntegrationTest,
-      "org.scalatest"     %% "scalatest"                   % "3.2.7"  % IntegrationTest,
+      "org.scalatest"     %% "scalatest"                   % "3.2.6"  % IntegrationTest,
       "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.3" % IntegrationTest,
       "com.github.jwt-scala"     %% "jwt-circe"                   % "7.1.2"
     )
@@ -100,7 +101,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.5",
       "io.github.cquiroz" %%% "scala-java-time" % "2.2.0",
-      "org.scalatest"     %%% "scalatest"       % "3.2.7" % Test,
+      "org.scalatest"     %%% "scalatest"       % "3.2.6" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
       "io.circe"          %%% "circe-generic"   % "0.13.0"
     ) ++ Seq(
@@ -110,7 +111,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
 
 lazy val tapirVersion = "0.17.9"
-lazy val sttpVersion  = "3.2.3"
+lazy val sttpVersion  = "3.2.0"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -162,6 +163,23 @@ lazy val `gif-finder` =
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7")
+    )
+
+lazy val `graph-viewer` =
+  (project in file("modules/graph-viewer"))
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    //.configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings, withCssLoading)
+    .settings(
+      //addCommandAlias("graph-viewer", "project graph-viewer;fastOptJS::startWebpackDevServer;~fastOptJS"),
+      scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
+      scalaJSUseMainModuleInitializer := true,
+      scalaVersion := "2.13.5",
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      webpackDevServerPort := 8008,
+      stFlavour            := Flavour.Japgolly,
     )
 
 lazy val heroes =
@@ -249,7 +267,8 @@ lazy val laminar = (project in file("modules/laminar"))
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
     },
-    libraryDependencies += "com.raquo" %%% "laminar" % "0.12.2",
+    stFlavour            := Flavour.Japgolly,
+    libraryDependencies += "com.raquo" %%% "laminar" % "0.12.1",
     // Watch non-scala assets, when they change trigger sbt
     // if you are using ~npmBuildFast, you get a rebuild
     // when non-scala assets change
@@ -298,7 +317,7 @@ lazy val `simple-test` =
   (project in file("modules/simple-test"))
     .enablePlugins(ScalablyTypedConverterPlugin)
     .enablePlugins(ScalaJSPlugin)
-    .configure(testConfiguration, reactNpmDeps)
+    .configure(testConfiguration, reactNpmDeps, browserProject)
     .settings(
       addCommandAlias("simple-test", "project simple-test;fastOptJS::startWebpackDevServer;~fastOptJS"),
       scalaVersion := "2.13.5",
@@ -314,7 +333,7 @@ lazy val `simple-test` =
       ),
       libraryDependencies ++= Seq(
         "me.shadaj"     %%% "slinky-hot" % "0.6.7",
-        "org.scalatest" %%% "scalatest"  % "3.2.7" % Test
+        "org.scalatest" %%% "scalatest"  % "3.2.6" % Test
       ),
       stFlavour                             := Flavour.Slinky,
       fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
@@ -398,7 +417,7 @@ lazy val baseSettings: Project => Project =
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.5",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.2.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.7" % Test,
+        "org.scalatest"                %%% "scalatest"       % "3.2.6" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
         "io.circe"                     %%% "circe-optics"    % "0.13.0",

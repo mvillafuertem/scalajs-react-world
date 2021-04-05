@@ -3,7 +3,7 @@ package io.github.mvillafuertem
 import com.raquo.laminar.api.L._
 import org.scalajs.dom
 import org.scalajs.dom.raw.CanvasRenderingContext2D
-import typings.chartJs.mod.^.Chart
+import typings.chartJs.mod.Chart
 import typings.chartJs.mod._
 
 import scala.scalajs.js
@@ -64,6 +64,8 @@ object Main {
     })
   )
 
+  import japgolly.scalajs.react.vdom.html_<^._
   def main(args: Array[String]): Unit =
-    render(dom.document.getElementById("app"), app)
+    japgolly.scalajs.react.vdom.html_<^.<.h1("hola-adios").renderIntoDOM(dom.document.getElementById("app"))
+    //render(dom.document.getElementById("app"), h1("hola"))
 }

@@ -85,6 +85,25 @@ inspired by [material-ui layout example](https://v3.material-ui.com/getting-star
 
 ### [Laminar](https://mvillafuertem.github.io/scalajs-react-world/laminar/)
 
+
+## Quickstart New Project
+
+```shell
+
+export APP_NAME=my-app
+
+cd modules
+
+yarn create react-app $APP_NAME --template typescript
+
+cd $APP_NAME && mkdir -p src/main/scala/io/mvillafuertem/$APP_NAME
+
+yarn add --dev snowpack
+
+
+
+```
+
 ## Libraries
 
 https://github.com/ScalablyTyped/Converter

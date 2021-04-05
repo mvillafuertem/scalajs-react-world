@@ -5,7 +5,7 @@
 module.exports = {
     mount: {
         "public": "/",
-        "target/scala-2.13/laminar-fastopt": "/"
+        "target/scala-2.13/graph-viewer-fastopt": "/"
     },
     packageOptions: {
         /* ... */
@@ -15,7 +15,7 @@ module.exports = {
         open: "chrome"
     },
     buildOptions: {
-        out: "../../docs/laminar",
+        out: "../../docs/graph-viewer",
         clean: true,
         sourcemap: true,
         baseUrl: "./"
