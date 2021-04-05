@@ -153,6 +153,25 @@ lazy val `countdown-native` =
       }
     )
 
+lazy val `counter-native` =
+  (project in file("modules/counter-native"))
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    .settings(
+      scalaVersion := "2.13.5",
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSUseMainModuleInitializer := false,
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      stFlavour := Flavour.Japgolly,
+      run := {
+        (Compile / fastOptJS).value
+        Process("yarn react-native start", baseDirectory.value).!
+      }
+    )
+
 lazy val `gif-finder` =
   (project in file("modules/gif-finder"))
     .enablePlugins(ScalablyTypedConverterPlugin)
