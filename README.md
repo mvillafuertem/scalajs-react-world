@@ -85,6 +85,23 @@ inspired by [material-ui layout example](https://v3.material-ui.com/getting-star
 
 ### [Laminar](https://mvillafuertem.github.io/scalajs-react-world/laminar/)
 
+### Pokedex
+
+
+```shell script
+
+sbt "project pokedex-native; clean;~fastLinkJS"
+
+// In a separate terminal
+
+yarn react-native start
+
+yarn react-native run-ios
+
+```
+
+![pokedex](./modules/pokedex-native/pokedex.gif)
+
 
 ## Quickstart New Project
 
@@ -100,7 +117,24 @@ cd $APP_NAME && mkdir -p src/main/scala/io/mvillafuertem/$APP_NAME
 
 yarn add --dev snowpack
 
+```
 
+## Quickstart New Native Project
+
+```shell
+
+export APP_NAME=my-app
+
+cd modules
+
+npx react-native init $APP_NAME --template react-native-template-typescript
+
+cd $APP_NAME
+
+// Comment $APP_NAME/ios/Podfile
+// use_flipper!()
+
+npx pod-install
 
 ```
 

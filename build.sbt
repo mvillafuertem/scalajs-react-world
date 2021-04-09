@@ -332,6 +332,25 @@ lazy val `login-native` =
       )
     )
 
+lazy val `pokedex-native` =
+  (project in file("modules/pokedex-native"))
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
+    .settings(
+      scalaVersion := "2.13.5",
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSUseMainModuleInitializer := false,
+      externalNpm := {
+        Process("yarn", baseDirectory.value).!
+        baseDirectory.value
+      },
+      stFlavour := Flavour.Japgolly,
+      run := {
+        (Compile / fastOptJS).value
+        Process("yarn react-native start", baseDirectory.value).!
+      }
+    )
+
 lazy val `simple-test` =
   (project in file("modules/simple-test"))
     .enablePlugins(ScalablyTypedConverterPlugin)
