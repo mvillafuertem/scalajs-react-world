@@ -49,8 +49,8 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
     libraryDependencies ++= Seq(
       "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.3",
       "dev.zio"           %% "zio-logging-slf4j"           % "0.5.8",
-      "dev.zio"           %% "zio-streams"                 % "1.0.6",
-      "dev.zio"           %% "zio"                         % "1.0.6",
+      "dev.zio"           %% "zio-streams"                 % "1.0.7",
+      "dev.zio"           %% "zio"                         % "1.0.7",
       "com.typesafe.akka" %% "akka-http"                   % "10.2.4",
       "com.typesafe.akka" %% "akka-stream"                 % "2.6.14",
       "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.14",
@@ -60,8 +60,8 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "org.http4s"        %% "http4s-dsl"                  % "0.21.22",
       "org.http4s"        %% "http4s-blaze-server"         % "0.21.22",
       "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
-      "dev.zio"           %% "zio-test"                    % "1.0.6"  % IntegrationTest,
-      "dev.zio"           %% "zio-test-sbt"                % "1.0.6"  % IntegrationTest,
+      "dev.zio"           %% "zio-test"                    % "1.0.7"  % IntegrationTest,
+      "dev.zio"           %% "zio-test-sbt"                % "1.0.7"  % IntegrationTest,
       "org.scalatest"     %% "scalatest"                   % "3.2.8"  % IntegrationTest,
       "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.3" % IntegrationTest,
       "com.github.jwt-scala"     %% "jwt-circe"                   % "7.1.3"
@@ -99,7 +99,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     scalaVersion := "2.13.5",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
-      "dev.zio"           %%% "zio"             % "1.0.6",
+      "dev.zio"           %%% "zio"             % "1.0.7",
       "io.github.cquiroz" %%% "scala-java-time" % "2.2.2",
       "org.scalatest"     %%% "scalatest"       % "3.2.8" % Test,
       "io.circe"          %%% "circe-optics"    % "0.13.0",
@@ -453,7 +453,7 @@ lazy val baseSettings: Project => Project =
       _.withSourceMap(false)
         .withModuleKind(ModuleKind.CommonJSModule)),
       libraryDependencies ++= Seq(
-        "dev.zio"                      %%% "zio"             % "1.0.6",
+        "dev.zio"                      %%% "zio"             % "1.0.7",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.2.2",
         "org.scalatest"                %%% "scalatest"       % "3.2.8" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
