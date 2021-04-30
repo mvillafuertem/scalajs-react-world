@@ -64,8 +64,5 @@ object Main {
     })
   )
 
-  import japgolly.scalajs.react.vdom.html_<^._
-  def main(args: Array[String]): Unit =
-    japgolly.scalajs.react.vdom.html_<^.<.h1("hola-adios").renderIntoDOM(dom.document.getElementById("app"))
-    //render(dom.document.getElementById("app"), h1("hola"))
+  def main(args: Array[String]): Unit = render(dom.document.getElementById("app"), app)
 }

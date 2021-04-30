@@ -286,7 +286,6 @@ lazy val laminar = (project in file("modules/laminar"))
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
     },
-    stFlavour            := Flavour.Japgolly,
     libraryDependencies += "com.raquo" %%% "laminar" % "0.12.1",
     // Watch non-scala assets, when they change trigger sbt
     // if you are using ~npmBuildFast, you get a rebuild
