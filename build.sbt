@@ -102,7 +102,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
       "dev.zio"           %%% "zio"             % "1.0.8",
       "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
       "org.scalatest"     %%% "scalatest"       % "3.2.9" % Test,
-      "io.circe"          %%% "circe-optics"    % "0.13.0",
+      "io.circe"          %%% "circe-optics"    % "0.14.1",
       "io.circe"          %%% "circe-generic"   % "0.14.1"
     ) ++ Seq(
       "com.softwaremill.sttp.client3" %%% "core",
@@ -267,7 +267,7 @@ lazy val `expense-tracker-native` =
       libraryDependencies ++= Seq(
         "com.softwaremill.sttp.client" %%% "core"          % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"         % "2.2.9",
-        "io.circe"                     %%% "circe-optics"  % "0.13.0",
+        "io.circe"                     %%% "circe-optics"  % "0.14.1",
         "io.circe"                     %%% "circe-generic" % "0.14.1"
       )
     )
@@ -326,7 +326,7 @@ lazy val `login-native` =
       libraryDependencies ++= Seq(
         "com.softwaremill.sttp.client" %%% "core"          % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"         % "2.2.9",
-        "io.circe"                     %%% "circe-optics"  % "0.13.0",
+        "io.circe"                     %%% "circe-optics"  % "0.14.1",
         "io.circe"                     %%% "circe-generic" % "0.14.1"
       )
     )
@@ -457,7 +457,7 @@ lazy val baseSettings: Project => Project =
         "org.scalatest"                %%% "scalatest"       % "3.2.9" % Test,
         "com.softwaremill.sttp.client" %%% "core"            % "2.2.9",
         "com.softwaremill.sttp.client" %%% "circe"           % "2.2.9",
-        "io.circe"                     %%% "circe-optics"    % "0.13.0",
+        "io.circe"                     %%% "circe-optics"    % "0.14.1",
         "io.circe"                     %%% "circe-generic"   % "0.14.1"
       )
     )
