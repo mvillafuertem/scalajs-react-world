@@ -51,7 +51,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"           %% "zio-logging-slf4j"           % "0.5.11",
       "dev.zio"           %% "zio-streams"                 % "1.0.9",
       "dev.zio"           %% "zio"                         % "1.0.9",
-      "com.typesafe.akka" %% "akka-http"                   % "10.2.4",
+      "com.typesafe.akka" %% "akka-http"                   % "10.2.5",
       "com.typesafe.akka" %% "akka-stream"                 % "2.6.15",
       "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.15",
       "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.15",
