@@ -91,7 +91,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   .settings(
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "1.1.0"
+      "org.scala-js" %%% "scalajs-dom" % "1.2.0"
     )
   )
   .dependsOn(`chat-shared`.js)
