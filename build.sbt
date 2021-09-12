@@ -181,7 +181,7 @@ lazy val `gif-finder` =
       addCommandAlias("gif-finder", "project gif-finder;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7")
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8")
     )
 
 lazy val `graph-viewer` =
@@ -210,7 +210,7 @@ lazy val heroes =
       addCommandAlias("heroes", "project heroes;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       Compile / npmDependencies ++= Seq(
         "react-router-dom"        -> "5.1.2",
         "@types/react-router-dom" -> "5.1.2",
@@ -241,7 +241,7 @@ lazy val dashboard =
       useYarn              := true,
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Slinky,
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.7"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
 
@@ -369,7 +369,7 @@ lazy val `simple-test` =
         "webpack-merge"       -> "4.2.2"
       ),
       libraryDependencies ++= Seq(
-        "me.shadaj"     %%% "slinky-hot" % "0.6.7",
+        "me.shadaj"     %%% "slinky-hot" % "0.6.8",
         "org.scalatest" %%% "scalatest"  % "3.2.9" % Test
       ),
       stFlavour                             := Flavour.Slinky,
