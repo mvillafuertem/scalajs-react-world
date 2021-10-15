@@ -47,7 +47,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
     libraryDependencies ++= Seq(
-      "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.7",
+      "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.8",
       "dev.zio"           %% "zio-logging-slf4j"           % "0.5.12",
       "dev.zio"           %% "zio-streams"                 % "1.0.12",
       "dev.zio"           %% "zio"                         % "1.0.12",
