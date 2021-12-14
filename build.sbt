@@ -47,24 +47,24 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
     libraryDependencies ++= Seq(
-      "dev.zio"           %% "zio-interop-reactivestreams" % "1.3.8",
-      "dev.zio"           %% "zio-logging-slf4j"           % "0.5.14",
-      "dev.zio"           %% "zio-streams"                 % "1.0.12",
-      "dev.zio"           %% "zio"                         % "1.0.12",
-      "com.typesafe.akka" %% "akka-http"                   % "10.2.7",
-      "com.typesafe.akka" %% "akka-stream"                 % "2.6.17",
-      "com.typesafe.akka" %% "akka-actor-typed"            % "2.6.17",
-      "com.typesafe.akka" %% "akka-slf4j"                  % "2.6.17",
-      "org.mongodb.scala" %% "mongo-scala-driver"          % "4.4.0",
-      "ch.qos.logback"     % "logback-classic"             % "1.2.7",
-      "org.http4s"        %% "http4s-dsl"                  % "0.23.7",
-      "org.http4s"        %% "http4s-blaze-server"         % "0.23.7",
-      "com.github.t3hnar" %% "scala-bcrypt"                % "4.3.0",
-      "dev.zio"           %% "zio-test"                    % "1.0.12"  % IntegrationTest,
-      "dev.zio"           %% "zio-test-sbt"                % "1.0.12"  % IntegrationTest,
-      "org.scalatest"     %% "scalatest"                   % "3.2.10"  % IntegrationTest,
-      "com.dimafeng"      %% "testcontainers-scala-core"   % "0.39.12" % IntegrationTest,
-      "com.github.jwt-scala"     %% "jwt-circe"                   % "9.0.2"
+      "dev.zio"              %% "zio-interop-reactivestreams" % "1.3.8",
+      "dev.zio"              %% "zio-logging-slf4j"           % "0.5.14",
+      "dev.zio"              %% "zio-streams"                 % "1.0.12",
+      "dev.zio"              %% "zio"                         % "1.0.12",
+      "com.typesafe.akka"    %% "akka-http"                   % "10.2.7",
+      "com.typesafe.akka"    %% "akka-stream"                 % "2.6.17",
+      "com.typesafe.akka"    %% "akka-actor-typed"            % "2.6.17",
+      "com.typesafe.akka"    %% "akka-slf4j"                  % "2.6.17",
+      "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.4.0",
+      "ch.qos.logback"        % "logback-classic"             % "1.2.8",
+      "org.http4s"           %% "http4s-dsl"                  % "0.23.7",
+      "org.http4s"           %% "http4s-blaze-server"         % "0.23.7",
+      "com.github.t3hnar"    %% "scala-bcrypt"                % "4.3.0",
+      "dev.zio"              %% "zio-test"                    % "1.0.12"  % IntegrationTest,
+      "dev.zio"              %% "zio-test-sbt"                % "1.0.12"  % IntegrationTest,
+      "org.scalatest"        %% "scalatest"                   % "3.2.10"  % IntegrationTest,
+      "com.dimafeng"         %% "testcontainers-scala-core"   % "0.39.12" % IntegrationTest,
+      "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.2"
     )
   )
   .configure(DockerSettings.value)
@@ -81,7 +81,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   .settings(
     addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
     scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
-    //scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
+    // scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
     stFlavour := Flavour.Japgolly,
     libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
@@ -187,18 +187,18 @@ lazy val `gif-finder` =
 lazy val `graph-viewer` =
   (project in file("modules/graph-viewer"))
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
-    //.configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings, withCssLoading)
+    // .configure(baseSettings, browserProject, reactNpmDeps, bundlerSettings, withCssLoading)
     .settings(
-      //addCommandAlias("graph-viewer", "project graph-viewer;fastOptJS::startWebpackDevServer;~fastOptJS"),
+      // addCommandAlias("graph-viewer", "project graph-viewer;fastOptJS::startWebpackDevServer;~fastOptJS"),
       scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
       scalaJSUseMainModuleInitializer := true,
-      scalaVersion := "2.13.7",
+      scalaVersion                    := "2.13.7",
       externalNpm := {
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
       webpackDevServerPort := 8008,
-      stFlavour            := Flavour.Japgolly,
+      stFlavour            := Flavour.Japgolly
     )
 
 lazy val heroes =
@@ -244,7 +244,6 @@ lazy val dashboard =
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       Compile / npmDependencies ++= NpmDependencies.`dashboard`
     )
-
 
 lazy val `expense-tracker-native` =
   (project in file("modules/expense-tracker-native"))
@@ -426,17 +425,14 @@ lazy val reactNpmDeps: Project => Project =
   )
 
 /**
- * Custom task to start demo with webpack-dev-server, use as `<project>/start`.
- * Just `start` also works, and starts all frontend demos
+ * Custom task to start demo with webpack-dev-server, use as `<project>/start`. Just `start` also works, and starts all frontend demos
  *
- * After that, the incantation is this to watch and compile on change:
- * `~<project>/fastOptJS::webpack`
+ * After that, the incantation is this to watch and compile on change: `~<project>/fastOptJS::webpack`
  */
 lazy val start = TaskKey[Unit]("start")
 
 /**
- * Say just `dist` or `<project>/dist` to make a production bundle in
- * `docs` for github publishing
+ * Say just `dist` or `<project>/dist` to make a production bundle in `docs` for github publishing
  */
 lazy val dist = TaskKey[File]("dist")
 
@@ -471,8 +467,7 @@ lazy val bundlerSettings: Project => Project =
   )
 
 /**
- * Implement the `start` and `dist` tasks defined above.
- * Most of this is really just to copy the index.html file around.
+ * Implement the `start` and `dist` tasks defined above. Most of this is really just to copy the index.html file around.
  */
 lazy val browserProject: Project => Project =
   _.settings(
