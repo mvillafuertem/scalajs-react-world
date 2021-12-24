@@ -4,7 +4,7 @@ import io.github.mvillafuertem.model.Hero.getHeroByPublisher
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks.useMemo
-import slinky.web.html.{className, div}
+import slinky.web.html.{ className, div }
 
 @react object HeroesList {
 

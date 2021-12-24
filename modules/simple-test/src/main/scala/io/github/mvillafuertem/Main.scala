@@ -1,17 +1,17 @@
 package io.github.mvillafuertem
 
-import io.github.mvillafuertem.facade.{DataSet, Network}
+import io.github.mvillafuertem.facade.{ DataSet, Network }
 import org.scalajs.dom
 import slinky.hot
 import slinky.web.ReactDOM
 import slinky.web.html.div
-import typings.materialUiCore.createMuiThemeMod.{Theme, ThemeOptions}
+import typings.materialUiCore.createMuiThemeMod.{ Theme, ThemeOptions }
 import typings.materialUiCore.createTypographyMod.TypographyOptions
 import typings.materialUiCore.stylesMod
 import typings.materialUiStyles.components.ThemeProvider
 
 import scala.scalajs.js.Dictionary
-import scala.scalajs.{LinkingInfo, js}
+import scala.scalajs.{ js, LinkingInfo }
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 object Main {
@@ -32,7 +32,6 @@ object Main {
       dom.document.body.appendChild(elem)
       elem
     }
-
 
     ReactDOM.render(Graph(), container)
   }

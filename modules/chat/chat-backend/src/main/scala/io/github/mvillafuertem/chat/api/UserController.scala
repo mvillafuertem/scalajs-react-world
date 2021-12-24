@@ -17,7 +17,9 @@ trait UserController {
     .runtime[ZCreateNewUser]
     .map { implicit runtime: zio.Runtime[ZCreateNewUser] =>
       val createNewUserRoute = AkkaHttpServerInterpreter.toRoute[User, ChatError, Source[ByteString, Any]](AuthEndpoint.newUser)(user =>
-        runtime.unsafeRunToFuture(UnsafeRunZStreams.run[ZCreateNewUser, ChatError](CreateNewUser.createUser(user).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkEither))
+        runtime.unsafeRunToFuture(
+          UnsafeRunZStreams.run[ZCreateNewUser, ChatError](CreateNewUser.createUser(user).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkEither)
+        )
       )
       createNewUserRoute
     }

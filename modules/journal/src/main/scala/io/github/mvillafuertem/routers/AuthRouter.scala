@@ -1,10 +1,10 @@
 package io.github.mvillafuertem.routers
 
-import io.github.mvillafuertem.components.auth.{LoginScreen, RegisterScreen}
+import io.github.mvillafuertem.components.auth.{ LoginScreen, RegisterScreen }
 import japgolly.scalajs.react.ScalaFnComponent
-import japgolly.scalajs.react.vdom.html_<^.{<, ^, _}
+import japgolly.scalajs.react.vdom.html_<^.{ <, ^, _ }
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{Redirect, Route, Switch}
+import typings.reactRouterDom.components.{ Redirect, Route, Switch }
 
 import scala.scalajs.js
 

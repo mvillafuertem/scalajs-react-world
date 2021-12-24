@@ -3,24 +3,24 @@ package io.github.mvillafuertem.auth
 import io.circe
 import io.circe.generic.auto._
 import io.circe.parser.decode
-import io.github.mvillafuertem.chat.domain.model.{Jwt, User}
+import io.github.mvillafuertem.chat.domain.model.{ Jwt, User }
 import japgolly.scalajs.react.component.Js
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
+import japgolly.scalajs.react.component.Js.{ RawMounted, UnmountedWithRawType }
 import japgolly.scalajs.react.component.JsFn.Unmounted
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.{AsyncCallback, Children, CtorType, JsComponent, ScalaFnComponent}
+import japgolly.scalajs.react.{ AsyncCallback, Children, CtorType, JsComponent, ScalaFnComponent }
 import sttp.client3.circe.asJson
-import sttp.client3.{FetchBackend, Identity, RequestT, Response, ResponseException, SttpBackend, UriContext, basicRequest}
-import sttp.model.{MediaType, StatusCode}
+import sttp.client3.{ basicRequest, FetchBackend, Identity, RequestT, Response, ResponseException, SttpBackend, UriContext }
+import sttp.model.{ MediaType, StatusCode }
 import typings.react.mod._
-import typings.std.global.{console, localStorage}
-import typings.sweetalert2.mod.{SweetAlertIcon, default => Swal}
+import typings.std.global.{ console, localStorage }
+import typings.sweetalert2.mod.{ default => Swal, SweetAlertIcon }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 case class ChatState(
   user:        Option[User] = None,
@@ -103,10 +103,9 @@ object AuthProvider {
                 case StatusCode.Ok =>
                   value.body.fold(
                     _ => setAuth(None),
-                    user => {
+                    user =>
                       login(user.email, user.password)
-                      //setAuth(Some(user))
-                    }
+                      // setAuth(Some(user))
                   )
                 case StatusCode.Unauthorized => setAuth(None)
               }
@@ -176,7 +175,7 @@ object AuthProvider {
     )
 
     value
-  //AuthContext.value.setProvider(value)
+  // AuthContext.value.setProvider(value)
   }
 
 }

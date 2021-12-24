@@ -5,7 +5,7 @@ import typings.csstype.csstypeStrings._
 import typings.materialUiCore.createMuiThemeMod.Theme
 import typings.materialUiCore.spacingMod.Spacing
 import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.withStylesMod.{CSSProperties, Styles}
+import typings.materialUiStyles.withStylesMod.{ CSSProperties, Styles }
 
 import scala.scalajs.js
 
@@ -118,7 +118,7 @@ object Styles {
         theme =>
           CSSProperties()
             .setMarginTop(theme.setSpacing(Spacing(6)).spacing.unit)
-            //.setBoxShadow( theme.customShadows.widget)
+            // .setBoxShadow( theme.customShadows.widget)
             .setBackgroundColor("white")
             .setWidth("100%")
             .setTextTransform(none)

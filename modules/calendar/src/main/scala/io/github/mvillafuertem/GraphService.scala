@@ -9,22 +9,21 @@ import typings.microsoftMicrosoftGraphClient.iauthproviderMod.AuthProvider
 import typings.microsoftMicrosoftGraphClient.iauthprovidercallbackMod.AuthProviderCallback
 import typings.microsoftMicrosoftGraphClient.mod.PageIterator
 import typings.microsoftMicrosoftGraphClient.pageIteratorMod.PageCollection
-import typings.microsoftMicrosoftGraphClient.{ioptionsMod, mod => graph}
+import typings.microsoftMicrosoftGraphClient.{ ioptionsMod, mod => graph }
 import typings.moment.mod.Moment
 import typings.moment.momentMod
 import typings.moment.momentStrings.day
-import typings.momentTimezone.{mod => moment}
+import typings.momentTimezone.{ mod => moment }
 
 import scala.scalajs.js
 
 object GraphService {
 
-  val getAuthenticatedClient: js.Function1[String, Client] = (accessToken: String) => {
+  val getAuthenticatedClient: js.Function1[String, Client] = (accessToken: String) =>
 //    graph.Client.init(js.Dynamic.literal(
 //      authProvider = (done: AuthProviderCallback) => done(null, accessToken)
 //    ).asInstanceOf[Options])
     graph.Client.init(Options().setAuthProvider((done: AuthProviderCallback) => done(null, accessToken)))
-  }
 
   val getUserDetails: js.Function1[String, AsyncCallback[User]] = (accessToken: String) =>
     AsyncCallback.fromJsPromise {
@@ -39,46 +38,47 @@ object GraphService {
       User(dynamic.userPrincipalName.asInstanceOf[String], dynamic.displayName.asInstanceOf[String], dynamic.mail.asInstanceOf[String])
     }
 
-  val getUserWeekCalendar: js.Function3[String, String, momentMod.Moment, AsyncCallback[Array[Event]]] = (accessToken: String, timeZone: String, startDate: momentMod.Moment) => {
-    val client = getAuthenticatedClient(accessToken)
-    for {
-      response <- AsyncCallback.fromJsPromise {
-        // Generate startDateTime and endDateTime query params
-        // to display a 7-day window
-        val startDateTime = startDate.format()
-        val endDateTime   = moment.^(startDateTime).add(7, day).format()
+  val getUserWeekCalendar: js.Function3[String, String, momentMod.Moment, AsyncCallback[Array[Event]]] =
+    (accessToken: String, timeZone: String, startDate: momentMod.Moment) => {
+      val client = getAuthenticatedClient(accessToken)
+      for {
+        response <- AsyncCallback.fromJsPromise {
+          // Generate startDateTime and endDateTime query params
+          // to display a 7-day window
+          val startDateTime = startDate.format()
+          val endDateTime   = moment.^(startDateTime).add(7, day).format()
 
-        // GET /me/calendarview?startDateTime=''&endDateTime=''
-        // &$select=subject,organizer,start,end
-        // &$orderby=start/dateTime
-        // &$top=50
-        val request = client
-          .api("/me/calendarview")
-          .header("Prefer", s"outlook.timezone=${timeZone}")
-          .query(StringDictionary(startDateTime -> startDateTime, endDateTime -> endDateTime))
-          .select(js.Array[String]("subject", "organizer", "start", "end"))
-          .orderby("start/dateTime")
-          .top(50)
+          // GET /me/calendarview?startDateTime=''&endDateTime=''
+          // &$select=subject,organizer,start,end
+          // &$orderby=start/dateTime
+          // &$top=50
+          val request = client
+            .api("/me/calendarview")
+            .header("Prefer", s"outlook.timezone=${timeZone}")
+            .query(StringDictionary(startDateTime -> startDateTime, endDateTime -> endDateTime))
+            .select(js.Array[String]("subject", "organizer", "start", "end"))
+            .orderby("start/dateTime")
+            .top(50)
 
-        println(js.JSON.stringify(request))
-        request.get()
-      }.map(_.asInstanceOf[PageCollection])
-      events: Array[Event] = Array()
+          println(js.JSON.stringify(request))
+          request.get()
+        }.map(_.asInstanceOf[PageCollection])
+        events: Array[Event] = Array()
 
-      result <- response.get("@odata.nextLink").fold(AsyncCallback.pure(response.value.asInstanceOf[Array[Event]])) { _ =>
-        val iterator = new PageIterator(
-          client.asInstanceOf[graph.Client],
-          response,
-          (event: js.Any) => {
-            events.appended(event)
-            true
-          }
-        )
-        AsyncCallback.fromJsPromise(iterator.iterate()).map(_ => events)
-      }
+        result <- response.get("@odata.nextLink").fold(AsyncCallback.pure(response.value.asInstanceOf[Array[Event]])) { _ =>
+          val iterator = new PageIterator(
+            client.asInstanceOf[graph.Client],
+            response,
+            (event: js.Any) => {
+              events.appended(event)
+              true
+            }
+          )
+          AsyncCallback.fromJsPromise(iterator.iterate()).map(_ => events)
+        }
 
-    } yield result
-  }
+      } yield result
+    }
 
   object Options {
     @scala.inline

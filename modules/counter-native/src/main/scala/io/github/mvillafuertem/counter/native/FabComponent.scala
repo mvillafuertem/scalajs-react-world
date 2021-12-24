@@ -59,7 +59,7 @@ object FabComponent {
   )
 
   val component: Component[Props, CtorType.Props] = ScalaFnComponent[Props] { case Props(title, onPress, position) =>
-    val ios = () => {
+    val ios = () =>
       TouchableOpacity
         .activeOpacity(0.75)
         .set(
@@ -77,9 +77,8 @@ object FabComponent {
             Text.style(styles(FabText).toTextStyle)(title)
           )
         )
-    }
 
-    val android = () => {
+    val android = () =>
       View.set(
         "style",
         js.Array(
@@ -98,7 +97,6 @@ object FabComponent {
             )
           )
       )
-    }
 
     if (Platform.asInstanceOf[PlatformIOSStatic].OS == PlatformOSType.ios)
       ios()

@@ -17,7 +17,7 @@ object usePokemon {
     val js.Tuple2(pokemon, setPokemon) =
       useState[PokemonFull](js.Object.asInstanceOf[PokemonFull]) // {} as PokemonFull (syntax TypeScript) esto devuelve undefined y no un error
 
-    val loadPokemon = () => {
+    val loadPokemon = () =>
       AsyncCallback.fromJsPromise {
 
         val response = PokemonApi.api
@@ -28,12 +28,9 @@ object usePokemon {
         response
 
       }.runNow()
-    }
 
     useEffect(
-      (() => {
-        loadPokemon()
-      }): EffectCallback,
+      (() => loadPokemon()): EffectCallback,
       js.Array[js.Any]() // Important!! esto evita que entre en bucle
     )
 

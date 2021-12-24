@@ -15,5 +15,4 @@ import slinky.web.html.h1
     )
   }
 
-
 }

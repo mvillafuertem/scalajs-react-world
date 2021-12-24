@@ -1,13 +1,13 @@
 package io.github.mvillafuertem.pokedex.components
 
 import io.github.mvillafuertem.pokedex.hooks.useAnimation
-import japgolly.scalajs.react.{Callback, CallbackTo, CtorType, ReactEventFrom, ScalaFnComponent}
+import japgolly.scalajs.react.{ Callback, CallbackTo, CtorType, ReactEventFrom, ScalaFnComponent }
 import japgolly.scalajs.react.component.ScalaFn.Component
 import org.scalajs.dom.raw.Element
 import typings.react.mod.useState
-import typings.reactNative.components.{ActivityIndicator, Text, View}
-import typings.reactNative.mod.{FlexAlignType, ImageErrorEventData, ImageStyle, ImageURISource, NativeSyntheticEvent, NodeHandle, StyleProp, ViewStyle}
-import typings.reactNative.reactNativeStrings.{absolute, center}
+import typings.reactNative.components.{ ActivityIndicator, Text, View }
+import typings.reactNative.mod.{ FlexAlignType, ImageErrorEventData, ImageStyle, ImageURISource, NativeSyntheticEvent, NodeHandle, StyleProp, ViewStyle }
+import typings.reactNative.reactNativeStrings.{ absolute, center }
 
 import scala.scalajs.js
 

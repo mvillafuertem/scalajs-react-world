@@ -20,7 +20,7 @@ object UserRepositoryIT extends RunnableIntegrationSpec {
             .findUserByEmail("adios@email.com")
             .runCollect
           // t h e n
-        } yield assert(createdUser)(equalTo(foundUser)) //assert(_id)(equalTo(user.flatMap(_._id)))
+        } yield assert(createdUser)(equalTo(foundUser)) // assert(_id)(equalTo(user.flatMap(_._id)))
       ),
       testM("error duplicate entity")(
         assertM(

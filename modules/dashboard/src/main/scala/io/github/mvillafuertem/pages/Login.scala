@@ -4,9 +4,9 @@ import io.github.mvillafuertem.pages.Styles.styles
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade.{Fragment, Hooks}
+import slinky.core.facade.{ Fragment, Hooks }
 import slinky.web.html._
-import typings.materialUiCore.anon.{PartialClassNameMapInputC, PartialInputProps}
+import typings.materialUiCore.anon.{ PartialClassNameMapInputC, PartialInputProps }
 import typings.materialUiCore.components._
 import typings.materialUiCore.materialUiCoreStrings.primary
 import typings.materialUiCore.materialUiCoreStrings.large
@@ -15,11 +15,10 @@ import typings.materialUiCore.materialUiCoreStrings.contained
 import typings.materialUiCore.materialUiCoreStrings.secondary
 import typings.materialUiCore.materialUiCoreStrings.secondary
 import typings.materialUiCore.typographyTypographyMod.Style
-import typings.classnames.{mod => classNames}
+import typings.classnames.{ mod => classNames }
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-
 
 @react object Login {
 
@@ -39,9 +38,11 @@ import scala.scalajs.js.annotation.JSImport
       .container(true)
       .className(classes("container"))(
         div(className := classes("logotypeContainer"))(
-          img(src := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/pages/login/logo.svg",
-            alt := "logo",
-            className := classes("logotypeImage")),
+          img(
+            src       := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/pages/login/logo.svg",
+            alt       := "logo",
+            className := classes("logotypeImage")
+          ),
           Typography.className(classes("logotypeText"))("Material Admin")
         ),
         div(className := classes("formContainer"))(
@@ -63,10 +64,14 @@ import scala.scalajs.js.annotation.JSImport
                   Button
                     .size(large)
                     .className(classes("googleButton"))(
-                      img(src := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/images/google.svg", alt := "google", className := classes("googleIcon")),
+                      img(
+                        src       := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/images/google.svg",
+                        alt       := "google",
+                        className := classes("googleIcon")
+                      ),
                       "Sign in with Google"
                     ),
-                  div(className := classes("formDividerContainer"))(
+                  div(className   := classes("formDividerContainer"))(
                     div(className := classes("formDivider")),
                     Typography.className(classes("formDividerWord"))("or"),
                     div(className := classes("formDivider"))
@@ -143,7 +148,7 @@ import scala.scalajs.js.annotation.JSImport
                             .setInput(classes("textField"))
                         )
                     )
-                    //.value(nameValue)
+                    // .value(nameValue)
                     .onChange(e => setLoginValue(e.target.toString))
                     .margin(normal)
                     .placeholder("Full Name")
@@ -189,30 +194,33 @@ import scala.scalajs.js.annotation.JSImport
                         .disabled(loginValue.length == 0 || passwordValue.length == 0)
                         .size(large)
                         .variant(contained)
-                        .color(primary).fullWidth(true)
+                        .color(primary)
+                        .fullWidth(true)
                         .className(classes("createAccountButton"))("Create your account")
                     }
                   ),
-                  div(className := classes("formDividerContainer"))(
+                  div(className   := classes("formDividerContainer"))(
                     div(className := classes("formDivider")),
                     Typography.className(classes("formDividerWord"))("or"),
                     div(className := classes("formDivider"))
                   ),
-                    Button
-                      .color(primary)
-                      .size(large)
-                      .className(classNames(StringDictionary[js.Any](classes("googleButton") -> true, classes("googleButtonCreating") -> true)))
-                      (
-                        img(src := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/images/google.svg", alt := "google", className := classes("googleIcon")),
-                        "Sign in with Google"
-                      )
+                  Button
+                    .color(primary)
+                    .size(large)
+                    .className(classNames(StringDictionary[js.Any](classes("googleButton") -> true, classes("googleButtonCreating") -> true)))(
+                      img(
+                        src       := "https://raw.githubusercontent.com/flatlogic/react-material-admin/master/src/images/google.svg",
+                        alt       := "google",
+                        className := classes("googleIcon")
+                      ),
+                      "Sign in with Google"
+                    )
                 )
             }
           ),
-    Typography
-      .color(primary)
-      .className(classes("copyright"))("© 2014-2019 Flatlogic, LLC. All rights reserved.")
-
+          Typography
+            .color(primary)
+            .className(classes("copyright"))("© 2014-2019 Flatlogic, LLC. All rights reserved.")
         )
       )
   }

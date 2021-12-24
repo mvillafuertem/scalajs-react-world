@@ -2,7 +2,7 @@ package io.github.mvillafuertem.components.journal
 
 import io.github.mvillafuertem.components.notes.NoteScreen
 import japgolly.scalajs.react.ScalaFnComponent
-import japgolly.scalajs.react.vdom.html_<^.{<, _}
+import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
 
 object JournalScreen {
 
@@ -11,7 +11,7 @@ object JournalScreen {
       Sidebar.component(),
       <.main(
         NoteScreen.component()
-        //NothingSelected.component()
+        // NothingSelected.component()
       )
     )
   }

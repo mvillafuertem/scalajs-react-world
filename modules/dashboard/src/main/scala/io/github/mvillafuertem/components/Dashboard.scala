@@ -183,7 +183,7 @@ import scala.scalajs.js
             Divider(),
             List(ListItems.secondaryListItems)
           ),
-        main(className := classes("content"))(
+        main(className  := classes("content"))(
           div(className := classes("appBarSpacer")),
           Switch(
             Route(

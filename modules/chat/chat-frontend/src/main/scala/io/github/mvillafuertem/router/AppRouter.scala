@@ -7,7 +7,7 @@ import japgolly.scalajs.react.vdom.html_<^.<
 import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import typings.react.mod.{ useContext, useEffect, DependencyList, EffectCallback }
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, Switch, BrowserRouter => Router }
+import typings.reactRouterDom.components.{ BrowserRouter => Router, Redirect, Route, Switch }
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._

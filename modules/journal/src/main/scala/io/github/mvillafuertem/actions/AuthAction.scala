@@ -6,7 +6,6 @@ import typings.redux.mod.Action
 
 import scala.scalajs.js
 
-
 @js.native
 sealed trait AuthAction extends Action[String]
 

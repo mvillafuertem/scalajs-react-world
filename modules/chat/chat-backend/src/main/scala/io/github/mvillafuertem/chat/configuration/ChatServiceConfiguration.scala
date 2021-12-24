@@ -1,16 +1,16 @@
 package io.github.mvillafuertem.chat.configuration
 
-import io.github.mvillafuertem.chat.application.{AuthenticateUser, CreateNewUser, ManageToken}
+import io.github.mvillafuertem.chat.application.{ AuthenticateUser, CreateNewUser, ManageToken }
 import io.github.mvillafuertem.chat.application.CreateNewUser.ZCreateNewUser
 import io.github.mvillafuertem.chat.configuration
 import io.github.mvillafuertem.chat.configuration.ApiConfiguration.ZApiConfiguration
-import io.github.mvillafuertem.chat.configuration.properties.{AkkaHttpServerConfigurationProperties, ChatConfigurationProperties}
-import io.github.mvillafuertem.chat.infrastructure.{MongoUserRepository, UserRepository, ZMongoDatabase}
+import io.github.mvillafuertem.chat.configuration.properties.{ AkkaHttpServerConfigurationProperties, ChatConfigurationProperties }
+import io.github.mvillafuertem.chat.infrastructure.{ MongoUserRepository, UserRepository, ZMongoDatabase }
 import zio._
 import zio.blocking.Blocking
 import zio.clock.Clock
 import zio.console.Console
-import zio.logging.{LogFormat, LogLevel, Logging, log}
+import zio.logging.{ log, LogFormat, LogLevel, Logging }
 
 trait ChatServiceConfiguration extends InfrastructureConfiguration {
 
@@ -20,10 +20,19 @@ trait ChatServiceConfiguration extends InfrastructureConfiguration {
       format = LogFormat.ColoredLogFormat()
     ) >>> Logging.withRootLoggerName("ChatServiceApplication")
 
-  private lazy val actorSystemLayer
-    : ZLayer[Blocking, Throwable, Has[ChatConfigurationProperties] with Has[AkkaHttpServerConfigurationProperties] with ZMongoDatabase with Has[
-      UserRepository
-    ] with ZCreateNewUser with ZApiConfiguration with configuration.ActorSystemConfiguration.ZActorSystem] =
+  private lazy val actorSystemLayer: ZLayer[
+    Blocking,
+    Throwable,
+    Has[ChatConfigurationProperties]
+      with Has[AkkaHttpServerConfigurationProperties]
+      with ZMongoDatabase
+      with Has[
+        UserRepository
+      ]
+      with ZCreateNewUser
+      with ZApiConfiguration
+      with configuration.ActorSystemConfiguration.ZActorSystem
+  ] =
     ZLayer.succeed[ChatConfigurationProperties](ChatConfigurationProperties()) >+>
       ZLayer.succeed[AkkaHttpServerConfigurationProperties](AkkaHttpServerConfigurationProperties()) >+>
       mongoDBLayer >+>

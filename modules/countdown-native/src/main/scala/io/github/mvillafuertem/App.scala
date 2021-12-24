@@ -2,11 +2,11 @@ package io.github.mvillafuertem
 
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{Callback, CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.{ Callback, CtorType, ScalaFnComponent }
 import typings.react.mod.useState
-import typings.reactNative.components.{Button, Image, Text, View}
+import typings.reactNative.components.{ Button, Image, Text, View }
 import typings.reactNative.mod._
-import typings.reactNative.reactNativeStrings.{center, column}
+import typings.reactNative.reactNativeStrings.{ center, column }
 
 import scala.scalajs.js
 

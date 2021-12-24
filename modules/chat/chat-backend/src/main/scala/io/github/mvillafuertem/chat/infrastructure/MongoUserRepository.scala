@@ -1,11 +1,11 @@
 package io.github.mvillafuertem.chat.infrastructure
 
-import com.mongodb.reactivestreams.client.{MongoCollection, MongoDatabase}
+import com.mongodb.reactivestreams.client.{ MongoCollection, MongoDatabase }
 import io.github.mvillafuertem.chat.domain.error.ChatError
-import org.mongodb.scala.{MongoTimeoutException, MongoWriteException}
+import org.mongodb.scala.{ MongoTimeoutException, MongoWriteException }
 import zio.interop.reactivestreams._
 import zio.stream._
-import zio.{Has, ZLayer, stream}
+import zio.{ stream, Has, ZLayer }
 
 final class MongoUserRepository private (mongoDatabase: MongoDatabase) extends UserRepository {
 

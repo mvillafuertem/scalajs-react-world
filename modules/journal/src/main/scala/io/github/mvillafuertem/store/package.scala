@@ -4,7 +4,7 @@ import io.github.mvillafuertem.actions.AppActions
 import io.github.mvillafuertem.reducers._
 import typings.redux.mod._
 import typings.reduxDevtoolsExtension.mod.composeWithDevTools
-import typings.reduxThunk.mod.{ ThunkDispatch, default => Thunk }
+import typings.reduxThunk.mod.{ default => Thunk, ThunkDispatch }
 
 import scala.scalajs.js
 

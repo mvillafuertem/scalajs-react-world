@@ -11,4 +11,3 @@ object Main {
   val app: StatelessFunctionalComponent[UnusedObject] = LoginApp.component.toJsComponent.raw
 
 }
-

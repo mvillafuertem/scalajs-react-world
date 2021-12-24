@@ -1,7 +1,7 @@
 package io.github.mvillafuertem.pokedex.hooks
 
 import io.github.mvillafuertem.pokedex.api.PokemonApi
-import io.github.mvillafuertem.pokedex.hooks.usePokemonPaginated.{PokemonPaginatedResponse, SimplePokemon, mapPokemonList}
+import io.github.mvillafuertem.pokedex.hooks.usePokemonPaginated.{ mapPokemonList, PokemonPaginatedResponse, SimplePokemon }
 import japgolly.scalajs.react.AsyncCallback
 import japgolly.scalajs.react.raw.React
 import org.scalablytyped.runtime.StringDictionary
@@ -15,7 +15,7 @@ object usePokemonSearch {
 
   def apply() = {
 
-    val js.Tuple2(isFetching, setIsFetching) = useState(true)
+    val js.Tuple2(isFetching, setIsFetching)               = useState(true)
     val js.Tuple2(simplePokemonList, setSimplePokemonList) = useState(js.Array[SimplePokemon]())
 
     val loadPokemons = () =>
@@ -27,18 +27,14 @@ object usePokemonSearch {
             mapPokemonList(r.results)
           }
           .map { newList =>
-            {
-              setSimplePokemonList(newList)
-              setIsFetching(false)
-            }
+            setSimplePokemonList(newList)
+            setIsFetching(false)
           }
       }
 
     useEffect(
-      (() => {
-        loadPokemons().runNow()
-      }):         EffectCallback,
-      js.Array(): DependencyList
+      (() => loadPokemons().runNow()): EffectCallback,
+      js.Array():                      DependencyList
     )
 
     (isFetching, simplePokemonList)

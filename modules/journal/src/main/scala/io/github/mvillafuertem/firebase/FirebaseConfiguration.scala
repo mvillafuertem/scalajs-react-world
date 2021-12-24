@@ -7,18 +7,18 @@ import typings.firebase.mod.{ app, firestore, initializeApp }
 import scala.scalajs.js
 
 class FirebaseConfiguration(
-  val apiKey: String,
-  val authDomain: String,
-  val databaseURL: String,
-  val projectId: String,
-  val storageBucket: String,
+  val apiKey:            String,
+  val authDomain:        String,
+  val databaseURL:       String,
+  val projectId:         String,
+  val storageBucket:     String,
   val messagingSenderId: String,
-  val appId: String
+  val appId:             String
 ) extends js.Object
 
 object FirebaseConfiguration {
 
-  val firebaseConfig    = new FirebaseConfiguration(
+  val firebaseConfig = new FirebaseConfiguration(
     "AIzaSyCRDBI2xfHlYIhwE5iDhnQ5jxmC-wwdEj8",
     "journal-79bb0.firebaseapp.com",
     "https://journal-79bb0.firebaseio.com",

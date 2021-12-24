@@ -3,8 +3,8 @@ package io.github.mvillafuertem.components
 import org.scalajs.dom.Event
 import org.scalajs.dom.raw.HTMLInputElement
 import slinky.core.annotations.react
-import slinky.core.facade.{Hooks, SetStateHookCallback}
-import slinky.core.{FunctionalComponent, SyntheticEvent, TagElement}
+import slinky.core.facade.{ Hooks, SetStateHookCallback }
+import slinky.core.{ FunctionalComponent, SyntheticEvent, TagElement }
 import slinky.web.html._
 
 @react object AddCategory {
@@ -21,15 +21,15 @@ import slinky.web.html._
       (e: SyntheticEvent[TagElement#RefType, Event]) => {
         e.preventDefault()
         if (inputValue.nonEmpty) {
-          setCategories(categories => Seq(inputValue) ++ categories )
+          setCategories(categories => Seq(inputValue) ++ categories)
         }
         setInputValue("")
       }
 
     form(onSubmit := handleSubmit)(
       input(
-        `type` := "text",
-        value := inputValue,
+        `type`   := "text",
+        value    := inputValue,
         onChange := handleInputChange
       )
     )

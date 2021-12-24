@@ -1,14 +1,14 @@
 package io.github.mvillafuertem.components
 
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{<, ^}
+import japgolly.scalajs.react.vdom.html_<^.{ <, ^ }
 import japgolly.scalajs.react.vdom.html_<^._
 
 object SideBar {
 
   val component: Component[Unit, CtorType.Nullary] = ScalaFnComponent[Unit] { _ =>
-      <.div(^.className := "inbox_chat")(
+    <.div(^.className := "inbox_chat")(
 //        <.div(^.className := "chat_list")(
 //          <.div(^.className := "chat_people")(
 //            <.div(^.className := "chat_img")(
@@ -20,12 +20,12 @@ object SideBar {
 //            )
 //          )
 //        ),
-        SideBarItem.component(),
-        SideBarItem.component(),
-        SideBarItem.component(),
-        SideBarItem.component(),
-        <.div(^.className := "extra_space")
-      )
+      SideBarItem.component(),
+      SideBarItem.component(),
+      SideBarItem.component(),
+      SideBarItem.component(),
+      <.div(^.className := "extra_space")
+    )
 
   }
 

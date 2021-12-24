@@ -1,15 +1,15 @@
 package io.github.mvillafuertem.pokedex.navigator
 
-import io.github.mvillafuertem.pokedex.screen.{HomeScreen, SearchScreen}
+import io.github.mvillafuertem.pokedex.screen.{ HomeScreen, SearchScreen }
 import japgolly.scalajs.react.component.Generic
 import japgolly.scalajs.react.component.Generic.ComponentRaw
-import japgolly.scalajs.react.{Children, JsFnComponent}
+import japgolly.scalajs.react.{ Children, JsFnComponent }
 import typings.reactNative.mod._
 import typings.reactNative.reactNativeStrings.absolute
-import typings.reactNativeVectorIcons.components.{Ionicons => Icon}
+import typings.reactNativeVectorIcons.components.{ Ionicons => Icon }
 import typings.reactNavigationBottomTabs.createBottomTabNavigatorMod
 import typings.reactNavigationBottomTabs.mod.createBottomTabNavigator
-import typings.reactNavigationBottomTabs.typesMod.{BottomTabBarOptions, BottomTabNavigationConfig, BottomTabNavigationOptions}
+import typings.reactNavigationBottomTabs.typesMod.{ BottomTabBarOptions, BottomTabNavigationConfig, BottomTabNavigationOptions }
 import typings.reactNavigationCore.typesMod.DefaultNavigatorOptions
 import typings.reactNavigationRouters.tabRouterMod.TabRouterOptions
 import typings.reactNavigationRouters.typesMod.ParamListBase

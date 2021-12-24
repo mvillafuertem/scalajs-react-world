@@ -19,11 +19,9 @@ object useAnimation {
     val opacity  = useRef(new Animated.Value(0)).current.asInstanceOf[Animated.Value]
     val position = useRef(new Animated.Value(0)).current.asInstanceOf[Animated.Value]
 
-    val fadeIn: DurationDefault = (duration: Int) => {
-      Animated.timing(opacity, TimingAnimationConfig(1, true).setDuration(duration)).start()
-    }
+    val fadeIn: DurationDefault = (duration: Int) => Animated.timing(opacity, TimingAnimationConfig(1, true).setDuration(duration)).start()
 
-    val fadeOut: DurationDefault = (duration: Int) => {
+    val fadeOut: DurationDefault = (duration: Int) =>
       Animated
         .timing(
           opacity,
@@ -31,7 +29,6 @@ object useAnimation {
             .setDuration(duration)
         )
         .start()
-    }
 
     val startMovingPosition = (initPosition: Int) =>
       ((duration: Int) => {
@@ -45,7 +42,6 @@ object useAnimation {
           )
           .start()
       }): DurationDefault
-
 
     (opacity, position, fadeIn, fadeOut, startMovingPosition)
   }

@@ -7,6 +7,6 @@ case class UserDBO(
   email:    String,
   password: String,
   online:   Option[Boolean] = Some(false),
-  //@BsonProperty("_id") _id: Option[ObjectId] = None
+  // @BsonProperty("_id") _id: Option[ObjectId] = None
   _id: Option[ObjectId] = None
 )

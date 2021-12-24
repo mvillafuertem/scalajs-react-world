@@ -4,7 +4,8 @@ import io.github.mvillafuertem.chat.configuration.ChatServiceConfiguration
 import zio.{ ExitCode, ZIO }
 
 /**
- * @author Miguel Villafuerte
+ * @author
+ *   Miguel Villafuerte
  */
 object ChatServiceApplication extends ChatServiceConfiguration with zio.App {
 

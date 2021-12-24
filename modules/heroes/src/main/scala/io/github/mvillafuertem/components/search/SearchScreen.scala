@@ -48,16 +48,16 @@ import scala.scalajs.js
           hr(),
           form(onSubmit := handleSearch)(
             input(
-              `type` := "text",
-              placeholder := "Find your hero",
-              className := "form-control",
-              name := "searchText",
+              `type`       := "text",
+              placeholder  := "Find your hero",
+              className    := "form-control",
+              name         := "searchText",
               autoComplete := "off",
-              value := searchText,
-              onChange := handleInputChange
+              value        := searchText,
+              onChange     := handleInputChange
             ),
             button(
-              `type` := "submit",
+              `type`    := "submit",
               className := "btn mt-2 btn-block btn-outline-primary"
             )("Search")
           )

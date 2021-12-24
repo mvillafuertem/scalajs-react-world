@@ -10,7 +10,7 @@ import typings.materialUiCore.createTypographyMod.TypographyOptions
 import typings.materialUiCore.stylesMod
 import typings.materialUiStyles.components.ThemeProvider
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, HashRouter => Router }
+import typings.reactRouterDom.components.{ HashRouter => Router, Redirect, Route }
 import zio.{ App, ExitCode, Task, ZIO }
 
 object DashboardApp extends App {

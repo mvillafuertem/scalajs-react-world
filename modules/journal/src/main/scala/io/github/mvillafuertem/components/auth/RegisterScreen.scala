@@ -15,7 +15,7 @@ import typings.firebase.mod.User
 import typings.reactRedux.mod.{ useDispatch, useSelector }
 import typings.reactRouterDom.components.Link
 import typings.reduxThunk.mod.ThunkAction
-import typings.sweetalert2.mod.{ SweetAlertIcon, default => Swal }
+import typings.sweetalert2.mod.{ default => Swal, SweetAlertIcon }
 import typings.validator
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -29,23 +29,22 @@ object RegisterScreen {
 
     val (formValues, handleInputChange) = useForm(Person.default)
 
-    val isFormValid: js.Function0[Boolean] = () => {
+    val isFormValid: js.Function0[Boolean] = () =>
       if (formValues.name.trim.isEmpty) {
         dispatch(thunkDispatch(UiAction.SetError("Name is required")))
-        //dispatch(UiAction.SetError("Name is required"))
+        // dispatch(UiAction.SetError("Name is required"))
         false
       } else if (validator.isEmailMod.default(formValues.email)) {
         dispatch(thunkDispatch(UiAction.SetError("Email is not valid")))
-        //dispatch(UiAction.SetError("Email is not valid"))
+        // dispatch(UiAction.SetError("Email is not valid"))
         false
       } else if (formValues.password.length < 6) {
         dispatch(thunkDispatch(UiAction.SetError("Password should be a least 6 characters")))
-        //dispatch(UiAction.SetError("Password should be a least 6 characters"))
+        // dispatch(UiAction.SetError("Password should be a least 6 characters"))
         false
       } else {
         true
       }
-    }
 
     val handleSubmit: js.Function1[ReactEventFromInput, Callback] =
       (e: ReactEventFromInput) =>
@@ -53,13 +52,13 @@ object RegisterScreen {
           if (isFormValid()) {
             (for {
               userCredential <- FirebaseConfiguration.firebase
-                                  .auth()
-                                  .createUserWithEmailAndPassword(formValues.email, formValues.password)
-                                  .toFuture
-              _              <- userCredential.user
-                                  .asInstanceOf[User]
-                                  .updateProfile(DisplayName().setDisplayName(formValues.name))
-                                  .toFuture
+                .auth()
+                .createUserWithEmailAndPassword(formValues.email, formValues.password)
+                .toFuture
+              _ <- userCredential.user
+                .asInstanceOf[User]
+                .updateProfile(DisplayName().setDisplayName(formValues.name))
+                .toFuture
             } yield dispatch(
               thunkDispatch(
                 AuthAction.Login(

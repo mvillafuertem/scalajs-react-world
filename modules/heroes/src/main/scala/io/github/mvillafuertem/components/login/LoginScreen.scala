@@ -17,7 +17,7 @@ import typings.history.mod.{ History, LocationState }
     val (state, dispatch) = Hooks.useContext(authContext)
 
     val handleLogin = () => {
-      //history.push("/")
+      // history.push("/")
       dispatch(Login(User("Pepe", logged = true)))
       history.replace("/")
     }

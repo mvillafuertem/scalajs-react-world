@@ -1,8 +1,8 @@
 package io.github.mvillafuertem.components
 
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{<, ^}
+import japgolly.scalajs.react.vdom.html_<^.{ <, ^ }
 import japgolly.scalajs.react.vdom.html_<^._
 
 object OutgoingMessage {

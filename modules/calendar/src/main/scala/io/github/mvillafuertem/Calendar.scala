@@ -43,11 +43,11 @@ object Calendar {
           startOfWeek: momentMod.Moment = moment.tz(ianaTimeZone.get.toString).startOf(week).utc()
 
           // Get the user's events
-          //events: Array[Event] <- getUserWeekCalendar("accessToken", "user.timeZone", startOfWeek).toCallback
+          // events: Array[Event] <- getUserWeekCalendar("accessToken", "user.timeZone", startOfWeek).toCallback
 
           _ <- getUserWeekCalendar("accessToken", "user.timeZone", startOfWeek).flatMapSync(events => $.setState(CalendarState(true, events, startOfWeek)))
           // Update the array of events in state
-          //_ <- .asAsyncCallback
+          // _ <- .asAsyncCallback
         } yield ()).when(!eventsLoaded)
 
       } yield ()).handleErrorSync(e => $.props.flatMap(_.setError("ERROR", js.JSON.stringify(e.getMessage)))).toCallback

@@ -5,7 +5,7 @@ import slinky.core.annotations.react
 import slinky.web.html._
 import typings.materialUiCore.components.Button
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{HashRouter => Router, Link, Route, Switch}
+import typings.reactRouterDom.components.{ HashRouter => Router, Link, Route, Switch }
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

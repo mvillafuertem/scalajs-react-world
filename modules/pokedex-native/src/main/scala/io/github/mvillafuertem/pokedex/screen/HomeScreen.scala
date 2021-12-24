@@ -5,11 +5,11 @@ import io.github.mvillafuertem.pokedex.components.PokemonCard
 import io.github.mvillafuertem.pokedex.hooks.usePokemonPaginated
 import io.github.mvillafuertem.pokedex.styles
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import typings.react.components.Fragment
-import typings.reactNative.components.{ActivityIndicator, FlatList, Image, Text, View}
-import typings.reactNative.mod.{ImageSourcePropType, ImageStyle, TextStyle, ViewStyle}
-import typings.reactNative.reactNativeStrings.{absolute, bold, center}
+import typings.reactNative.components.{ ActivityIndicator, FlatList, Image, Text, View }
+import typings.reactNative.mod.{ ImageSourcePropType, ImageStyle, TextStyle, ViewStyle }
+import typings.reactNative.reactNativeStrings.{ absolute, bold, center }
 import typings.reactNativeSafeAreaContext.mod.useSafeAreaInsets
 import typings.reactNativeSafeAreaContext.safeAreaTypesMod
 import japgolly.scalajs.react.vdom.html_<^._
@@ -29,39 +29,38 @@ object HomeScreen {
       Image(PokebolaPNG.asInstanceOf[ImageSourcePropType])
         .style(styles.pokebola),
       View.style(ViewStyle().setAlignItems(center))(
-      FlatList()
-        .data(simplePokemonList)
-        .keyExtractor((pokemon, _) => pokemon.id)
-        .showsVerticalScrollIndicator(false)
-        .numColumns(2)
-        .renderItem(value => PokemonCard.component(PokemonCard.Props(value.item)).raw)
-        .onEndReached(_ => loadPokemons().toCallback)
-        .onEndReachedThreshold(0.4)
-        .ListHeaderComponent(
-                Text
-                  .style(
-                    TextStyle()
-                      .setFontSize(35)
-                      .setFontWeight(bold)
-                      .setTop(edgeInsets.top + 20)
-                      .setMarginBottom(edgeInsets.top + 20)
-                      .setPaddingBottom(10)
-                      .setMarginHorizontal(20) // global margin
-                  )("HomeScreen")
-                  .rawElement
-        )
-        .ListFooterComponent(
-          ActivityIndicator()
-            .style(
-              ViewStyle()
-                .setHeight(100)
-            )
-            .size(20)
-            .color("gray")
-            .rawElement
-        )
+        FlatList()
+          .data(simplePokemonList)
+          .keyExtractor((pokemon, _) => pokemon.id)
+          .showsVerticalScrollIndicator(false)
+          .numColumns(2)
+          .renderItem(value => PokemonCard.component(PokemonCard.Props(value.item)).raw)
+          .onEndReached(_ => loadPokemons().toCallback)
+          .onEndReachedThreshold(0.4)
+          .ListHeaderComponent(
+            Text
+              .style(
+                TextStyle()
+                  .setFontSize(35)
+                  .setFontWeight(bold)
+                  .setTop(edgeInsets.top + 20)
+                  .setMarginBottom(edgeInsets.top + 20)
+                  .setPaddingBottom(10)
+                  .setMarginHorizontal(20) // global margin
+              )("HomeScreen")
+              .rawElement
+          )
+          .ListFooterComponent(
+            ActivityIndicator()
+              .style(
+                ViewStyle()
+                  .setHeight(100)
+              )
+              .size(20)
+              .color("gray")
+              .rawElement
+          )
       )
-
     )
   }
 

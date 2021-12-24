@@ -17,9 +17,9 @@ trait MessageEndpoint {
 
   val webSocketStreams =
     baseEndpoint
-    .in(isWebSocket)
-    .errorOut(stringBody)
-    .out(webSocketBody[String, CodecFormat.TextPlain, String, CodecFormat.TextPlain](AkkaStreams))
+      .in(isWebSocket)
+      .errorOut(stringBody)
+      .out(webSocketBody[String, CodecFormat.TextPlain, String, CodecFormat.TextPlain](AkkaStreams))
 
 }
 

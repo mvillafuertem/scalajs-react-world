@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.chat
 
-import sttp.tapir.{ Endpoint, EndpointInput, endpoint, _ }
+import sttp.tapir.{ endpoint, Endpoint, EndpointInput, _ }
 
 package object api {
 

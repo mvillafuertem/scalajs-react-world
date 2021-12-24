@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.pokedex
 
-import io.github.mvillafuertem.pokedex.navigator.{TabNavigator}
+import io.github.mvillafuertem.pokedex.navigator.TabNavigator
 import japgolly.scalajs.react.ScalaFnComponent
 import japgolly.scalajs.react.component.JsFn.UnusedObject
 import japgolly.scalajs.react.raw.React.StatelessFunctionalComponent

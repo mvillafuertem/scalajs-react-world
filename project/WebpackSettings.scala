@@ -16,10 +16,10 @@ object WebpackSettings {
 //      Compile / fullOptJS / webpackExtraArgs += "--mode=production",
 //      Compile / fastOptJS / webpackDevServerExtraArgs += "--mode=development",
 //      Compile / fullOptJS / webpackDevServerExtraArgs += "--mode=production",
-      startWebpackDevServer / version       := "3.11.0",
-      webpack / version                     := "4.43.0",
-      webpackDevServerPort                  := 8024,
-      webpackResources                      := baseDirectory.value / "webpack" * "*"
+      startWebpackDevServer / version := "3.11.0",
+      webpack / version               := "4.43.0",
+      webpackDevServerPort            := 8024,
+      webpackResources                := baseDirectory.value / "webpack" * "*"
     )
 
 }

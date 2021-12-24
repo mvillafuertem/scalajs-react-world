@@ -4,9 +4,9 @@ import com.github.t3hnar.bcrypt._
 import io.github.mvillafuertem.chat.domain.error.ChatError
 import io.github.mvillafuertem.chat.domain.model.User
 import io.github.mvillafuertem.chat.infrastructure.MongoUserRepository.ZUserRepository
-import io.github.mvillafuertem.chat.infrastructure.{UserDBO, UserRepository}
+import io.github.mvillafuertem.chat.infrastructure.{ UserDBO, UserRepository }
 import zio.stream.ZStream
-import zio.{Has, Task, ZIO, ZLayer, stream}
+import zio.{ stream, Has, Task, ZIO, ZLayer }
 
 final class CreateNewUser private (userRepository: UserRepository) {
 
