@@ -123,7 +123,7 @@ import scala.util.Random
       "clusterNodeProperties" -> js.Dictionary(
         "label" -> "Cluster 1",
         "level" -> 0
-        //"color" -> color
+        // "color" -> color
       )
     )
 

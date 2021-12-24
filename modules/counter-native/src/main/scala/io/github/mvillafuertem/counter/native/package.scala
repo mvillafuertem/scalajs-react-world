@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.counter
 
-import typings.reactNative.mod.{TextStyle, ViewStyle}
+import typings.reactNative.mod.{ TextStyle, ViewStyle }
 
 import scala.scalajs.js.|
 

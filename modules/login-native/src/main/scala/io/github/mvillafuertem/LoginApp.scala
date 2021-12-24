@@ -3,10 +3,10 @@ package io.github.mvillafuertem
 import io.github.mvillafuertem.InputTextField.InputTextFieldProps
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
 import typings.reactNative.anon.Height
 import typings.reactNative.components._
-import typings.reactNative.mod.{ColorValue, ImageRequireSource, ImageResizeMode, ImageSourcePropType, ImageStyle, ImageURISource, TextStyle, ViewStyle}
+import typings.reactNative.mod.{ ColorValue, ImageRequireSource, ImageResizeMode, ImageSourcePropType, ImageStyle, ImageURISource, TextStyle, ViewStyle }
 import typings.reactNative.reactNativeStrings
 
 import scala.scalajs.js
@@ -62,7 +62,6 @@ object LoginApp {
       .setMarginRight(8)
 
   val styleContainer = () => ViewStyle().setFlex(1).setBackgroundColor("#FFF").setPaddingHorizontal(30)
-
 
   val component: Component[Props, CtorType.Nullary] = ScalaFnComponent[Props] { _ =>
     ScrollView.style(styleContainer())(

@@ -4,8 +4,8 @@ import io.github.mvillafuertem.model.Hero
 import io.github.mvillafuertem.model.Hero
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.web.html.{p, _}
-import typings.reactRouterDom.components.{Link, Switch, HashRouter => Router}
+import slinky.web.html.{ p, _ }
+import typings.reactRouterDom.components.{ HashRouter => Router, Link, Switch }
 
 import scala.scalajs.js
 
@@ -17,7 +17,7 @@ import scala.scalajs.js
     div(className := "card ms-3", style := js.Dynamic.literal(maxWidth = "540"))(
       div(className := "row no-gutters")(
         div(className := "col-md-4")(
-          img(src := s"./assets/heroes/${hero.id}.jpg", className := "card-img", alt := hero.superhero)
+          img(src     := s"./assets/heroes/${hero.id}.jpg", className := "card-img", alt := hero.superhero)
         ),
         div(className := "col-md-8")(
           div(className := "card-body")(

@@ -1,10 +1,10 @@
 package io.github.mvillafuertem.pokedex.components
 
 import japgolly.scalajs.react.component.Js
-import japgolly.scalajs.react.{Children, CtorType, JsComponent}
+import japgolly.scalajs.react.{ Children, CtorType, JsComponent }
 import typings.reactNative.components.Image
 import typings.reactNative.components.Image.Builder
-import typings.reactNative.mod.{ImageProps, ImageSourcePropType}
+import typings.reactNative.mod.{ ImageProps, ImageSourcePropType }
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

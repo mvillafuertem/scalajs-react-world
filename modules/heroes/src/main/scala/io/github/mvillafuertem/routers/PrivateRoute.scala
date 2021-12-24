@@ -13,10 +13,10 @@ import typings.reactRouter.mod.RouteProps
     Route(
       routeProps.setRender(_ =>
         if (isAuthenticated) {
-           child
-         } else {
-           Redirect("/login").build
-         }
+          child
+        } else {
+          Redirect("/login").build
+        }
       )
     )
   }

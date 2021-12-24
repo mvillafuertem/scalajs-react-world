@@ -6,5 +6,5 @@ sealed trait AuthAction
 
 object AuthAction {
   case class Login(user: User) extends AuthAction
-  case class Logout(user: User)                 extends AuthAction
+  case class Logout(user: User) extends AuthAction
 }

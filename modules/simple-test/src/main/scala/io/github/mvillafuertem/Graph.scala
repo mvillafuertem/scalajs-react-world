@@ -1,13 +1,13 @@
 package io.github.mvillafuertem
 
 import io.github.mvillafuertem.component.VisNetworkReactComponent
-import io.github.mvillafuertem.domain.{Edge, Node}
+import io.github.mvillafuertem.domain.{ Edge, Node }
 import io.github.mvillafuertem.facade._
 import org.scalajs.dom.console
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade.{Hooks, SetStateHookCallback}
-import slinky.web.html.{button, div, hr, onClick}
+import slinky.core.facade.{ Hooks, SetStateHookCallback }
+import slinky.web.html.{ button, div, hr, onClick }
 
 import scala.scalajs.js
 

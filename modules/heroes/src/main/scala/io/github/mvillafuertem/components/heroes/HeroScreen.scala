@@ -28,8 +28,8 @@ import scala.scalajs.js
         div(className := "row mt-5")(
           div(className := "col-4")(
             img(
-              src := s"../assets/heroes/${hero.id}.jpg",
-              alt := hero.superhero,
+              src       := s"../assets/heroes/${hero.id}.jpg",
+              alt       := hero.superhero,
               className := "img-thumbnail animate__animated animate__fadeInLeft"
             )
           ),

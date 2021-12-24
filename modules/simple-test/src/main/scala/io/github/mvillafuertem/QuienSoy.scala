@@ -2,7 +2,7 @@ package io.github.mvillafuertem
 
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.web.html.{div, h1, h2}
+import slinky.web.html.{ div, h1, h2 }
 
 @react object QuienSoy {
 
@@ -15,6 +15,5 @@ import slinky.web.html.{div, h1, h2}
       )
     )
   }
-
 
 }

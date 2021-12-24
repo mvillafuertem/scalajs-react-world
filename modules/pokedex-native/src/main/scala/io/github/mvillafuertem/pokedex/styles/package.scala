@@ -43,7 +43,7 @@ package object styles {
       .setMarginHorizontal(10)
       .setBackgroundColor(backgroundColor)
       .setHeight(120)
-      //.setWidth(160)
+      // .setWidth(160)
       .setWidth(windowWidth * 0.4)
       .setMarginBottom(25)
       .setBorderRadius(10)
@@ -112,7 +112,7 @@ package object styles {
     .setHeight(100)
 
   val searchInputContainer: ViewStyle = ViewStyle()
-  //.setBackgroundColor("red")
+  // .setBackgroundColor("red")
 
   val searchInputTextBackground: ViewStyle = ViewStyle()
     .setBackgroundColor("#F3F1F3")

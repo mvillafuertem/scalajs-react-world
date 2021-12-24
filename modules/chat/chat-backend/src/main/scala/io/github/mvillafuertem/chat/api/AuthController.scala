@@ -8,7 +8,7 @@ import io.github.mvillafuertem.chat.application.AuthenticateUser
 import io.github.mvillafuertem.chat.application.AuthenticateUser.ZAuthenticateUser
 import io.github.mvillafuertem.chat.configuration.InfrastructureConfiguration
 import io.github.mvillafuertem.chat.domain.error.ChatError
-import io.github.mvillafuertem.chat.domain.model.{Jwt, User}
+import io.github.mvillafuertem.chat.domain.model.{ Jwt, User }
 import sttp.tapir.server.akkahttp.AkkaHttpServerInterpreter
 import zio.ZManaged
 import io.circe.generic.auto._
@@ -20,10 +20,14 @@ trait AuthController extends InfrastructureConfiguration {
     .runtime[ZAuthenticateUser]
     .map { implicit runtime: zio.Runtime[ZAuthenticateUser] =>
       val authenticateUserRoute = AkkaHttpServerInterpreter.toRoute[User, ChatError, Source[ByteString, Any]](AuthEndpoint.loginUser)(user =>
-        runtime.unsafeRunToFuture(UnsafeRunZStreams.run[ZAuthenticateUser, ChatError](AuthenticateUser.authenticateUser(user).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkHeadEither))
+        runtime.unsafeRunToFuture(
+          UnsafeRunZStreams.run[ZAuthenticateUser, ChatError](AuthenticateUser.authenticateUser(user).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkHeadEither)
+        )
       )
       val authenticateRenewRoute = AkkaHttpServerInterpreter.toRoute[AuthToken, ChatError, Source[ByteString, Any]](AuthEndpoint.renewToken)(token =>
-        runtime.unsafeRunToFuture(UnsafeRunZStreams.run[ZAuthenticateUser, ChatError](AuthenticateUser.renewToken(token).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkEither))
+        runtime.unsafeRunToFuture(
+          UnsafeRunZStreams.run[ZAuthenticateUser, ChatError](AuthenticateUser.renewToken(token).map(_.asJson.noSpaces))(UnsafeRunZStreams.zsinkEither)
+        )
       )
       authenticateUserRoute ~ authenticateRenewRoute
     }

@@ -33,32 +33,31 @@ import scala.scalajs.js
 
   type Props = Unit
 
-  val component: FunctionalComponent[Props] = FunctionalComponent[Props] {
-    _ =>
-      val classes = styles(js.undefined)
-      Paper.className(classes("root"))(
-        Table(className := classes("table"))(
-          TableHead(
-            TableRow(
-              TableCell("Dessert (100g serving)"),
-              TableCell.align(right)("Calories"),
-              TableCell.align(right)("Fat (g)"),
-              TableCell.align(right)("Carbs (g)"),
-              TableCell.align(right)("Protein (g)")
-            )
-          ),
-          TableBody(
-            data.map { n =>
-              TableRow.withKey(n.id.toString)(
-                TableCell.set("component", "th").scope("row")(n.name),
-                TableCell.align(right)(n.calories),
-                TableCell.align(right)(n.fat),
-                TableCell.align(right)(n.carbs),
-                TableCell.align(right)(n.protein)
-              )
-            }
+  val component: FunctionalComponent[Props] = FunctionalComponent[Props] { _ =>
+    val classes = styles(js.undefined)
+    Paper.className(classes("root"))(
+      Table(className := classes("table"))(
+        TableHead(
+          TableRow(
+            TableCell("Dessert (100g serving)"),
+            TableCell.align(right)("Calories"),
+            TableCell.align(right)("Fat (g)"),
+            TableCell.align(right)("Carbs (g)"),
+            TableCell.align(right)("Protein (g)")
           )
+        ),
+        TableBody(
+          data.map { n =>
+            TableRow.withKey(n.id.toString)(
+              TableCell.set("component", "th").scope("row")(n.name),
+              TableCell.align(right)(n.calories),
+              TableCell.align(right)(n.fat),
+              TableCell.align(right)(n.carbs),
+              TableCell.align(right)(n.protein)
+            )
+          }
         )
       )
+    )
   }
 }

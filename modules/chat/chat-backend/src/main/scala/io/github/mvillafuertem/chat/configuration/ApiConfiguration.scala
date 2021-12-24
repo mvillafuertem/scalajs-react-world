@@ -58,7 +58,7 @@ object ApiConfiguration {
                       getFromResourceDirectory("public") ~
                       userRoutes ~
                       authRoutes ~
-                      //renewTokenRoute ~
+                      // renewTokenRoute ~
                       getAllMessagesRoute ~
                       Directives.get {
                         extractUnmatchedPath { path =>

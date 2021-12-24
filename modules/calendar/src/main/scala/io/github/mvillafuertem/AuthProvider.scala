@@ -71,7 +71,7 @@ object AuthProvider {
       def getUserProfile: AsyncCallback[Unit] =
         (for {
           accessToken <- this.getAccessToken(js.Array("user.read", "mailboxsettings.read", "calendars.readwrite"))
-          user <- GraphService.getUserDetails(accessToken)
+          user        <- GraphService.getUserDetails(accessToken)
           _ <- $.modState(
             _.copy(user = user, isAuthenticated = true, error = ErrorMessageProps(debug = accessToken, message = "Access token:"))
           ).asAsyncCallback

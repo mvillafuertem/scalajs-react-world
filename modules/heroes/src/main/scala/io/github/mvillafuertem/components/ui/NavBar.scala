@@ -4,10 +4,10 @@ import io.github.mvillafuertem.auth.AuthAction.Logout
 import io.github.mvillafuertem.auth.authContext
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade.{Fragment, Hooks}
+import slinky.core.facade.{ Fragment, Hooks }
 import slinky.core.facade.Hooks.useContext
-import slinky.web.html.{button, className, div, h1, hr, id, nav, onClick, p, span, ul}
-import typings.reactRouterDom.components.{Link, NavLink}
+import slinky.web.html.{ button, className, div, h1, hr, id, nav, onClick, p, span, ul }
+import typings.reactRouterDom.components.{ Link, NavLink }
 import typings.reactRouterDom.mod.useHistory
 
 @react object NavBar {
@@ -16,8 +16,8 @@ import typings.reactRouterDom.mod.useHistory
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { _ =>
     val (user, dispatch) = useContext(authContext)
-    val history = useHistory()
-    val handleLogout     = () => {
+    val history          = useHistory()
+    val handleLogout = () => {
       history.replace("/login")
       dispatch(Logout(user))
     }

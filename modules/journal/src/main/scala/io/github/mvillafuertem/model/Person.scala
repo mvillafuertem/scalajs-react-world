@@ -11,4 +11,3 @@ object Person {
   def apply(uid: String = "", name: String = "", email: String = "", password: String = ""): Person = new Person(uid, name, email, password)
 
 }
-

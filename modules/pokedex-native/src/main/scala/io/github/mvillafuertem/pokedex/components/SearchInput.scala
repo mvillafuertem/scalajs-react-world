@@ -3,13 +3,13 @@ package io.github.mvillafuertem.pokedex.components
 import io.github.mvillafuertem.pokedex.hooks.useDebouncedValue
 import io.github.mvillafuertem.pokedex.styles
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.{Callback, CtorType, ScalaFnComponent}
-import typings.react.mod.{Dispatch, EffectCallback, SetStateAction, useEffect, useState}
-import typings.reactNative.components.{TextInput, View}
+import japgolly.scalajs.react.{ Callback, CtorType, ScalaFnComponent }
+import typings.react.mod.{ useEffect, useState, Dispatch, EffectCallback, SetStateAction }
+import typings.reactNative.components.{ TextInput, View }
 import typings.reactNative.mod.global.console
-import typings.reactNative.mod.{StyleProp, ViewStyle}
+import typings.reactNative.mod.{ StyleProp, ViewStyle }
 import typings.reactNative.reactNativeStrings.none
-import typings.reactNativeVectorIcons.components.{Ionicons => Icon}
+import typings.reactNativeVectorIcons.components.{ Ionicons => Icon }
 
 import scala.scalajs.js
 
@@ -21,7 +21,7 @@ object SearchInput {
     val js.Tuple2(textValue, setTextValue) = useState("")
     val debouncedValue                     = useDebouncedValue(textValue)
 
-    useEffect({ () => onDebounce(debouncedValue)}: EffectCallback, js.Array(debouncedValue))
+    useEffect({ () => onDebounce(debouncedValue) }: EffectCallback, js.Array(debouncedValue))
 
     View
       .set(

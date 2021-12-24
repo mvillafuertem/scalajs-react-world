@@ -44,11 +44,11 @@ trait InfrastructureConfiguration {
               fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry,
                 fromCodecs(new UuidCodec(UuidRepresentation.STANDARD)),
-                //fromProviders(classOf[UserDBO])
+                // fromProviders(classOf[UserDBO])
                 fromProviders(Macros.createCodecProviderIgnoreNone[UserDBO]())
               )
             )
-            //.streamFactoryFactory(streamFactoryFactory)
+            // .streamFactoryFactory(streamFactoryFactory)
             .build()
         )
 

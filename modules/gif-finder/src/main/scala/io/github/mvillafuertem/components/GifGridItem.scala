@@ -9,13 +9,11 @@ import slinky.web.html._
 
   case class Props(gif: Gif)
 
-  val component: FunctionalComponent[Props] = FunctionalComponent[Props] {
-    case Props(gif) =>
-
-      div(className := "card animate__animated animate__fadeIn")(
-        img(alt := gif.title, src := gif.url),
-        p(gif.title)
-      )
+  val component: FunctionalComponent[Props] = FunctionalComponent[Props] { case Props(gif) =>
+    div(className := "card animate__animated animate__fadeIn")(
+      img(alt     := gif.title, src := gif.url),
+      p(gif.title)
+    )
   }
 
 }

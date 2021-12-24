@@ -2,13 +2,13 @@ package io.github.mvillafuertem
 import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.raw.React.Element
-import japgolly.scalajs.react.{Callback, CtorType, ScalaFnComponent, _}
+import japgolly.scalajs.react.{ Callback, CtorType, ScalaFnComponent, _ }
 import typings.react.mod.ComponentPropsWithRef
-import typings.reactNative.components.{StatusBar, Text, TouchableOpacity, View}
+import typings.reactNative.components.{ StatusBar, Text, TouchableOpacity, View }
 import typings.reactNative.mod.Animated.AnimatedProps
 import typings.reactNative.mod._
 import typings.reactNative.mod.StyleSheet.absoluteFillObject
-import typings.reactNative.reactNativeStrings.{NamedStyles, WithAnimatedValue, `flex-end`, absolute, center, window}
+import typings.reactNative.reactNativeStrings.{ `flex-end`, absolute, center, window, NamedStyles, WithAnimatedValue }
 
 import scala.scalajs.js
 

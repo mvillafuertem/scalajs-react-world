@@ -7,7 +7,7 @@ import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html.div
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{ Redirect, Route, Switch, HashRouter => Router }
+import typings.reactRouterDom.components.{ HashRouter => Router, Redirect, Route, Switch }
 
 @react object AppRouter {
 
@@ -19,8 +19,8 @@ import typings.reactRouterDom.components.{ Redirect, Route, Switch, HashRouter =
     Router(
       div(
         Switch(
-          //Route(RouteProps().setExact(true).setPath("/login").setRender(props => LoginScreen(props.history))),
-          //PublicRoute(state.logged, LoginScreen.component, RouteProps().setExact(true).setPath("/login")),
+          // Route(RouteProps().setExact(true).setPath("/login").setRender(props => LoginScreen(props.history))),
+          // PublicRoute(state.logged, LoginScreen.component, RouteProps().setExact(true).setPath("/login")),
           // Esto debería ser PublicRoute, pero no funciona el redireccionamiento cuando está dentro de PublicRoute
           Route(
             RouteProps()

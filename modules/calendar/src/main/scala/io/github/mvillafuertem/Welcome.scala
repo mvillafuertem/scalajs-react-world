@@ -2,9 +2,9 @@ package io.github.mvillafuertem
 
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{Callback, CtorType, ReactMouseEventFrom, ScalaFnComponent}
+import japgolly.scalajs.react.{ Callback, CtorType, ReactMouseEventFrom, ScalaFnComponent }
 import org.scalajs.dom.raw.Element
-import typings.reactstrap.components.{Button, Jumbotron}
+import typings.reactstrap.components.{ Button, Jumbotron }
 
 import scala.scalajs.js
 

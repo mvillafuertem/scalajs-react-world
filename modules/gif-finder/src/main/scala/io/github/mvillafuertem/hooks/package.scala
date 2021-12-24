@@ -3,7 +3,7 @@ package io.github.mvillafuertem
 import io.circe
 import io.circe.Json
 import sttp.client.circe.asJson
-import sttp.client.{ FetchBackend, Identity, NothingT, RequestT, ResponseError, SttpBackend, basicRequest, _ }
+import sttp.client.{ basicRequest, FetchBackend, Identity, NothingT, RequestT, ResponseError, SttpBackend, _ }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -18,6 +18,6 @@ package object hooks {
 
   def getGifts(category: String): Future[Either[ResponseError[circe.Error], Json]] = requestGET(category).send().map(_.body)
 
-  //def getGifts(category: String) = Fetch.fetch(url(category))
+  // def getGifts(category: String) = Fetch.fetch(url(category))
 
 }

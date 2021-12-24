@@ -32,8 +32,8 @@ object StyleBuilder {
 
   @inline def add(key: String, withThemeProps: (T, P) => CSSProperties): StyleBuilder[T, P] =
     new StyleBuilder[T, P]({ theme =>
-      val ret: StyleRules[P, String] = this.f(theme)
-      val x: js.Function1[P, CSSProperties] = (props: P) => withThemeProps(theme, props)
+      val ret: StyleRules[P, String]          = this.f(theme)
+      val x:   js.Function1[P, CSSProperties] = (props: P) => withThemeProps(theme, props)
       ret.update(key, x)
       ret
     })

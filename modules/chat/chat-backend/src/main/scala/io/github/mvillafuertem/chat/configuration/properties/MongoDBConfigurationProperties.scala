@@ -1,6 +1,6 @@
 package io.github.mvillafuertem.chat.configuration.properties
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.{ Config, ConfigFactory }
 import zio.Has
 
 final case class MongoDBConfigurationProperties(user: String, password: String, hostname: String, port: Int, database: String) {

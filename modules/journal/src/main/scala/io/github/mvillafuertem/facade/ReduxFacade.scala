@@ -10,8 +10,7 @@ import scala.scalajs.js
 object ReduxFacade {
 
   /**
-   * Since redux forces us to use plain js objects,
-   *  this is the only trivially extractable boilerplate
+   * Since redux forces us to use plain js objects, this is the only trivially extractable boilerplate
    */
   trait Extractor[T] {
 

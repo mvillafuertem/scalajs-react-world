@@ -2,12 +2,12 @@ package io.github.mvillafuertem.router
 
 import io.github.mvillafuertem.chat.domain.model.User
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.{VdomElement, html_<^}
+import japgolly.scalajs.react.vdom.{ html_<^, VdomElement }
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{CtorType, PropsChildren, ScalaFnComponent, raw}
+import japgolly.scalajs.react.{ raw, CtorType, PropsChildren, ScalaFnComponent }
 import org.scalajs.dom.html.Element
-import typings.reactRouter.mod.{RouteProps, `match`}
-import typings.reactRouterDom.components.{Redirect, Route}
+import typings.reactRouter.mod.{ `match`, RouteProps }
+import typings.reactRouterDom.components.{ Redirect, Route }
 import typings.reactRouterDom.mod.useRouteMatch
 
 object PublicRoute {

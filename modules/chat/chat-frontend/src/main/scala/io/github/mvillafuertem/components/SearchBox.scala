@@ -1,9 +1,9 @@
 package io.github.mvillafuertem.components
 
-import io.github.mvillafuertem.auth.{AuthContext, ChatState}
+import io.github.mvillafuertem.auth.{ AuthContext, ChatState }
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{<, ^, _}
-import japgolly.scalajs.react.{Callback, CtorType, ScalaFnComponent}
+import japgolly.scalajs.react.vdom.html_<^.{ <, ^, _ }
+import japgolly.scalajs.react.{ Callback, CtorType, ScalaFnComponent }
 import typings.react.mod.useContext
 
 object SearchBox {

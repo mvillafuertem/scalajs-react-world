@@ -36,19 +36,19 @@ object PokemonCard {
                 .getColors(pokemon.picture, Config().setFallback("grey"))
                 .asInstanceOf[js.Promise[js.Any]]
                 .`then`[Unit](
-                  (colors => {
-                    if (colors.asInstanceOf[js.Dynamic].platform.asInstanceOf[String] == "android") {
-                      setBgColor(colors.asInstanceOf[js.Dynamic].dominant.asInstanceOf[String])
-                    } else {
-                      setBgColor(colors.asInstanceOf[js.Dynamic].background.asInstanceOf[String])
-                    }
-
-                  }): js.Function1[js.Any, Unit | scala.scalajs.js.Thenable[Unit]]
+                  (
+                    colors =>
+                      if (colors.asInstanceOf[js.Dynamic].platform.asInstanceOf[String] == "android") {
+                        setBgColor(colors.asInstanceOf[js.Dynamic].dominant.asInstanceOf[String])
+                      } else {
+                        setBgColor(colors.asInstanceOf[js.Dynamic].background.asInstanceOf[String])
+                      }
+                  ): js.Function1[js.Any, Unit | scala.scalajs.js.Thenable[Unit]]
                 )
             )
             .runNow()
         }
-        (() => { setIsMounted(false) }): Destructor
+        (() => setIsMounted(false)): Destructor
       }: EffectCallback
     }
 

@@ -24,25 +24,29 @@ object App {
 
   @JSExportTopLevel("app")
   val app: StatelessFunctionalComponent[UnusedObject] = ScalaFnComponent[Props] { _ =>
-    NavigationContainer.theme(theme)(
-      Navigator(
-        DefaultNavigatorOptions[js.Any, js.Any]()
-          .setScreenOptions(js.Dynamic.literal(headerShown = false).asInstanceOf[js.Any])
-          .setInitialRouteName("Home")
-      )(
-        Stack.Screen(
-          js.Dynamic
-            .literal(name = "Home", component = Home.component.raw)
-            .asInstanceOf[typings.reactNavigationCore.typesMod.RouteConfig[
-              typings.std.Record[String, scala.scalajs.js.UndefOr[scala.scalajs.js.Object]],
-              String,
-              typings.reactNavigationRouters.stackRouterMod.StackNavigationState[typings.std.Record[String, scala.scalajs.js.UndefOr[scala.scalajs.js.Object]]],
-              typings.reactNavigationStack.typesMod.StackNavigationOptions,
-              typings.reactNavigationStack.typesMod.StackNavigationEventMap
-            ]]
+    NavigationContainer
+      .theme(theme)(
+        Navigator(
+          DefaultNavigatorOptions[js.Any, js.Any]()
+            .setScreenOptions(js.Dynamic.literal(headerShown = false).asInstanceOf[js.Any])
+            .setInitialRouteName("Home")
+        )(
+          Stack.Screen(
+            js.Dynamic
+              .literal(name = "Home", component = Home.component.raw)
+              .asInstanceOf[typings.reactNavigationCore.typesMod.RouteConfig[
+                typings.std.Record[String, scala.scalajs.js.UndefOr[scala.scalajs.js.Object]],
+                String,
+                typings.reactNavigationRouters.stackRouterMod.StackNavigationState[
+                  typings.std.Record[String, scala.scalajs.js.UndefOr[scala.scalajs.js.Object]]
+                ],
+                typings.reactNavigationStack.typesMod.StackNavigationOptions,
+                typings.reactNavigationStack.typesMod.StackNavigationEventMap
+              ]]
+          )
         )
       )
-    ).build
+      .build
   }.toJsComponent.raw
 
 }

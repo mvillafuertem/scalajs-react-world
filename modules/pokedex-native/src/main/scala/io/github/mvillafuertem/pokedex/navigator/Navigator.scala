@@ -1,9 +1,9 @@
 package io.github.mvillafuertem.pokedex.navigator
 
 import io.github.mvillafuertem.pokedex.screen.PokemonScreen.PokemonScreenProps
-import io.github.mvillafuertem.pokedex.screen.{HomeScreen, PokemonScreen, SearchScreen}
+import io.github.mvillafuertem.pokedex.screen.{ HomeScreen, PokemonScreen, SearchScreen }
 import japgolly.scalajs.react.raw.React.ComponentClassP
-import japgolly.scalajs.react.{Children, JsFnComponent, ScalaFnComponent}
+import japgolly.scalajs.react.{ Children, JsFnComponent, ScalaFnComponent }
 import typings.reactNative.mod.ViewStyle
 import typings.reactNavigationCore.typesMod.DefaultNavigatorOptions
 import typings.reactNavigationRouters.typesMod.ParamListBase
@@ -29,7 +29,7 @@ trait StackNavigator[A] extends js.Object {
 object NavigatorOne {
 
   // https://github.com/react-navigation/react-navigation/blob/54739828598d7072c1bf7b369659e3682db3edc5/packages/stack/src/navigators/createStackNavigator.tsx#L28
-  //val Stack = ReactNavigationStack.createStackNavigator()
+  // val Stack = ReactNavigationStack.createStackNavigator()
   type Props = Unit
 
   // https://www.typescriptlang.org/docs/handbook/2/objects.html
@@ -56,12 +56,12 @@ object NavigatorOne {
     Navigator(navigatorOptions)(
       Screen(new js.Object {
         val name = "PokemonScreen"
-        //val children =
+        // val children =
         val component = PokemonScreen.component.toJsComponent.raw
       })(),
       Screen(new js.Object {
         val name = "HomeScreen"
-        //val children =
+        // val children =
         val component = HomeScreen.component.toJsComponent.raw
       })()
     )
@@ -75,12 +75,12 @@ object NavigatorTwo {
     NavigatorOne.Navigator(NavigatorOne.navigatorOptions)(
       NavigatorOne.Screen(new js.Object {
         val name = "PokemonScreen"
-        //val children =
+        // val children =
         val component = PokemonScreen.component.toJsComponent.raw
       })(),
       NavigatorOne.Screen(new js.Object {
         val name = "HomeScreen"
-        //val children =
+        // val children =
         val component = SearchScreen.component.toJsComponent.raw
       })()
     )

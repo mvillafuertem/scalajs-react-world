@@ -14,7 +14,7 @@ object Hero {
     new Hero(id, superhero, publisher, alter_ego, first_appearance, characters)
 
   lazy val heroes: Seq[Hero] = parse(jsonString).flatMap(_.as[Seq[Hero]]) match {
-    case Left(value)  =>
+    case Left(value) =>
       println(s"Error parsing jsonString data ~> $value")
       Seq[Hero]()
     case Right(value) => value

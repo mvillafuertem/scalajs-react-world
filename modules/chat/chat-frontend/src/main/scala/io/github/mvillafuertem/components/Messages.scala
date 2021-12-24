@@ -10,7 +10,7 @@ object Messages {
     <.div(^.className := "mesgs")(
       <.div(^.className := "msg_history")(
         IncomingMessage.component(),
-        OutgoingMessage.component(),
+        OutgoingMessage.component()
       ),
       SendMessage.component()
     )

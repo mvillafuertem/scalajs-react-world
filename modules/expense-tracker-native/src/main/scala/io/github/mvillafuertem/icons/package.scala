@@ -62,18 +62,3 @@ package object icons {
   object UpArrowIcon extends js.Object
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,7 +4,7 @@ import io.github.mvillafuertem.components.heroes.HeroesList
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Fragment
-import slinky.web.html.{h1, hr}
+import slinky.web.html.{ h1, hr }
 
 @react object DcScreen {
 

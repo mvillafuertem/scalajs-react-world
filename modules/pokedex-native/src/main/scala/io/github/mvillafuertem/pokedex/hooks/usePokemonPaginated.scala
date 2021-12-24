@@ -192,8 +192,7 @@ object usePokemonPaginated {
     val `type`: Species
   }
 
-  val mapPokemonList: js.Array[Result] => js.Array[SimplePokemon] = (pokemonList: js.Array[Result]) => {
-
+  val mapPokemonList: js.Array[Result] => js.Array[SimplePokemon] = (pokemonList: js.Array[Result]) =>
     pokemonList.map(result =>
       new SimplePokemon {
         private val urlParts: Array[String]   = result.url.split("/")
@@ -204,8 +203,6 @@ object usePokemonPaginated {
 
       }
     )
-
-  }
 
   def apply() = {
 
@@ -227,18 +224,14 @@ object usePokemonPaginated {
             mapPokemonList(r.results)
           }
           .map { newList =>
-            {
-              setSimplePokemonList(simplePokemonList ++ newList)
-              setIsLoading(false)
-            }
+            setSimplePokemonList(simplePokemonList ++ newList)
+            setIsLoading(false)
           }
       }
 
     useEffect(
-      (() => {
-        loadPokemons().runNow()
-      }):         EffectCallback,
-      js.Array(): DependencyList
+      (() => loadPokemons().runNow()): EffectCallback,
+      js.Array():                      DependencyList
     )
 
     (isLoading, simplePokemonList, loadPokemons)

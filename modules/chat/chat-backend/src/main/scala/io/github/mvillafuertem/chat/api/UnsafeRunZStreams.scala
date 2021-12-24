@@ -12,17 +12,17 @@ import zio.{ Chunk, ZIO, ZManaged }
 
 object UnsafeRunZStreams {
 
-
   def run[R, E](
     zstream: ZStream[R, E, String]
-  )(zsink: ZSink[R, Nothing, Either[E, Source[ByteString, NotUsed]], Nothing, Either[E, Source[ByteString, NotUsed]]]): ZIO[R, Nothing, Either[E, Source[ByteString, NotUsed]]] = {
+  )(
+    zsink: ZSink[R, Nothing, Either[E, Source[ByteString, NotUsed]], Nothing, Either[E, Source[ByteString, NotUsed]]]
+  ): ZIO[R, Nothing, Either[E, Source[ByteString, NotUsed]]] =
     zstream
-      //.map(_.asJson.noSpaces)
+      // .map(_.asJson.noSpaces)
       .map(ByteString(_))
       .map(Source.single)
       .either
       .run(zsink)
-  }
 
   type ZSinkEither = ZSink[
     Any,
@@ -33,10 +33,10 @@ object UnsafeRunZStreams {
   ]
 
   // @see ZSink.head
-  def zsinkHeadEither: ZSinkEither = ZSink(ZManaged.succeed({
+  def zsinkHeadEither: ZSinkEither = ZSink(ZManaged.succeed {
     case Some(ch) => if (ch.isEmpty) Push.more else Push.emit(ch.head, Chunk.empty)
     case None     => Push.emit(Left[ChatError, Source[ByteString, NotUsed]](ChatError.NonExistentEntityError()), Chunk.empty)
-  }))
+  })
 
   // @see ZSink.collection
   def zsinkEither: ZSinkEither =
