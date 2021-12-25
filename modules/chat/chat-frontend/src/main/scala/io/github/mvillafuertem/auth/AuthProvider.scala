@@ -103,9 +103,8 @@ object AuthProvider {
                 case StatusCode.Ok =>
                   value.body.fold(
                     _ => setAuth(None),
-                    user =>
-                      login(user.email, user.password)
-                      // setAuth(Some(user))
+                    user => login(user.email, user.password)
+                    // setAuth(Some(user))
                   )
                 case StatusCode.Unauthorized => setAuth(None)
               }
