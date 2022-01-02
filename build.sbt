@@ -444,9 +444,10 @@ lazy val baseSettings: Project => Project =
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",
       scalaJSUseMainModuleInitializer := true,
-      scalaJSLinkerConfig ~= (/* disabled because it somehow triggers many warnings */
-      _.withSourceMap(false)
-        .withModuleKind(ModuleKind.CommonJSModule)),
+      scalaJSLinkerConfig ~= ( /* disabled because it somehow triggers many warnings */
+        _.withSourceMap(false)
+          .withModuleKind(ModuleKind.CommonJSModule)
+      ),
       libraryDependencies ++= Seq(
         "dev.zio"                      %%% "zio"             % "1.0.13",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.3.0",
