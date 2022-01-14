@@ -42,7 +42,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
   .configs(IntegrationTest)
   .settings(Defaults.itSettings)
   .settings(IntegrationTest / parallelExecution := false)
-  .settings(scalaVersion := "2.13.7", organization := "io.github.mvillafuertem")
+  .settings(scalaVersion := "2.13.8", organization := "io.github.mvillafuertem")
   .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../chat-frontend/target/build",
@@ -96,7 +96,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
   .dependsOn(`chat-shared`.js)
   .settings(
-    scalaVersion := "2.13.7",
+    scalaVersion := "2.13.8",
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.13",
@@ -117,7 +117,7 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/chat/chat-shared"))
   .settings(
-    scalaVersion := "2.13.7",
+    scalaVersion := "2.13.8",
     organization := "io.github.mvillafuertem"
   )
   .settings(
@@ -138,7 +138,7 @@ lazy val `countdown-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -158,7 +158,7 @@ lazy val `counter-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       externalNpm := {
@@ -192,7 +192,7 @@ lazy val `graph-viewer` =
       // addCommandAlias("graph-viewer", "project graph-viewer;fastOptJS::startWebpackDevServer;~fastOptJS"),
       scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
       scalaJSUseMainModuleInitializer := true,
-      scalaVersion                    := "2.13.7",
+      scalaVersion                    := "2.13.8",
       externalNpm := {
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
@@ -250,7 +250,7 @@ lazy val `expense-tracker-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -278,7 +278,7 @@ lazy val laminar = (project in file("modules/laminar"))
   .enablePlugins(ScalaJSPlugin)
   .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
-    scalaVersion := "2.13.7",
+    scalaVersion := "2.13.8",
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSUseMainModuleInitializer := true,
     externalNpm := {
@@ -309,7 +309,7 @@ lazy val `login-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       /* ScalablyTypedConverterExternalNpmPlugin requires that we define how to install node dependencies and where they are */
@@ -335,7 +335,7 @@ lazy val `pokedex-native` =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       scalaJSUseMainModuleInitializer := false,
       externalNpm := {
@@ -356,7 +356,7 @@ lazy val `simple-test` =
     .configure(testConfiguration, reactNpmDeps, browserProject)
     .settings(
       addCommandAlias("simple-test", "project simple-test;fastOptJS::startWebpackDevServer;~fastOptJS"),
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       useYarn      := true,
       Compile / npmDependencies ++= NpmDependencies.`simple-test`,
       Compile / npmDevDependencies ++= Seq(
@@ -440,7 +440,7 @@ lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
       useYarn      := true,
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalacOptions ++= ScalacOptions.flags,
       scalacOptions += "-Ymacro-annotations",
       scalaJSUseMainModuleInitializer := true,
