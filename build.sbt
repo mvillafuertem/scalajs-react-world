@@ -64,7 +64,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"              %% "zio-test-sbt"                % "1.0.13" % IntegrationTest,
       "org.scalatest"        %% "scalatest"                   % "3.2.11" % IntegrationTest,
       "com.dimafeng"         %% "testcontainers-scala-core"   % "0.40.0" % IntegrationTest,
-      "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.3"
+      "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.4"
     )
   )
   .configure(DockerSettings.value)
