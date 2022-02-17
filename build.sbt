@@ -51,11 +51,11 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"              %% "zio-logging-slf4j"           % "0.5.14",
       "dev.zio"              %% "zio-streams"                 % "1.0.13",
       "dev.zio"              %% "zio"                         % "1.0.13",
-      "com.typesafe.akka"    %% "akka-http"                   % "10.2.7",
+      "com.typesafe.akka"    %% "akka-http"                   % "10.2.8",
       "com.typesafe.akka"    %% "akka-stream"                 % "2.6.18",
       "com.typesafe.akka"    %% "akka-actor-typed"            % "2.6.18",
       "com.typesafe.akka"    %% "akka-slf4j"                  % "2.6.18",
-      "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.4.1",
+      "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.5.0",
       "ch.qos.logback"        % "logback-classic"             % "1.2.10",
       "org.http4s"           %% "http4s-dsl"                  % "0.23.10",
       "org.http4s"           %% "http4s-blaze-server"         % "0.23.10",
@@ -64,7 +64,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"              %% "zio-test-sbt"                % "1.0.13" % IntegrationTest,
       "org.scalatest"        %% "scalatest"                   % "3.2.11" % IntegrationTest,
       "com.dimafeng"         %% "testcontainers-scala-core"   % "0.40.0" % IntegrationTest,
-      "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.3"
+      "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.4"
     )
   )
   .configure(DockerSettings.value)
