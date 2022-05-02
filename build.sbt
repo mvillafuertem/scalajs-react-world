@@ -281,6 +281,7 @@ lazy val laminar = (project in file("modules/laminar"))
     scalaVersion := "2.13.8",
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSUseMainModuleInitializer := true,
+    stTypescriptVersion := "4.3",
     externalNpm := {
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
