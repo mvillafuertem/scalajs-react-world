@@ -32,7 +32,7 @@ lazy val calendar =
     .settings(
       addCommandAlias("calendar", "project calendar;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour            := Flavour.Japgolly,
+      stFlavour            := Flavour.ScalajsReact,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
       stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
       Compile / npmDependencies ++= NpmDependencies.`calendar`
@@ -82,7 +82,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     addCommandAlias("chat-frontend", "project chat-frontend;set javaOptions  += \"-DIsLocal=true\";fastOptJS::startWebpackDevServer;~fastOptJS"),
     scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
     // scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
-    stFlavour := Flavour.Japgolly,
+    stFlavour := Flavour.ScalajsReact,
     libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
     Compile / npmDependencies ++= NpmDependencies.`chat-frontend`,
@@ -146,7 +146,7 @@ lazy val `countdown-native` =
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
-      stFlavour := Flavour.Japgolly,
+      stFlavour := Flavour.ScalajsReact,
       run := {
         (Compile / fastOptJS).value
         Process("expo start", baseDirectory.value).!
@@ -165,7 +165,7 @@ lazy val `counter-native` =
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
-      stFlavour := Flavour.Japgolly,
+      stFlavour := Flavour.ScalajsReact,
       run := {
         (Compile / fastOptJS).value
         Process("yarn react-native start", baseDirectory.value).!
@@ -198,7 +198,7 @@ lazy val `graph-viewer` =
         baseDirectory.value
       },
       webpackDevServerPort := 8008,
-      stFlavour            := Flavour.Japgolly
+      stFlavour            := Flavour.ScalajsReact
     )
 
 lazy val heroes =
@@ -226,7 +226,7 @@ lazy val journal =
     .settings(
       addCommandAlias("journal", "project journal;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
-      stFlavour            := Flavour.Japgolly,
+      stFlavour            := Flavour.ScalajsReact,
       libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
       Compile / npmDependencies ++= NpmDependencies.`journal`
     )
@@ -258,7 +258,7 @@ lazy val `expense-tracker-native` =
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
-      stFlavour := Flavour.Japgolly,
+      stFlavour := Flavour.ScalajsReact,
       run := {
         (Compile / fastOptJS).value
         Process("expo start", baseDirectory.value).!
@@ -318,7 +318,7 @@ lazy val `login-native` =
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
-      stFlavour := Flavour.Japgolly,
+      stFlavour := Flavour.ScalajsReact,
       run := {
         (Compile / fastOptJS).value
         Process("expo start", baseDirectory.value).!
@@ -343,7 +343,7 @@ lazy val `pokedex-native` =
         Process("yarn", baseDirectory.value).!
         baseDirectory.value
       },
-      stFlavour := Flavour.Japgolly,
+      stFlavour := Flavour.ScalajsReact,
       run := {
         (Compile / fastOptJS).value
         Process("yarn react-native start", baseDirectory.value).!
