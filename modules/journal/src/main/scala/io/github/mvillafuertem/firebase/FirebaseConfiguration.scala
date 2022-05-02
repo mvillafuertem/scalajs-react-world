@@ -30,7 +30,7 @@ object FirebaseConfiguration {
   // Initialize Firebase
   val firebase: app.App = initializeApp(firebaseConfig)
 
-  val db: Firestore = firestore.^()
+  val db = firestore.^
 
   val googleAuthProvider: GoogleAuthProvider = new GoogleAuthProvider()
 

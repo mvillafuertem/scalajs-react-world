@@ -21,7 +21,7 @@ object AppRouter {
       .fold(throw new RuntimeException("verifytoken"))(function =>
         useEffect(
           (() => function(())):                                EffectCallback,
-          js.Array[js.Any](chatState.verifyToken.orUndefined): DependencyList
+          js.Array[Any](chatState.verifyToken.orUndefined): DependencyList
         )
       )
 

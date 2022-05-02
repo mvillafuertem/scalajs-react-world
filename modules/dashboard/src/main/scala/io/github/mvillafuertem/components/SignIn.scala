@@ -86,7 +86,7 @@ import scala.scalajs.js
               InputLabel().htmlFor("password")("Password"),
               Input().id("password").name("password").autoComplete("current-password")
             ),
-          FormControlLabel(Checkbox().value("remember").color(primary)).label("Remember Me"),
+          FormControlLabel(Checkbox().value("remember").color(primary), FormLabel("Remember Me")),
           Button()
             .`type`(submit)
             .fullWidth(true)

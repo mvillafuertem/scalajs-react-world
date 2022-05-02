@@ -33,7 +33,7 @@ lazy val calendar =
       addCommandAlias("calendar", "project calendar;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Japgolly,
-      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
       stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
       Compile / npmDependencies ++= NpmDependencies.`calendar`
     )
@@ -83,7 +83,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
     // scalaJSLinkerConfig ~= (_.withModuleSplitStyle(ModuleSplitStyle.SmallestModules)),
     stFlavour := Flavour.Japgolly,
-    libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+    libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
     stIgnore ++= List("bootstrap", "@fortawesome/fontawesome-free"),
     Compile / npmDependencies ++= NpmDependencies.`chat-frontend`,
     Compile / npmDevDependencies ++= NpmDependencies.`chat-frontend-dev`
@@ -111,7 +111,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
   )
 
 lazy val tapirVersion = "0.17.9"
-lazy val sttpVersion  = "3.2.0"
+lazy val sttpVersion  = "3.5.2"
 
 lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
@@ -227,7 +227,7 @@ lazy val journal =
       addCommandAlias("journal", "project journal;fastOptJS::startWebpackDevServer;~fastOptJS"),
       webpackDevServerPort := 8008,
       stFlavour            := Flavour.Japgolly,
-      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "0.6.1"),
+      libraryDependencies ++= Seq("com.github.japgolly.scalacss" %%% "ext-react" % "1.0.0"),
       Compile / npmDependencies ++= NpmDependencies.`journal`
     )
 
@@ -264,8 +264,8 @@ lazy val `expense-tracker-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client" %%% "core"          % "2.3.0",
-        "com.softwaremill.sttp.client" %%% "circe"         % "2.3.0",
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
         "io.circe"                     %%% "circe-optics"  % "0.14.1",
         "io.circe"                     %%% "circe-generic" % "0.14.1"
       )
@@ -285,7 +285,7 @@ lazy val laminar = (project in file("modules/laminar"))
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
     },
-    libraryDependencies += "com.raquo" %%% "laminar" % "0.12.1",
+    libraryDependencies += "com.raquo" %%% "laminar" % "0.14.1",
     // Watch non-scala assets, when they change trigger sbt
     // if you are using ~npmBuildFast, you get a rebuild
     // when non-scala assets change
@@ -323,8 +323,8 @@ lazy val `login-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client" %%% "core"          % "2.3.0",
-        "com.softwaremill.sttp.client" %%% "circe"         % "2.3.0",
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
         "io.circe"                     %%% "circe-optics"  % "0.14.1",
         "io.circe"                     %%% "circe-generic" % "0.14.1"
       )
@@ -452,8 +452,8 @@ lazy val baseSettings: Project => Project =
         "dev.zio"                      %%% "zio"             % "1.0.14",
         "io.github.cquiroz"            %%% "scala-java-time" % "2.3.0",
         "org.scalatest"                %%% "scalatest"       % "3.2.12" % Test,
-        "com.softwaremill.sttp.client" %%% "core"            % "2.3.0",
-        "com.softwaremill.sttp.client" %%% "circe"           % "2.3.0",
+        "com.softwaremill.sttp.client3" %%% "core"            % "3.5.2",
+        "com.softwaremill.sttp.client3" %%% "circe"           % "3.5.2",
         "io.circe"                     %%% "circe-optics"    % "0.14.1",
         "io.circe"                     %%% "circe-generic"   % "0.14.1"
       )

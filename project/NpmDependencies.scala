@@ -6,6 +6,7 @@ object NpmDependencies {
     Package.`@microsoft/microsoft-graph-client` -> Version.`@microsoft/microsoft-graph-client`,
     Package.`@types/microsoft-graph`            -> Version.`@types/microsoft-graph`,
     Package.`@types/react-router-dom`           -> Version.`@types/react-router-dom`,
+    Package.`@types/react-router`           -> Version.`@types/react-router`,
     Package.`@types/reactstrap`                 -> Version.`@types/reactstrap`,
     Package.`bootstrap`                         -> Version.`bootstrap`,
     Package.`moment`                            -> Version.`moment`,
@@ -16,9 +17,10 @@ object NpmDependencies {
   )
 
   lazy val `chat-frontend`: Seq[(String, String)] = Seq(
-    "@types/react-router-dom"               -> "5.1.2",
-    "react-router-dom"                      -> "5.1.2",
-    "bootstrap"                             -> "4.5.3",
+    Package.`@types/react-router-dom`           -> Version.`@types/react-router-dom`,
+    Package.`@types/react-router`           -> Version.`@types/react-router`,
+    Package.`react-router-dom`                  -> Version.`react-router-dom`,
+    Package.`bootstrap`                         -> Version.`bootstrap`,
     Package.`@fortawesome/fontawesome-free` -> Version.`@fortawesome/fontawesome-free`,
     Package.`sweetalert2`                   -> Version.`sweetalert2`
   )
@@ -40,6 +42,7 @@ object NpmDependencies {
     Package.`@types/recharts`         -> Version.`@types/recharts`,
     Package.`@types/classnames`       -> Version.`@types/classnames`,
     Package.`react-router-dom`        -> Version.`react-router-dom`,
+    Package.`@types/react-router` -> Version.`@types/react-router`,
     Package.`@types/react-router-dom` -> Version.`@types/react-router-dom`
   )
 
@@ -49,6 +52,7 @@ object NpmDependencies {
 
   lazy val `journal`: Seq[(String, String)] = Seq(
     Package.`react-router-dom`         -> Version.`react-router-dom`,
+    Package.`@types/react-router`  -> Version.`@types/react-router`,
     Package.`@types/react-router-dom`  -> Version.`@types/react-router-dom`,
     Package.`query-string`             -> Version.`query-string`,
     Package.`react-redux`              -> Version.`react-redux`,
@@ -69,6 +73,7 @@ object NpmDependencies {
     Package.`@types/classnames`       -> Version.`@types/classnames`,
     Package.`react-router-dom`        -> Version.`react-router-dom`,
     Package.`@types/react-router-dom` -> Version.`@types/react-router-dom`,
+    Package.`@types/react-router` -> Version.`@types/react-router`,
     Package.`react-proxy`             -> Version.`react-proxy`,
     Package.`recharts`                -> Version.`recharts`,
     Package.`@types/recharts`         -> Version.`@types/recharts`
@@ -117,6 +122,7 @@ object NpmDependencies {
     val `@material-ui/icons`                = "@material-ui/icons"
     val `@types/classnames`                 = "@types/classnames"
     val `react-router-dom`                  = "react-router-dom"
+    val `@types/react-router`           = "@types/react-router"
     val `@types/react-router-dom`           = "@types/react-router-dom"
     val `react-proxy`                       = "react-proxy"
     val `recharts`                          = "recharts"
@@ -161,6 +167,7 @@ object NpmDependencies {
     val `@types/classnames`                 = "2.2.10"
     val `react-router-dom`                  = "5.1.2"
     val `@types/react-router-dom`           = "5.1.2" // note 5.1.4 did weird things to the Link component
+    val `@types/react-router`           = "5.1.2" // note 5.1.4 did weird things to the Link component
     val `react-proxy`                       = "1.1.8"
     val `recharts`                          = "1.8.5"
     val `@types/recharts`                   = "1.8.10"

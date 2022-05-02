@@ -46,7 +46,7 @@ object GraphService {
           // Generate startDateTime and endDateTime query params
           // to display a 7-day window
           val startDateTime = startDate.format()
-          val endDateTime   = moment.^(startDateTime).add(7, day).format()
+          val endDateTime   = moment(startDateTime).add(7, day).format()
 
           // GET /me/calendarview?startDateTime=''&endDateTime=''
           // &$select=subject,organizer,start,end
@@ -69,7 +69,7 @@ object GraphService {
           val iterator = new PageIterator(
             client.asInstanceOf[graph.Client],
             response,
-            (event: js.Any) => {
+            (event: Any) => {
               events.appended(event)
               true
             }

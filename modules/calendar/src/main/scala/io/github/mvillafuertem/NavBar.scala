@@ -36,21 +36,22 @@ object NavBar {
       UncontrolledDropdown()(
         DropdownToggle()
           .nav(true)
-          .caret(true)(userAvatar(props.user)),
+          .caret(true)(userAvatar(props.user)).build,
         DropdownMenu.right(true)(
           <.h5(^.className := "dropdown-item-text mb-0")(props.user.displayName),
           <.p(^.className := "dropdown-item-text text-muted mb-0")(props.user.email),
-          DropdownItem().divider(true),
-          DropdownItem().onClick(props.authButtonMethod)("Sign Out")
-        )
-      )
+          DropdownItem().divider(true).build,
+          DropdownItem().onClick(props.authButtonMethod)("Sign Out").build
+        ).build
+      ).build
     } else {
       NavItem()(
         Button()
           .onClick(props.authButtonMethod)
           .className("btn-link nav-link border-0")
           .color("link")("Sign In")
-      )
+          .build
+      ).build
     }
 
   val component: Component[NavBarProps, CtorType.Props] = ScalaFnComponent[NavBarProps] { props =>
@@ -65,8 +66,8 @@ object NavBar {
         .dark(true)
         .fixed("top")(
           Container()(
-            NavbarBrand().href("/")("React Graph Tutorial"),
-            NavbarToggler().onClick(toggle),
+            NavbarBrand().href("/")("React Graph Tutorial").build,
+            NavbarToggler().onClick(toggle).build,
             Collapse()
               .isOpen(isOpen)
               .navbar(true)(
@@ -75,11 +76,11 @@ object NavBar {
                   .navbar(true)(
                     NavItem()(
                       RouterNavLink[String]("/").className("nav-link").exact(true)("Home")
-                    ),
+                    ).build,
                     NavItem()(
                       RouterNavLink[String]("/calendar").className("nav-link").exact(true)("Calendar")
                     ).when(props.isAuthenticated)
-                  ),
+                  ).build,
                 Nav()
                   .className("justify-content-end")
                   .navbar(true)(
@@ -87,12 +88,13 @@ object NavBar {
                       NavLink()
                         .href("https://developer.microsoft.com/graph/docs/concepts/overview")
                         .target("_target")(<.i(^.className := "fas fa-external-link-alt mr-1"), "Docs")
-                    ),
+                        .build
+                    ).build,
                     authNavItem(props)
-                  )
-              )
-          )
-        )
+                  ).build
+              ).build
+          ).build
+        ).build
     )
 
   }

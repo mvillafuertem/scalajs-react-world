@@ -150,7 +150,7 @@ object AuthProvider {
                 })
                 .runNow()
             },
-        js.Array[js.Any]()
+        js.Array[Any]()
       )
 
     val logout: js.Function0[Unit] = () => {

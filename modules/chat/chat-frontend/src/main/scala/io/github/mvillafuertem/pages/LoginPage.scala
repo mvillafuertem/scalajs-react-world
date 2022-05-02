@@ -24,7 +24,7 @@ object LoginPage {
           setForm((form => new Fields(email, form.password, true)): js.Function1[Fields, Fields])
         }
       }): EffectCallback,
-      js.Array[js.Any]()
+      js.Array[Any]()
     )
     val handleInputChange: js.Function1[ReactEventFromInput, Callback] =
       (e: ReactEventFromInput) =>

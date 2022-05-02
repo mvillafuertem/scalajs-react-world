@@ -51,7 +51,7 @@ object CalendarApp extends App {
                 .setPath("/calendar")
                 .setRender(_ => if (props.isAuthenticated) <.div("Calendar").rawElement else Redirect("/").rawElement)
             )
-          )
+          ).build
         )
       )
     }

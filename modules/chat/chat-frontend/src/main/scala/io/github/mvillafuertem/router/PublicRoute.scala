@@ -4,7 +4,7 @@ import io.github.mvillafuertem.chat.domain.model.User
 import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.{ html_<^, VdomElement }
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{ raw, CtorType, PropsChildren, ScalaFnComponent }
+import japgolly.scalajs.react.{ CtorType, PropsChildren, ScalaFnComponent }
 import org.scalajs.dom.html.Element
 import typings.reactRouter.mod.{ `match`, RouteProps }
 import typings.reactRouterDom.components.{ Redirect, Route }

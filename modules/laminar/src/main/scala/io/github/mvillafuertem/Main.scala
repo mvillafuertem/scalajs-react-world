@@ -3,7 +3,7 @@ package io.github.mvillafuertem
 import com.raquo.laminar.api.L._
 import org.scalajs.dom
 import org.scalajs.dom.raw.CanvasRenderingContext2D
-import typings.chartJs.mod.Chart
+import typings.chartJs.mod.{^ => Chart}
 import typings.chartJs.mod._
 
 import scala.scalajs.js
@@ -60,7 +60,8 @@ object Main {
           )
         )
 
-      Chart.newInstance2(ctx, chartConfiguration)
+
+      new Chart(ctx, chartConfiguration)
     })
   )
 

@@ -10,7 +10,7 @@ import scala.scalajs.js
 
 package object store {
 
-  val default = createStore(reducers, composeWithDevTools(applyMiddleware(Thunk)))
+  val default = createStore(reducers)//, composeWithDevTools(applyMiddleware(Thunk)))
 
   val thunkDispatch = (appActions: AppActions) =>
     (thunkDispatch: ThunkDispatch[AppState, js.Any, AppActions], _: js.Function0[AppState], _: js.Any) => thunkDispatch(appActions)

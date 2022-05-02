@@ -13,7 +13,7 @@ object ErrorMessage {
     Alert().color("danger")(
       <.p(^.className := "mb-3")(props.message),
       <.pre(^.className := "alert-pre border bg-light p-2")(<.code(props.debug)).when(props.debug.nonEmpty)
-    )
+    ).build
   }
 
 }
