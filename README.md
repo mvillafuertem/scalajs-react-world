@@ -26,6 +26,12 @@ WITH THE COMMAND `sbt docs/mdoc`
 [Calendar](https://mvillafuertem.github.io/scalajs-react-world/calendar/) is 
 inspired by [microsoft graph training](https://github.com/microsoftgraph/msgraph-training-reactspa)
 
+```shell
+
+sbt calendar
+
+```
+
 ### Chat
 
 #### Backend Development
@@ -85,6 +91,37 @@ inspired by [material-ui layout example](https://v3.material-ui.com/getting-star
 
 ### [Laminar](https://mvillafuertem.github.io/scalajs-react-world/laminar/)
 
+
+### Counter Native
+
+```shell
+
+sudo gem install cocoapods
+
+```
+
+Note for Mac M1 users
+```shell
+
+sudo arch -x86_64 gem install ffi
+
+cd modules/counter-native/ios && arch -x86_64 pod install
+
+```
+
+```shell script
+
+sbt "project counter-native; clean;~fastLinkJS"
+
+```
+
+In a separate terminal
+```shell
+
+yarn --cwd modules/counter-native/ ios
+
+```
+
 ### Pokedex
 
 
@@ -92,7 +129,10 @@ inspired by [material-ui layout example](https://v3.material-ui.com/getting-star
 
 sbt "project pokedex-native; clean;~fastLinkJS"
 
-// In a separate terminal
+```
+
+In a separate terminal
+```shell
 
 yarn react-native start
 

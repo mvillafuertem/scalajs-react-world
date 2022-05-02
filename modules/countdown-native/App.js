@@ -14,6 +14,6 @@ if (__DEV__) {
   // }
 
   // uncomment the following line to enable opt building
-  app = require("./target/scala-2.13/countdown-native-opt.js").app;
+  app = require("./target/scala-2.13/countdown-native-fastopt.js").app;
 }
 export default app;

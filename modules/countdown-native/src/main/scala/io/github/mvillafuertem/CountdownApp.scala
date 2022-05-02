@@ -1,20 +1,16 @@
 package io.github.mvillafuertem
 import japgolly.scalajs.react.component.Js
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.raw.React.Element
 import japgolly.scalajs.react.{ Callback, CtorType, ScalaFnComponent, _ }
-import typings.react.mod.ComponentPropsWithRef
 import typings.reactNative.components.{ StatusBar, Text, TouchableOpacity, View }
-import typings.reactNative.mod.Animated.AnimatedProps
 import typings.reactNative.mod._
-import typings.reactNative.mod.StyleSheet.absoluteFillObject
-import typings.reactNative.reactNativeStrings.{ `flex-end`, absolute, center, window, NamedStyles, WithAnimatedValue }
+import typings.reactNative.reactNativeStrings.{ absolute, window, NamedStyles }
 
 import scala.scalajs.js
 
 object CountdownApp {
 
-  val scaledSize: ScaledSize = Dimensions.get_window(window);
+  val scaledSize: ScaledSize = Dimensions.^.get(window);
   val black = "#323F4E"
   val red   = "#F76A6A"
   val text  = "#ffffff"
@@ -43,7 +39,6 @@ object CountdownApp {
   val animatedViewComponent: Js.Component[Null, Null, CtorType.Children] =
     JsComponent[Null, Children.Varargs, Null](Animated.View)
 
-  WithAnimatedValue
   val component: Component[Props, CtorType.Nullary] = ScalaFnComponent[Props] { _ =>
     View.style(
       ViewStyle()

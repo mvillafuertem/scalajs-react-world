@@ -10,7 +10,6 @@ import typings.microsoftMicrosoftGraphClient.iauthprovidercallbackMod.AuthProvid
 import typings.microsoftMicrosoftGraphClient.mod.PageIterator
 import typings.microsoftMicrosoftGraphClient.pageIteratorMod.PageCollection
 import typings.microsoftMicrosoftGraphClient.{ ioptionsMod, mod => graph }
-import typings.moment.mod.Moment
 import typings.moment.momentMod
 import typings.moment.momentStrings.day
 import typings.momentTimezone.{ mod => moment }

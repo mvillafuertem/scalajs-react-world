@@ -292,15 +292,15 @@ lazy val laminar = (project in file("modules/laminar"))
     // when non-scala assets change
     watchSources += baseDirectory.value / "public",
     yarnBuild := {
-      (fullOptJS in Compile)
+      (Compile / fullOptJS).value
       "yarn --cwd modules/laminar/ run app" !
     },
     yarnBuildFast := {
-      (fastOptJS in Compile)
+      (Compile / fastOptJS).value
       "yarn --cwd modules/laminar/ run app:dev" !
     },
     yarnRunDemo := {
-      (fastOptJS in Compile)
+      (Compile / fastOptJS).value
       "yarn --cwd modules/laminar/ run app:dev-start" !
     }
   )

@@ -1,7 +1,7 @@
 package io.github.mvillafuertem
 
 import japgolly.scalajs.react.component.JsFn.UnusedObject
-import japgolly.scalajs.react.raw.React.StatelessFunctionalComponent
+import japgolly.scalajs.react.facade.React.StatelessFunctionalComponent
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 

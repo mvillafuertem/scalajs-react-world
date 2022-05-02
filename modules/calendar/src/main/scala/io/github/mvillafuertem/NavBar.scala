@@ -4,13 +4,12 @@ import japgolly.scalajs.react.component.ScalaFn.Component
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.{ Callback, CtorType, ReactMouseEventFrom, ScalaFnComponent }
 import org.scalablytyped.runtime.StringDictionary
-import org.scalajs.dom.raw.{ Element, HTMLAnchorElement }
+import org.scalajs.dom.{ Element, HTMLAnchorElement }
 import typings.react.mod.{ useState, CSSProperties }
 import typings.reactstrap.components._
 import typings.reactRouterDom.components.{ NavLink => RouterNavLink }
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
 
 object NavBar {
 

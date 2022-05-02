@@ -1,7 +1,6 @@
 package io.github.mvillafuertem
 
 import io.github.mvillafuertem.AuthProvider.{ withAuthProvider, AuthComponentProps }
-import io.github.mvillafuertem.ErrorMessage.ErrorMessageProps
 import io.github.mvillafuertem.NavBar.NavBarProps
 import io.github.mvillafuertem.Welcome.WelcomeProps
 import japgolly.scalajs.react.component.ScalaFn.Component
