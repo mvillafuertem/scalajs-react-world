@@ -266,8 +266,8 @@ lazy val `expense-tracker-native` =
       libraryDependencies ++= Seq(
         "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
         "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
-        "io.circe"                     %%% "circe-optics"  % "0.14.1",
-        "io.circe"                     %%% "circe-generic" % "0.14.1"
+        "io.circe"                      %%% "circe-optics"  % "0.14.1",
+        "io.circe"                      %%% "circe-generic" % "0.14.1"
       )
     )
 
@@ -285,7 +285,7 @@ lazy val laminar = (project in file("modules/laminar"))
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
     },
-    libraryDependencies += "com.raquo" %%% "laminar" % "0.14.1",
+    libraryDependencies += "com.raquo" %%% "laminar" % "0.14.2",
     // Watch non-scala assets, when they change trigger sbt
     // if you are using ~npmBuildFast, you get a rebuild
     // when non-scala assets change
@@ -325,8 +325,8 @@ lazy val `login-native` =
       libraryDependencies ++= Seq(
         "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
         "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
-        "io.circe"                     %%% "circe-optics"  % "0.14.1",
-        "io.circe"                     %%% "circe-generic" % "0.14.1"
+        "io.circe"                      %%% "circe-optics"  % "0.14.1",
+        "io.circe"                      %%% "circe-generic" % "0.14.1"
       )
     )
 
@@ -449,13 +449,13 @@ lazy val baseSettings: Project => Project =
           .withModuleKind(ModuleKind.CommonJSModule)
       ),
       libraryDependencies ++= Seq(
-        "dev.zio"                      %%% "zio"             % "1.0.14",
-        "io.github.cquiroz"            %%% "scala-java-time" % "2.3.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.12" % Test,
+        "dev.zio"                       %%% "zio"             % "1.0.14",
+        "io.github.cquiroz"             %%% "scala-java-time" % "2.3.0",
+        "org.scalatest"                 %%% "scalatest"       % "3.2.12" % Test,
         "com.softwaremill.sttp.client3" %%% "core"            % "3.5.2",
         "com.softwaremill.sttp.client3" %%% "circe"           % "3.5.2",
-        "io.circe"                     %%% "circe-optics"    % "0.14.1",
-        "io.circe"                     %%% "circe-generic"   % "0.14.1"
+        "io.circe"                      %%% "circe-optics"    % "0.14.1",
+        "io.circe"                      %%% "circe-generic"   % "0.14.1"
       )
     )
 
