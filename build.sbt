@@ -264,10 +264,10 @@ lazy val `expense-tracker-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
-        "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
-        "io.circe"                     %%% "circe-optics"  % "0.14.1",
-        "io.circe"                     %%% "circe-generic" % "0.14.1"
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
+        "io.circe"                      %%% "circe-optics"  % "0.14.1",
+        "io.circe"                      %%% "circe-generic" % "0.14.1"
       )
     )
 
@@ -281,7 +281,7 @@ lazy val laminar = (project in file("modules/laminar"))
     scalaVersion := "2.13.8",
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSUseMainModuleInitializer := true,
-    stTypescriptVersion := "4.3",
+    stTypescriptVersion             := "4.3",
     externalNpm := {
       Process("yarn", baseDirectory.value).!
       baseDirectory.value
@@ -324,10 +324,10 @@ lazy val `login-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client3" %%% "core"          % "3.5.2",
-        "com.softwaremill.sttp.client3" %%% "circe"         % "3.5.2",
-        "io.circe"                     %%% "circe-optics"  % "0.14.1",
-        "io.circe"                     %%% "circe-generic" % "0.14.1"
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
+        "io.circe"                      %%% "circe-optics"  % "0.14.1",
+        "io.circe"                      %%% "circe-generic" % "0.14.1"
       )
     )
 
@@ -450,13 +450,13 @@ lazy val baseSettings: Project => Project =
           .withModuleKind(ModuleKind.CommonJSModule)
       ),
       libraryDependencies ++= Seq(
-        "dev.zio"                      %%% "zio"             % "1.0.14",
-        "io.github.cquiroz"            %%% "scala-java-time" % "2.3.0",
-        "org.scalatest"                %%% "scalatest"       % "3.2.12" % Test,
-        "com.softwaremill.sttp.client3" %%% "core"            % "3.5.2",
-        "com.softwaremill.sttp.client3" %%% "circe"           % "3.5.2",
-        "io.circe"                     %%% "circe-optics"    % "0.14.1",
-        "io.circe"                     %%% "circe-generic"   % "0.14.1"
+        "dev.zio"                       %%% "zio"             % "1.0.14",
+        "io.github.cquiroz"             %%% "scala-java-time" % "2.3.0",
+        "org.scalatest"                 %%% "scalatest"       % "3.2.12" % Test,
+        "com.softwaremill.sttp.client3" %%% "core"            % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.0",
+        "io.circe"                      %%% "circe-optics"    % "0.14.1",
+        "io.circe"                      %%% "circe-generic"   % "0.14.1"
       )
     )
 
