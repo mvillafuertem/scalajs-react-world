@@ -1,19 +1,19 @@
 package io.github.mvillafuertem.routers
 
-import io.github.mvillafuertem.actions.{AppActions, AuthAction}
+import io.github.mvillafuertem.actions.{ AppActions, AuthAction }
 import io.github.mvillafuertem.components.journal.JournalScreen
 import io.github.mvillafuertem.firebase.FirebaseConfiguration
 import io.github.mvillafuertem.model.Person
 import io.github.mvillafuertem.reducers.AppState
 import japgolly.scalajs.react.vdom.html_<^.<
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.{Callback, ScalaFnComponent}
-import typings.firebase.mod.{Observer, User}
-import typings.react.mod.{EffectCallback, useEffect, useState}
+import japgolly.scalajs.react.{ Callback, ScalaFnComponent }
+import typings.firebase.mod.{ Observer, User }
+import typings.react.mod.{ useEffect, useState, EffectCallback }
 import typings.reactRedux.mod.useDispatch
 import typings.reactRouter.mod.RouteProps
-import typings.reactRouterDom.components.{Redirect, Route, Switch, HashRouter => Router}
-import typings.reduxThunk.mod.{ThunkAction, ThunkDispatch}
+import typings.reactRouterDom.components.{ HashRouter => Router, Redirect, Route, Switch }
+import typings.reduxThunk.mod.{ ThunkAction, ThunkDispatch }
 import io.github.mvillafuertem.store.thunkDispatch
 
 import scala.scalajs.js

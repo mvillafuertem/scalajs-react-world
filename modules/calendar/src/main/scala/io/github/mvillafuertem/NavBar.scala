@@ -35,13 +35,16 @@ object NavBar {
       UncontrolledDropdown()(
         DropdownToggle()
           .nav(true)
-          .caret(true)(userAvatar(props.user)).build,
-        DropdownMenu.right(true)(
-          <.h5(^.className := "dropdown-item-text mb-0")(props.user.displayName),
-          <.p(^.className := "dropdown-item-text text-muted mb-0")(props.user.email),
-          DropdownItem().divider(true).build,
-          DropdownItem().onClick(props.authButtonMethod)("Sign Out").build
-        ).build
+          .caret(true)(userAvatar(props.user))
+          .build,
+        DropdownMenu
+          .right(true)(
+            <.h5(^.className := "dropdown-item-text mb-0")(props.user.displayName),
+            <.p(^.className := "dropdown-item-text text-muted mb-0")(props.user.email),
+            DropdownItem().divider(true).build,
+            DropdownItem().onClick(props.authButtonMethod)("Sign Out").build
+          )
+          .build
       ).build
     } else {
       NavItem()(
@@ -79,7 +82,8 @@ object NavBar {
                     NavItem()(
                       RouterNavLink[String]("/calendar").className("nav-link").exact(true)("Calendar")
                     ).when(props.isAuthenticated)
-                  ).build,
+                  )
+                  .build,
                 Nav()
                   .className("justify-content-end")
                   .navbar(true)(
@@ -90,10 +94,13 @@ object NavBar {
                         .build
                     ).build,
                     authNavItem(props)
-                  ).build
-              ).build
+                  )
+                  .build
+              )
+              .build
           ).build
-        ).build
+        )
+        .build
     )
 
   }
