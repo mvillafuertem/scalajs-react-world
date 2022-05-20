@@ -103,7 +103,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
       "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
       "org.scalatest"     %%% "scalatest"       % "3.2.12" % Test,
       "io.circe"          %%% "circe-optics"    % "0.14.1",
-      "io.circe"          %%% "circe-generic"   % "0.14.1"
+      "io.circe"          %%% "circe-generic"   % "0.14.2"
     ) ++ Seq(
       "com.softwaremill.sttp.client3" %%% "core",
       "com.softwaremill.sttp.client3" %%% "circe"
@@ -122,7 +122,7 @@ lazy val `chat-shared` = crossProject(JSPlatform, JVMPlatform)
   )
   .settings(
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-generic" % "0.14.1"
+      "io.circe" %% "circe-generic" % "0.14.2"
     ) ++ Seq(
       "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server",
       "com.softwaremill.sttp.tapir" %% "tapir-json-circe",
@@ -267,7 +267,7 @@ lazy val `expense-tracker-native` =
         "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
         "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
         "io.circe"                      %%% "circe-optics"  % "0.14.1",
-        "io.circe"                      %%% "circe-generic" % "0.14.1"
+        "io.circe"                      %%% "circe-generic" % "0.14.2"
       )
     )
 
@@ -327,7 +327,7 @@ lazy val `login-native` =
         "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
         "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
         "io.circe"                      %%% "circe-optics"  % "0.14.1",
-        "io.circe"                      %%% "circe-generic" % "0.14.1"
+        "io.circe"                      %%% "circe-generic" % "0.14.2"
       )
     )
 
@@ -456,7 +456,7 @@ lazy val baseSettings: Project => Project =
         "com.softwaremill.sttp.client3" %%% "core"            % "3.6.0",
         "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.0",
         "io.circe"                      %%% "circe-optics"    % "0.14.1",
-        "io.circe"                      %%% "circe-generic"   % "0.14.1"
+        "io.circe"                      %%% "circe-generic"   % "0.14.2"
       )
     )
 
