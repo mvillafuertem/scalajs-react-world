@@ -264,8 +264,8 @@ lazy val `expense-tracker-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
-        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.2",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.2",
         "io.circe"                      %%% "circe-optics"  % "0.14.1",
         "io.circe"                      %%% "circe-generic" % "0.14.2"
       )
@@ -324,8 +324,8 @@ lazy val `login-native` =
         Process("expo start", baseDirectory.value).!
       },
       libraryDependencies ++= Seq(
-        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.0",
-        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "core"          % "3.6.2",
+        "com.softwaremill.sttp.client3" %%% "circe"         % "3.6.2",
         "io.circe"                      %%% "circe-optics"  % "0.14.1",
         "io.circe"                      %%% "circe-generic" % "0.14.2"
       )
@@ -453,8 +453,8 @@ lazy val baseSettings: Project => Project =
         "dev.zio"                       %%% "zio"             % "1.0.14",
         "io.github.cquiroz"             %%% "scala-java-time" % "2.3.0",
         "org.scalatest"                 %%% "scalatest"       % "3.2.12" % Test,
-        "com.softwaremill.sttp.client3" %%% "core"            % "3.6.0",
-        "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.0",
+        "com.softwaremill.sttp.client3" %%% "core"            % "3.6.2",
+        "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.2",
         "io.circe"                      %%% "circe-optics"    % "0.14.1",
         "io.circe"                      %%% "circe-generic"   % "0.14.2"
       )
