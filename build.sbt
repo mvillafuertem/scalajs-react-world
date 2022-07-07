@@ -55,7 +55,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.typesafe.akka"    %% "akka-stream"                 % "2.6.19",
       "com.typesafe.akka"    %% "akka-actor-typed"            % "2.6.19",
       "com.typesafe.akka"    %% "akka-slf4j"                  % "2.6.19",
-      "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.6.0",
+      "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.6.1",
       "ch.qos.logback"        % "logback-classic"             % "1.2.11",
       "org.http4s"           %% "http4s-dsl"                  % "0.23.11",
       "org.http4s"           %% "http4s-blaze-server"         % "0.23.12",
@@ -100,7 +100,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     organization := "io.github.mvillafuertem",
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.14",
-      "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
+      "io.github.cquiroz" %%% "scala-java-time" % "2.4.0",
       "org.scalatest"     %%% "scalatest"       % "3.2.12" % Test,
       "io.circe"          %%% "circe-optics"    % "0.14.1",
       "io.circe"          %%% "circe-generic"   % "0.14.2"
@@ -451,7 +451,7 @@ lazy val baseSettings: Project => Project =
       ),
       libraryDependencies ++= Seq(
         "dev.zio"                       %%% "zio"             % "1.0.14",
-        "io.github.cquiroz"             %%% "scala-java-time" % "2.3.0",
+        "io.github.cquiroz"             %%% "scala-java-time" % "2.4.0",
         "org.scalatest"                 %%% "scalatest"       % "3.2.12" % Test,
         "com.softwaremill.sttp.client3" %%% "core"            % "3.6.0",
         "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.0",

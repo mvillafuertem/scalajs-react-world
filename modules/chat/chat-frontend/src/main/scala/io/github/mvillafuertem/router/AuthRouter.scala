@@ -1,11 +1,11 @@
 package io.github.mvillafuertem.router
 
-import io.github.mvillafuertem.pages.{LoginPage, RegisterPage}
+import io.github.mvillafuertem.pages.{ LoginPage, RegisterPage }
 import japgolly.scalajs.react.component.ScalaFn.Component
-import japgolly.scalajs.react.vdom.html_<^.{<, _}
-import japgolly.scalajs.react.{CtorType, ScalaFnComponent}
-import typings.reactRouter.mod.{RouteProps, `match`}
-import typings.reactRouterDom.components.{Redirect, Route, Switch}
+import japgolly.scalajs.react.vdom.html_<^.{ <, _ }
+import japgolly.scalajs.react.{ CtorType, ScalaFnComponent }
+import typings.reactRouter.mod.{ `match`, RouteProps }
+import typings.reactRouterDom.components.{ Redirect, Route, Switch }
 import typings.reactRouterDom.mod.useRouteMatch
 
 import scala.scalajs.js.|

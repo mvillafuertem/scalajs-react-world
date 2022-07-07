@@ -33,7 +33,7 @@ object UserRepositoryIT extends RunnableIntegrationSpec {
               .createUser(UserDBO("hola", "adios@email.com", "qwerty"))
               .runCollect
           } yield ()).run
-          // t h e n
+            // t h e n
         )(fails(equalTo(DuplicateEntityError())))
       ),
       testM("get an user")(

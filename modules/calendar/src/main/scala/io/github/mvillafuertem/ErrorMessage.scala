@@ -10,10 +10,12 @@ object ErrorMessage {
   case class ErrorMessageProps(debug: String = "", message: String = "")
 
   val component: Component[ErrorMessageProps, CtorType.Props] = ScalaFnComponent[ErrorMessageProps] { props =>
-    Alert().color("danger")(
-      <.p(^.className := "mb-3")(props.message),
-      <.pre(^.className := "alert-pre border bg-light p-2")(<.code(props.debug)).when(props.debug.nonEmpty)
-    ).build
+    Alert()
+      .color("danger")(
+        <.p(^.className := "mb-3")(props.message),
+        <.pre(^.className := "alert-pre border bg-light p-2")(<.code(props.debug)).when(props.debug.nonEmpty)
+      )
+      .build
   }
 
 }
