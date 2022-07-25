@@ -63,7 +63,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "dev.zio"              %% "zio-test"                    % "1.0.14" % IntegrationTest,
       "dev.zio"              %% "zio-test-sbt"                % "1.0.14" % IntegrationTest,
       "org.scalatest"        %% "scalatest"                   % "3.2.12" % IntegrationTest,
-      "com.dimafeng"         %% "testcontainers-scala-core"   % "0.40.9" % IntegrationTest,
+      "com.dimafeng"         %% "testcontainers-scala-core"   % "0.40.7" % IntegrationTest,
       "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.5"
     )
   )
