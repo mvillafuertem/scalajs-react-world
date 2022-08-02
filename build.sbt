@@ -62,7 +62,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.github.t3hnar"    %% "scala-bcrypt"                % "4.3.0",
       "dev.zio"              %% "zio-test"                    % "1.0.14" % IntegrationTest,
       "dev.zio"              %% "zio-test-sbt"                % "1.0.14" % IntegrationTest,
-      "org.scalatest"        %% "scalatest"                   % "3.2.12" % IntegrationTest,
+      "org.scalatest"        %% "scalatest"                   % "3.2.13" % IntegrationTest,
       "com.dimafeng"         %% "testcontainers-scala-core"   % "0.40.7" % IntegrationTest,
       "com.github.jwt-scala" %% "jwt-circe"                   % "9.0.6"
     )
@@ -101,7 +101,7 @@ lazy val `chat-frontend` = (project in file("modules/chat/chat-frontend"))
     libraryDependencies ++= Seq(
       "dev.zio"           %%% "zio"             % "1.0.14",
       "io.github.cquiroz" %%% "scala-java-time" % "2.4.0",
-      "org.scalatest"     %%% "scalatest"       % "3.2.12" % Test,
+      "org.scalatest"     %%% "scalatest"       % "3.2.13" % Test,
       "io.circe"          %%% "circe-optics"    % "0.14.1",
       "io.circe"          %%% "circe-generic"   % "0.14.2"
     ) ++ Seq(
@@ -370,7 +370,7 @@ lazy val `simple-test` =
       ),
       libraryDependencies ++= Seq(
         "me.shadaj"     %%% "slinky-hot" % "0.7.2",
-        "org.scalatest" %%% "scalatest"  % "3.2.12" % Test
+        "org.scalatest" %%% "scalatest"  % "3.2.13" % Test
       ),
       stFlavour                             := Flavour.Slinky,
       fastOptJS / webpackBundlingMode       := BundlingMode.LibraryOnly(),
@@ -452,7 +452,7 @@ lazy val baseSettings: Project => Project =
       libraryDependencies ++= Seq(
         "dev.zio"                       %%% "zio"             % "1.0.14",
         "io.github.cquiroz"             %%% "scala-java-time" % "2.4.0",
-        "org.scalatest"                 %%% "scalatest"       % "3.2.12" % Test,
+        "org.scalatest"                 %%% "scalatest"       % "3.2.13" % Test,
         "com.softwaremill.sttp.client3" %%% "core"            % "3.6.0",
         "com.softwaremill.sttp.client3" %%% "circe"           % "3.6.0",
         "io.circe"                      %%% "circe-optics"    % "0.14.1",
