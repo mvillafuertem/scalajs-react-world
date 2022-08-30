@@ -56,7 +56,7 @@ lazy val `chat-backend` = (project in file("modules/chat/chat-backend"))
       "com.typesafe.akka"    %% "akka-actor-typed"            % "2.6.19",
       "com.typesafe.akka"    %% "akka-slf4j"                  % "2.6.19",
       "org.mongodb.scala"    %% "mongo-scala-driver"          % "4.7.0",
-      "ch.qos.logback"        % "logback-classic"             % "1.2.11",
+      "ch.qos.logback"        % "logback-classic"             % "1.4.0",
       "org.http4s"           %% "http4s-dsl"                  % "0.23.11",
       "org.http4s"           %% "http4s-blaze-server"         % "0.23.12",
       "com.github.t3hnar"    %% "scala-bcrypt"                % "4.3.0",
